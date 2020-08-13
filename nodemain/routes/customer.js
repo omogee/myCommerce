@@ -2,6 +2,7 @@ var express = require('express')
 var mysql = require('mysql')
 const {check,validationResult}= require('express-validator')
 const bcryptjs = require("bcrypt")
+const cookieParser= require('cookie-parser')
 const csrf = require('csurf');
 
 
@@ -18,13 +19,43 @@ const options = {
 const conn = mysql.createPool(options)
  console.log('mysql connected successfully')
 
- const csrfProtection= csrf();
+ const csrfProtection= csrf({cookie:true, value : (req) => (req.cookies.csrfToken)});
   //router.use(csrfProtection);
-
+ // router.use(csrfProtection)
+  router.use(cookieParser())
  router.get('/csrftoken',csrfProtection,(req,res)=>{
-     res.send(req.csrfToken)
+     res.send(req.csrfToken())
    })
-
+router.post("/submit/login",(req,res)=>{
+    const data = JSON.parse(req.body.data)
+    const email = data.email;
+    const password = data.password;
+console.log(data._csrf)
+   res.cookie('csrfToken', req.csrfToken ? req.csrfToken() : null, { sameSite: true, httpOnly: true }); 
+  //  res.cookie('csrfToken', req.csrfToken ? req.csrfToken() : null, { sameSite: true, httpOnly: true }); (req) => (req.cookies.csrfToken)
+    const emailregex= /[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$/
+    const passwordregex = /(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}/
+    const isvalidemail = email.match(emailregex);
+    const isvalidpassword = password.match(passwordregex)
+    if(!isvalidemail || email.length === 0 || !isvalidpassword || password.length === 0){
+        console.log("data is not valid");
+    }else{
+    conn.query("SELECT email,hash FROM users WHERE email= ? ",[email],(err,file)=>{
+       if (err) throw err;
+     if(!file){
+        console.log("user is not registered");
+     }else{
+        bcryptjs.compare(password, file[0].hash).then((result)=>{
+            if(result){
+                console.log("user is authenticated");
+            }else{
+                
+            }
+         })
+     }
+    })
+    }
+})
 router.post("/submit/register", (req,res)=>{
     const data = JSON.parse(req.body.data)
     let navigation = data.navigation;
@@ -59,5 +90,55 @@ router.post("/submit/register", (req,res)=>{
 }
     
 })
-
+router.get("/save", (req,res)=>{
+    const details = req.query.details
+    conn.query("SELECT productId from product WHERE details = ?", [details], (err,productId)=>{
+        if (err) throw err;
+    conn.query("SELECT savedItem from users WHERE userid=?", [1],(err, savedItem)=>{
+        if (err) throw err;
+        if(!savedItem[0].savedItem){
+            let newSavedItem = []
+            newSavedItem.push(productId[0].productId)
+            newSavedItem = JSON.stringify(newSavedItem);
+            conn.query("UPDATE users SET savedItem = ? WHERE userid =?", [newSavedItem, 1], (err,file)=>{
+              if (err) throw err;
+              res.send("This product has been saved successfully");
+            })
+        }else{
+            let oldSavedItem = savedItem[0].savedItem;
+            oldSavedItem = JSON.parse(oldSavedItem);
+            if(oldSavedItem.includes(productId[0].productId)){
+                res.send("This Item has already been saved");
+            }else{
+                oldSavedItem.push(productId[0].productId);
+                oldSavedItem = JSON.stringify(oldSavedItem)
+                conn.query("UPDATE users SET savedItem = ? WHERE userid =?", [oldSavedItem, 1], (err,file)=>{
+                    if (err) throw err;
+                    res.send("This product has been saved successfully");
+                  })
+            }
+        }
+    })
+})
+})
+router.get("/check/save",(req,res)=>{
+    const details = req.query.details;
+    conn.query("SELECT productId from product WHERE details = ?", [details], (err,productId)=>{
+        if(err) throw err;
+    conn.query("SELECT savedItem from users WHERE userid = ?",[1], (err,savedItems)=>{
+        if (err) throw err;
+        let savedItem = savedItems[0].savedItem;
+       if(!savedItem.length){
+           res.send(false)
+       }else{
+        savedItem = JSON.parse(savedItem); 
+if(savedItem.includes(productId[0].productId)){
+    res.send(true)
+}else{ 
+    res.send(false)
+}
+       }
+    })
+})
+})
 module.exports = router;

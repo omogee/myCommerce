@@ -68,7 +68,7 @@ class Register extends Component {
        product:navigator.product,      
      };
 const data ={
-  navigation:navigation,firstname:this.state.firstname,lastname:this.state.lastname,email:this.state.email,contact:this.state.contact,gender:"mr",password:this.state.password}
+  navigation:navigation,firstname:this.state.firstname,lastname:this.state.lastname,email:this.state.email,contact:this.state.contact,gender:this.state.gender,password:this.state.password}
 axios.post("http://localhost:5000/customer/submit/register", {data:JSON.stringify(data)})
 .then(res => console.log(res.data))
 .catch(err => console.log(err))   

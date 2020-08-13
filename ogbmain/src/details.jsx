@@ -19,10 +19,20 @@ class Details extends Component {
             comment:"Excellent Product",
             chooserating:5,
             similiarproducts:[],
-            similiarproductsbybrand:[]
+            similiarproductsbybrand:[],
+            save:"fab fa-gratipay",
+            checkSave:""
          }
     }
     componentDidMount =()=>{
+        axios.get(`http://localhost:5000/customer/check/save?details=${this.props.match.params.details}`)
+        .then(res => this.setState({checkSave: res.data}),()=>{
+            if(this.state.checkSave === true){
+                this.setState({save:"fa fa-heart"})
+            }
+        })
+        .catch(err => console.warn(err)) 
+
         axios.get(`http://localhost:5000/product/${this.props.match.params.details}`)
         .then(res => this.setState({product: res.data}))
         .catch(err => console.warn(err))  
@@ -40,6 +50,11 @@ class Details extends Component {
 
         window.addEventListener("click", this.handlemodalclick)
 
+      }
+      save =()=>{
+          axios.get(`http://localhost:5000/customer/save?details=${this.props.match.params.details}`)
+          .then(res => console.log(res.data))
+          .catch(err => console.log(err))
       }
       handlemodalclick =(e) =>{
         //  this.modaldiv.style.display = "none"
@@ -132,8 +147,8 @@ class Details extends Component {
           </div>
 
               <img ref={(a)=> this.imgelement = a} src={require (`./images/${JSON.parse(products.img1)[1]}`)} style={{maxWidth:"100%"}} className="img-responsive"></img>
-              <h2 style={{float:"right", top:"5%",right:"10%", position: "absolute"}}>
-                    <i className="fab fa-gratipay" style={{color:"orange"}}></i>
+              <h2 style={{float:"right", top:"5%",right:"10%", position: "absolute"}} onClick={this.save}>
+                    <i className={`${this.state.save}`}  style={{color:"orange"}}></i>
                 </h2>
             </div>
             <div className="col-12 col-lg-6" style={{width:"100%"}} >

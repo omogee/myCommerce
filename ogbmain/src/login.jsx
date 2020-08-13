@@ -8,12 +8,12 @@ class Login extends Component {
         this.state = { 
             email:"",
             password:"",
-            csrf:""
+            _csrf:""
          }
     }
     componentDidMount= ()=>{
         axios.get("http://localhost:5000/customer/csrftoken")
-        .then(res => this.setState({csrf: res.data}))
+        .then(res => this.setState({_csrf: res.data}))
         .catch(err => console.log(err))
     }
     change =(e)=>{
@@ -24,9 +24,9 @@ class Login extends Component {
         const data ={
             email: this.state.email,
             password:this.state.password,
-            csrf: this.state.csrf
+            _csrf: this.state._csrf
         }
-        axios.post("http://localhost:5000/customer/submit/login", {data})
+        axios.post("http://localhost:5000/customer/submit/login", {data:JSON.stringify(data)})
         .then(res => console.log(res.data))
         .catch(err => console.log(err))
     }
@@ -40,7 +40,7 @@ class Login extends Component {
 
        <form method="post" action="/customers/login" onSubmit={this.submit}>
        <label for="email">Email/User</label>
-    <input type="text" id="email"  name="username"  onChange={this.change} value={this.state.email} placeholder=" " className="form-control" /><br/>
+<input type="text" id="email"  name="email"  onChange={this.change} value={this.state.email} placeholder="" className="form-control" /><br/>
 
     <label for="password">Password</label><br/>
      <div className="input-group ">     
@@ -50,7 +50,7 @@ class Login extends Component {
                 </div>
                  </div><br/>
      <small style={{fontWeight:"bolder",color:"black"}}><input type="checkbox"/>  <span>  Remember  me</span></small> <small style={{float:"right",color:"#004d99"}}>Forgot your password</small>
-<input type="hidden" name="_csrf"  value={this.state.csrf} />
+<input type="text" name="_csrf"  value={this.state._csrf} />
     <br/><br/><br/>
     <div style={{minWidth: "100%"}}>
      <button type="submit" className="" style={{width: "100%",backgroundColor:"#004d99",borderRadius: "5px",padding: "7px",color:"white"}}><span className="fa fa-sign-in" style={{float:"left",fontSize:"25px"}}></span><span style={{fontWeight:"bolder",color:"white"}}>LOGIN</span></button><br/><br/>
