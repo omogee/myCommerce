@@ -7,6 +7,7 @@ const  MySQLStore = require('express-mysql-session')(session);
 const cookieParser= require('cookie-parser')
 const {check,validationResult}= require('express-validator')
 const Rcustomer = require("./routes/customer");
+const path = require("path")
 
 const app = express();
 const options = {
@@ -797,6 +798,13 @@ app.get('/suggestions/suggestion',(req,res)=>{
         res.send(files)
     })
 })
+if(process.env.NODE_ENV === "production"){
+app.use(express.static("ogbmain/build"))
+
+app.get('*',(req,res)=>{
+    res.sendFile(path.join(__dirname, 'ogbmain','build', 'index.html'));
+})
+}
 const port = process.env.PORT || 5000;
 app.listen(port, ()=>{
     console.log('connected on 5000 expected')
