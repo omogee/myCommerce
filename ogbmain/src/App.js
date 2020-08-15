@@ -11,6 +11,7 @@ import Sidenavbar from "./sidenavbar"
 import Suggestions from "./suggestions"
 import querystring from 'query-string'
 import axios from "axios"
+import ReactHtmlParser from "react-html-parser"
 import {Pagination, Dropdown} from 'react-bootstrap'
 import './main.css'
 
@@ -37,7 +38,9 @@ class App extends Component {
       highestprice:"",
       lowestprice:"",
       viewrow:"col-6 col-md-4 col-lg-3",
-      viewcol:""
+      viewcol:"",
+      display:"none",
+      cartMessage:""
      }
   }
   componentDidMount =()=>{
@@ -84,6 +87,7 @@ class App extends Component {
  .then(err => console.warn(err))
    
     this.props.getsidenav(this.props.match.params.category)
+    window.addEventListener("click", this.handlemodalclick)
   }
   handleChange=(e)=>{
     this.setState({search:e.target.value})
@@ -118,6 +122,22 @@ list =() =>{
   let currentUrlParams = new URLSearchParams(window.location.search);
   currentUrlParams.set('view',"list");
   window.location.assign(window.location.pathname +"?"+ currentUrlParams.toString());
+}
+addtocart=(id)=>{
+  axios.get(`http://localhost:5000/cart/add-to-cart?id=${id}`)
+  .then(res => this.setState({cartMessage:res.data,display:"block"}, ()=>{
+
+  }))
+  .catch(err => console.warn(err))
+}
+undisplaymodal =() =>{
+ this.setState({display:"none"})
+}
+handlemodalclick =(e) =>{
+  //  this.modaldiv.style.display = "none"
+  if(e.target == this.modaldiv){
+      this.setState({display:"none"})
+  }
 }
   render() { 
     let active = parseInt(this.props.currentPage) || 1;
@@ -213,6 +233,25 @@ list =() =>{
         
           <div className={this.state.appclass}>
      
+          <div className="mainmodaldiv" ref={(a) => this.modaldiv =a} id="modaldiv" style={{display:`${this.state.display}`,zIndex:"1",width:"100%",height:"100%",backgroundColor:"rgba(0,0,0,0.4)"}}>
+         <div className="modaldiv"  style={{backgroundColor:"white"}}>
+             <div className="inner-modal">
+               <br/><br/>
+               <center>
+    <h4 style={{padding:"10px"}}>{ReactHtmlParser(this.state.cartMessage)}</h4>
+    </center>
+                     <center>   
+                     <br/>     <br/><br/> <br/><br/>
+                       <div>  
+<button className="btn btn-link"   onClick={this.undisplaymodal} style={{color:"red"}} type="button">CheckOut</button> 
+<button className="btn btn-link" style={{float:"right"}} type="submit">Continue Shopping</button>
+                
+               </div>
+             </center>
+         </div>
+
+     </div>
+ </div>
     <p>{this.props.searcher}</p>
           <div className='row' > 
           
@@ -237,6 +276,11 @@ list =() =>{
         </div> <small style={{fontSize:"12px"}}>({product.numOfRating || 0})</small>
          </small>
         <br/><br/>
+        <center>
+        <button type="button" onClick={()=>this.addtocart(product.productId)} style={{width: "100%",backgroundColor:"rgba(0, 119, 179,0.9)",borderRadius:"5px",padding: "1px",color:"white"}}>
+         <span style={{fontWeight:"bold"}}>ADD TO CART</span></button>
+        </center>
+        <br/>
         </div>
            </div> 
            

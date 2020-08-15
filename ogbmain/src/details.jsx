@@ -20,17 +20,13 @@ class Details extends Component {
             chooserating:5,
             similiarproducts:[],
             similiarproductsbybrand:[],
-            save:"fab fa-gratipay",
-            checkSave:""
+            save:"orange",
+            displaysavemodal:"none"
          }
     }
     componentDidMount =()=>{
         axios.get(`http://localhost:5000/customer/check/save?details=${this.props.match.params.details}`)
-        .then(res => this.setState({checkSave: res.data}),()=>{
-            if(this.state.checkSave === true){
-                this.setState({save:"fa fa-heart"})
-            }
-        })
+        .then(res =>  this.setState({save:res.data}))
         .catch(err => console.warn(err)) 
 
         axios.get(`http://localhost:5000/product/${this.props.match.params.details}`)
@@ -49,11 +45,11 @@ class Details extends Component {
         console.log("parsequery", parsedquery)
 
         window.addEventListener("click", this.handlemodalclick)
-
+        window.addEventListener("click", this.handlesavemodalclick)
       }
       save =()=>{
           axios.get(`http://localhost:5000/customer/save?details=${this.props.match.params.details}`)
-          .then(res => console.log(res.data))
+          .then(res => this.setState({saveResponse:res.data, displaysavemodal:"block"}))
           .catch(err => console.log(err))
       }
       handlemodalclick =(e) =>{
@@ -62,6 +58,15 @@ class Details extends Component {
             this.setState({display:"none"})
         }
       }
+      handlesavemodalclick =(e) =>{
+        //  this.modaldiv.style.display = "none"
+        if(e.target == this.savemodaldiv){
+            this.setState({displaysavemodal:"none"})
+        }
+      }
+      undisplaysavemodal=() =>{
+        this.setState({displaysavemodal:"none"})
+     }
        displaymodal =() =>{
          this.setState({display:"block"})
       }
@@ -117,7 +122,7 @@ class Details extends Component {
 
     }
     render() { 
-
+        console.log(this.state.save)
    return (   
          <div className="container" style={{boxShadow:"2px 1px 3px 3px lightgrey",backgroundColor:"#f5f5f0"}}>
              <Suggestions></Suggestions>
@@ -148,7 +153,7 @@ class Details extends Component {
 
               <img ref={(a)=> this.imgelement = a} src={require (`./images/${JSON.parse(products.img1)[1]}`)} style={{maxWidth:"100%"}} className="img-responsive"></img>
               <h2 style={{float:"right", top:"5%",right:"10%", position: "absolute"}} onClick={this.save}>
-                    <i className={`${this.state.save}`}  style={{color:"orange"}}></i>
+                    <i className="fab fa-gratipay" style={{color:`${this.state.save}`}}></i>
                 </h2>
             </div>
             <div className="col-12 col-lg-6" style={{width:"100%"}} >
@@ -158,9 +163,9 @@ class Details extends Component {
             <small>SKU code : 20202908{products.productId}</small><br/>
             <small>Warranty: {products.warranty}</small><br/>
             <small>
-                <h2 style={{float:"right"}}>
-                    <i className="fab fa-gratipay" style={{color:"orange"}}></i>
-                </h2>
+                <h4 style={{float:"right"}}>
+            <small style={{color:"rgb(0, 119, 179)"}}>{this.state.save === "rgb(0, 119, 179)" ? "saved" : null}</small>
+                </h4>
             <div className="outer">
           <div className="inner" style={{width:`${products.percentrating || 0}%`}}>
 
@@ -315,7 +320,15 @@ class Details extends Component {
               <img src={require (`./images/${JSON.parse(products.img1)[4]}`)} style={{width:"100%"}} className="img-responsive" alt=""/>
            </div> : null} 
             </div>
-
+ <div className="savemodaldiv" ref={(a) => this.savemodaldiv =a} id="savemodaldiv" style={{display:`${this.state.displaysavemodal}`,zIndex:"1",width:"100%",height:"100%",backgroundColor:"rgba(0,0,0,0.4)"}}>
+ <div className="savediv"  style={{backgroundColor:"white"}}>
+     <center>
+            <h3 style={{padding:"50px"}}>{this.state.saveResponse}</h3>
+            <br/>
+<button className="btn btn-link"   onClick={this.undisplaysavemodal} style={{color:"red"}} type="button">Continue Shopping</button> 
+     </center>
+     </div>
+ </div>
      <div className="mainmodaldiv" ref={(a) => this.modaldiv =a} id="modaldiv" style={{display:`${this.state.display}`,zIndex:"1",width:"100%",height:"100%",backgroundColor:"rgba(0,0,0,0.4)"}}>
          <div className="modaldiv"  style={{backgroundColor:"white"}}>
              <div className="inner-modal">

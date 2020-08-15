@@ -17,6 +17,7 @@ import axios from 'axios';
 import SearchApp from "./searchapp"
 import Register from "./register"
 import Login from "./login"
+import Profile from "./profile"
 
 class Category extends Component {
     constructor(props) {
@@ -44,7 +45,8 @@ class Category extends Component {
                      <Route path='/customer/login' exact component={Login}/>
                  <Route path='/product/:details' exact   component={Details} />  
                  <Route path='/category/:category' exact   component={App} />
-                 <Route path='/search' exact   component={SearchApp} />                                       
+                 <Route path='/search' exact   component={SearchApp} />   
+                 <Route path='/user/profile' exact component={Profile} />                                    
                  </Switch>          
                  
                 

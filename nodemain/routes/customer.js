@@ -30,8 +30,6 @@ router.post("/submit/login",(req,res)=>{
     const data = JSON.parse(req.body.data)
     const email = data.email;
     const password = data.password;
-console.log(data._csrf)
-   res.cookie('csrfToken', req.csrfToken ? req.csrfToken() : null, { sameSite: true, httpOnly: true }); 
   //  res.cookie('csrfToken', req.csrfToken ? req.csrfToken() : null, { sameSite: true, httpOnly: true }); (req) => (req.cookies.csrfToken)
     const emailregex= /[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$/
     const passwordregex = /(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}/
@@ -42,16 +40,18 @@ console.log(data._csrf)
     }else{
     conn.query("SELECT email,hash FROM users WHERE email= ? ",[email],(err,file)=>{
        if (err) throw err;
-     if(!file){
-        console.log("user is not registered");
+     if(!file){ 
+        res.send("he isnt even registered")
      }else{
-        bcryptjs.compare(password, file[0].hash).then((result)=>{
-            if(result){
-                console.log("user is authenticated");
+        bcryptjs.compare("Nms076295", file[0].hash,(err,result)=>{
+          //  if (err) throw err;
+            console.log(password,file[0].hash)
+            if(result === true){
+                res.send("user is a liar")
             }else{
-                
+                res.send("user is a authentic")
             }
-         })
+        })
      }
     })
     }
@@ -129,13 +129,13 @@ router.get("/check/save",(req,res)=>{
         if (err) throw err;
         let savedItem = savedItems[0].savedItem;
        if(!savedItem.length){
-           res.send(false)
+           res.send("orange")
        }else{
         savedItem = JSON.parse(savedItem); 
 if(savedItem.includes(productId[0].productId)){
-    res.send(true)
+    res.send("rgb(0, 119, 179)")
 }else{ 
-    res.send(false)
+    res.send("orange")
 }
        }
     })

@@ -7,6 +7,7 @@ const  MySQLStore = require('express-mysql-session')(session);
 const cookieParser= require('cookie-parser')
 const {check,validationResult}= require('express-validator')
 const Rcustomer = require("./routes/customer");
+const Rcart = require("./routes/cart")
 const path = require("path")
 
 const app = express();
@@ -37,6 +38,7 @@ app.use(bodyParser.urlencoded({extended: true}))
 app.use(bodyParser.json())
 
  app.use('/customer',Rcustomer);
+ app.use('/cart',Rcart);
 app.get('/:category', (req,res)=>{
     const cat = req.params.category;
     const pagee = req.query.page || 1;
