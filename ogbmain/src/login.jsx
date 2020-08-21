@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import {Redirect} from "react-router-dom"
 import axios from "axios"
 import "./fontawesome"
 
@@ -8,7 +9,12 @@ class Login extends Component {
         this.state = { 
             email:"",
             password:"",
-            _csrf:""
+            _csrf:"",
+            token:"",
+            user:"",
+            Message:"",
+            displayMessage:"none",
+            colorMessage:""
          }
     }
     componentDidMount= ()=>{
@@ -27,7 +33,19 @@ class Login extends Component {
             _csrf: this.state._csrf
         }
         axios.post("http://localhost:5000/customer/submit/login", {data:JSON.stringify(data)})
-        .then(res => console.log(res.data))
+        .then(res => this.setState({token:res.data.token, user:res.data.user,displayMessage:"block"},()=>{
+            if(res.data.token){
+                localStorage.setItem("user", res.data)
+                localStorage.setItem("id",res.data.userId)
+                localStorage.setItem("token", res.data.token)
+                this.setState({Message:res.data.message,colorMessage:"lightgreen",email:"",password:""}, ()=>{
+                    setTimeout(()=>  this.props.history.push("/") ,5000)
+                })
+                      
+            }else{
+                this.setState({Message:res.data,colorMessage:"red"})
+            }
+        } ))
         .catch(err => console.log(err))
     }
     render() { 
@@ -37,7 +55,9 @@ class Login extends Component {
                 <div className="col-md-6 col-xs-12" style={{padding:"2vw",borderRight:"1px solid rgba(242,242,242,0.7)"}}>
         <h2 style={{fontWeight:"bolder",color:"#004d99", textShadow: "0.5px 0.5px #ff0000"}}>Member Login</h2><br/>
     
-
+        <div className="alert" style={{backgroundColor:`${this.state.colorMessage}`,display:`${this.state.displayMessage}`}}>
+          {this.state.Message}
+        </div>
        <form method="post" action="/customers/login" onSubmit={this.submit}>
        <label for="email">Email/User</label>
 <input type="text" id="email"  name="email"  onChange={this.change} value={this.state.email} placeholder="" className="form-control" /><br/>

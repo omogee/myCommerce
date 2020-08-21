@@ -124,10 +124,14 @@ list =() =>{
   window.location.assign(window.location.pathname +"?"+ currentUrlParams.toString());
 }
 addtocart=(id)=>{
-  axios.get(`http://localhost:5000/cart/add-to-cart?id=${id}`)
-  .then(res => this.setState({cartMessage:res.data,display:"block"}, ()=>{
-
-  }))
+  axios.get(`http://localhost:5000/customer/add-to-cart?id=${id}`,{ headers: {"Authorization" : `Bearer ${localStorage.getItem("token")}`} })
+  .then(res =>{
+    if(res.data.success){
+      this.setState({cartMessage:res.data.message,display:"block"})
+    }else{
+      window.location.assign("/customer/login")
+    }
+  })
   .catch(err => console.warn(err))
 }
 undisplaymodal =() =>{
@@ -234,20 +238,24 @@ handlemodalclick =(e) =>{
           <div className={this.state.appclass}>
      
           <div className="mainmodaldiv" ref={(a) => this.modaldiv =a} id="modaldiv" style={{display:`${this.state.display}`,zIndex:"1",width:"100%",height:"100%",backgroundColor:"rgba(0,0,0,0.4)"}}>
-         <div className="modaldiv"  style={{backgroundColor:"white"}}>
+         <div className="modaldiv"  style={{backgroundColor:"white",borderRadius:"5px"}}>
+           <p style={{position:"absolute",top:"3px",right:"10px",fontSize:"25px",cursor:"pointer"}} onClick={this.undisplaymodal}>x</p>
              <div className="inner-modal">
                <br/><br/>
                <center>
-    <h4 style={{padding:"10px"}}>{ReactHtmlParser(this.state.cartMessage)}</h4>
+    <h5 style={{padding:"10px"}}>{ReactHtmlParser(this.state.cartMessage)} </h5>
     </center>
                      <center>   
-                     <br/>     <br/><br/> <br/><br/>
-                       <div>  
-<button className="btn btn-link"   onClick={this.undisplaymodal} style={{color:"red"}} type="button">CheckOut</button> 
-<button className="btn btn-link" style={{float:"right"}} type="submit">Continue Shopping</button>
-                
+                      
+                       <div className="row" style={{padding:"10px"}}>  
+                    <div className="col-6">  
+<Link to={`/checkout/1996826ysgy7xhau8hzbhxj,${localStorage.getItem("id")},fruget0829?user$login7sgxujaiiahzjk#172`}><button className="btn btn-success" style={{boxShadow:"2px 3px lightgrey",padding:"8px",color:"white",width:"100%"}} type="button">CheckOut</button> </Link>
+</div>
+<div className="col-6">
+<button className="btn btn-warning" onClick={this.undisplaymodal} style={{padding:"8px",color:"white",width:"100%",boxShadow:"2px 3px lightgrey"}} type="submit">Continue Shopping</button>
+</div>         
                </div>
-             </center>
+             </center> 
          </div>
 
      </div>

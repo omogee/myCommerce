@@ -39,6 +39,12 @@ app.use(bodyParser.json())
 
  app.use('/customer',Rcustomer);
  app.use('/cart',Rcart);
+ app.get("/allcategories", (req,res)=>{
+     conn.query("SELECT DISTINCT subcat1 FROM product", (err,file)=>{
+         if (err) throw err;
+         res.send(file)
+     })
+ })
 app.get('/:category', (req,res)=>{
     const cat = req.params.category;
     const pagee = req.query.page || 1;
@@ -152,59 +158,7 @@ app.post("/:details/rate",(req,res)=>{
     })
 })
 })
-app.post('/login', (req,res)=>{ 
-    const data = JSON.parse(req.body.data)
-     const username = data.username
-     const password = data.password;
-    const sql ="SELECT * FROM user WHERE username ='"+username+"' ";
-    conn.query(sql, (err,file)=>{
-        if (err) throw err;
-        if(file.length > 0){
-        file.forEach(files =>{
-            if(files.password === password){
-                const user ={
-                    id: 1,
-                    name: files.username,
-                    password: files.password
-                 }
-                 const signature=  jwt.sign({user: user}, 'secretKey', (err, token)=>{
-                    if (err) throw err;
-                res.cookie('jwt',signature,{
-                    maxAge:3600,
-                    httpOnly: true,
-                   // secure: true
-                },console.log('cookie set')) ;               
-                const msg ={
-                 signupMessage:'you are now logged in',
-                 isLoggedin: true,
-                 token: token,
-                 userId: files.id                                      
-                 }  
-                 console.log('details are correct')
-                 res.send(msg)    
 
-             })  
-    }         
-            else{
-               console.log('passwords dont match')
-               const msg ={
-                signupMessage:'you are now logged in',
-                isLoggedin: false
-            }
-                res.send(msg)
-            }
-        })  
-        }
-        else{
-            console.log('user doesnt exist')
-            const msg ={
-                signupMessage:'you are now logged in',
-                isLoggedin: false
-            }
-            res.send(msg)
-        }
-    })
-})
 app.get('/similiar/:details', (req,res)=>{
     const sql = "SELECT * FROM product WHERE  details = '"+req.params.details+"'";
     conn.query(sql, (err,files)=>{

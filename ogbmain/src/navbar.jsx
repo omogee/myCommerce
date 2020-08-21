@@ -8,6 +8,7 @@ import {withRouter} from "react-router-dom"
 import {compose} from "redux"
 import queryString from "query-string"
 import {Link} from "react-router-dom"
+import {Dropdown} from 'react-bootstrap'
 
 class Navbar extends Component {
     constructor(props) {
@@ -17,11 +18,18 @@ class Navbar extends Component {
           showSuggestion:false,
           filteredSuggestions:[],
           suggestions:[],
-          searcheddata: []
+          searcheddata: [],
+          cart:[]
          }
     }
     componentDidMount = () =>{
       this.setState({inputval:this.props.inputval})
+      const user = localStorage.getItem("id");
+      axios.get(`http://localhost:5000/customer/checkout?user=${user}`)
+      .then(res => this.setState({cart: res.data},()=>{
+       console.log(res.data.length)
+      }))
+      .catch(err => console.warn(err))
     }
    
     change2 = (e)=>{
@@ -52,6 +60,9 @@ class Navbar extends Component {
       window.location.assign(uri)
      }
     }
+    displaysidenav =()=>{
+
+    }
     render() { 
     
         return ( 
@@ -65,10 +76,16 @@ class Navbar extends Component {
                   </div>
                 <nav className="navbar navbar-expand-md bg-light navbar-light" style={{padding:"0px",margin:"0px",width:"100%"}}>
                   <div style={{width:"100%", backgroundColor:"white"}}>
-                <div className="container" >
-              <div className="row">
+                <div className="container">  
+     
+              <div className="row" >
+                <div className="col-1 d-md-none">
+                  <center>
+                    <span onClick={this.displaysidenav} className="fa fa-bars" style={{marginTop:"20px",marginLeft:"5px",fontSize:"25px"}}></span>
+                  </center>              
+                </div>
                   <div className="col-2 col-md-1" >
-                    <img src={require("./images/fruget.jpg")} style={{width:"150%",height:"100%",paddingTop:"10px"}} alt=""/>
+                    <img src={require("./images/fruget.jpg")} style={{width:"100%",height:"70%",paddingTop:"10px"}} alt=""/>
                   </div>
                   <div className="d-none d-md-block col-md-8" >
                     <center style={{padding:"15px 0px 0px 20px"}}>
@@ -82,24 +99,65 @@ class Navbar extends Component {
                    </form>
                   </center>
                   </div>
+
+                  <div className="col-7 d-md-none"></div>
                  
-                  <div className="col-4 d-md-none"></div>
-                  <div className="col-6 col-md-3" >
-                    <center style={{padding:"10px 0px 0px 0px"}}>
-                      <Link to="/customer/login">
-                 <button class="btn btn-link" style={{color:"black",boxShadow:"1px 2px 2px lightgrey"}}><small>Login</small> <span className="fa fa-user"></span></button>
-                 </Link>
-                 <button type="submit" class="btn btn-link" style={{boxShadow:"1px 2px 2px lightgrey",position:"relative", color:"black",fontWeight:"bold"}}>
-                   <small>My Cart</small>
-                    <span className="fa fa-cart-plus"></span>
-                    <span className="badge badge-danger" style={{position:"absolute",right:"0px",top:"-2px",fontWeight:"bolder"}}>0</span>
-                    </button>
-                  </center>
+                  <div className="d-none d-md-block col-md-3" >
+                   
+                      <div className="row">
+                        <div className="col-6" style={{padding:"10px 0px 0px 0px",border:"0px"}}>
+                    <Dropdown>
+              <Dropdown.Toggle style={{backgroundColor:"white",border:"0px"}}>            
+                 <span class=""  style={{color:"black"}} ><small>Account</small> <span className="far fa-user"></span></span>              
+             </Dropdown.Toggle> 
+         <Dropdown.Menu>
+          <Dropdown.Item ><Link to={encodeURI(`/profile/1996,${localStorage.getItem("id")},fruget0829?user$login&#172`)}><span className="far fa-user"></span> <small> My Profile</small></Link></Dropdown.Item>
+          <Dropdown.Item ><Link to="/customer/login"><span className="fa fa-sign-in-alt" ></span> <small> Login</small></Link></Dropdown.Item>
+         <Dropdown.Item><Link to="/customer/register"><span className="fa fa-user-plus"> </span> <small> Register</small></Link></Dropdown.Item>
+         <Dropdown.Item><Link to={`/saved-items/199666229jshs9,${localStorage.getItem("id")},fruget0829?user$login&#172`}><i class="fas fa-cloud-download-alt"></i> <small> Saved Items</small></Link></Dropdown.Item>
+        
+       </Dropdown.Menu>     
+       </Dropdown>
+       </div>
+                    <div className="col-6" style={{padding:"10px 0px 0px 0px",border:"0px"}}>           
+                     <Dropdown>
+                     <Dropdown.Toggle style={{backgroundColor:"white",border:"0px"}}>            
+                 <span class=""  style={{color:"black"}} onClick={()=> window.location.assign("/customer/login")}><small >Account</small> <span className="far fa-user"></span></span>              
+                  </Dropdown.Toggle> 
+                     </Dropdown>
                   </div>
-                 
-                  <div className=" col-12 d-md-none" style={{padding:"10px 10px 0px 10px "}}>
+                  </div>
+                  </div>
+
+                  <div className="col-2 d-md-none" >
+                   
+                   <div className="row">
+                     <div className="col-6" style={{padding:"15px 0px 0px 0px",border:"0px"}}>
+                 <Dropdown>
+                <Dropdown.Toggle style={{backgroundColor:"white",border:"0px"}}>            
+              <span class=""  style={{color:"black"}} ><span className="far fa-user"></span></span>              
+              </Dropdown.Toggle>     
+              <Dropdown.Menu>
+          <Dropdown.Item ><Link to={encodeURI(`/profile/1996,${localStorage.getItem("id")},fruget0829?user$login&#172`)}><span className="far fa-user"></span> <small> My Profile</small></Link></Dropdown.Item>
+         <Dropdown.Item><Link to={`/saved-items/199666229jshs9,${localStorage.getItem("id")},fruget0829?user$login&#172`}><i class="fas fa-cloud-download-alt"></i> <small> Saved Items</small></Link></Dropdown.Item>    
+          </Dropdown.Menu>       
+               </Dropdown>
+               </div>
+                 <div className="col-6" style={{padding:"15px 0px 0px 0px",border:"0px"}}>           
+                  <Dropdown>
+                  <Dropdown.Toggle style={{backgroundColor:"white",border:"0px"}}>            
+                  <div style={{backgroundColor:"white",border:"0px",position:"relative"}}>
+                  <span style={{color:"black"}}><span className="fa fa-cart-plus"></span></span> 
+        <span className="badge badge-danger" style={{display:`${this.state.cart.length > 0 ?"block" : "none"}`,position:"absolute",left:"60px",top:"-5px",fontWeight:"bolder"}}>{this.state.cart.length }</span>
+                     </div>              
+               </Dropdown.Toggle> 
+                  </Dropdown>
+               </div>
+               </div>
+               </div>
+                  <div className=" col-12 d-md-none" style={{padding:"0px 10px 0px 10px "}}>
                   <div className="input-group mb-3">
-    <input type="text" className="form-control form-control-sm" onFocus={this.focus} onChange={this.change2} placeholder="Search products , brand and categories here..." />
+    <input type="text" className="form-control form-control-sm" style={{backgroundColor:"rgba(242,242,242,0.9)",fontWeight:"bold"}} onFocus={this.focus} onChange={this.change2} placeholder="Search products , brand and categories here..." />
     <div className="input-group-append">
       <button className="btn btn-sm" style={{color:"white",backgroundColor:"rgb(0, 119, 179)"}} type="submit">Go</button>  
      </div>
@@ -121,6 +179,10 @@ class Navbar extends Component {
     }
 }
 /*
+<div style={{backgroundColor:"white",border:"0px",position:"relative"}}>
+                       <span style={{color:"black"}}><small>My Cart</small><span className="fa fa-cart-plus"></span></span>
+        <span className="badge badge-danger" style={{display:`${this.state.cart.length > 0 ?"block" : "none"}`,position:"absolute",left:"60px",top:"-5px",fontWeight:"bolder"}}>{this.state.cart.length }</span>
+                     </div>
  <div className="d-none d-md-block col-md-1" >
                     <center style={{padding:"15px 0px 0px 0px"}}>
                  <button type="submit" class="btn" style={{backgroundColor:"rgb(0, 119, 179)", color:"white",boxShadow:"1px 2px 2px grey"}}><small>SEARCH</small></button>

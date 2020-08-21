@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, isValidElement } from 'react';
  import "./main.css"
 import axios from 'axios';
 const initialState={
@@ -34,20 +34,33 @@ class Register extends Component {
                 res.send("data added successfully")
                 */
     validation =()=>{
-      if(!this.state.email.includes("@") || !this.state.email.includes(".com")){
+      var regex = /^[A-Za-z0-9 ]+$/
+    var regex2 = /^[0-9]+$/
+    var regex3 = /(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}/
+    var regex4 =/[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$/
+    var isvalidfirstname = this.state.firstname.match(regex)
+    var isvalidlastname = this.state.lastname.match(regex)
+    var isvalidcontact = this.state.contact.match(regex2)
+    var isvalidpass = this.state.password.match(regex3)
+    var isvalidemail =this.state.email.match(regex4)
+    if(!isvalidcontact){
+      this.setState({contacterr:"please enter a valid email address"})
+      return false;
+    }
+      if(!isvalidemail){
         this.setState({emailerr:"please enter a valid email address"})
         return false;
       }
-      if(this.state.firstname=== ""){
+      if(!isvalidfirstname){
         this.setState({firstnameerr:"please enter your first name correctly"})
         return false;
       }
-      if(this.state.lastname=== ""){
+      if(!isvalidlastname){
         this.setState({lastnameerr:"please enter your last name correctly"})
         return false;
       }
-      if(!this.state.contact=== ""){
-        this.setState({contacterr:"Enter phone number correctly"})
+      if(!isvalidpass){
+        this.setState({passworderr:"Enter phone number correctly"})
         return false;
       }
       if(this.state.gender=== ""){
@@ -70,18 +83,50 @@ class Register extends Component {
 const data ={
   navigation:navigation,firstname:this.state.firstname,lastname:this.state.lastname,email:this.state.email,contact:this.state.contact,gender:this.state.gender,password:this.state.password}
 axios.post("http://localhost:5000/customer/submit/register", {data:JSON.stringify(data)})
-.then(res => console.log(res.data))
+.then(res => { 
+  if(res.data.register){
+    this.setState({Message:res.data.message,displayMessage:"block",displayColor:"lightgreen",firstname:"",lastname:"",email:"",password:"",gender:"",})
+  }
+  else{
+    this.setState({Message:res.data,displayMessage:"block",displayColor:"pink"})
+  }
+})
 .catch(err => console.log(err))   
+}else{
+  this.setState({Message:"Data is not valid",displayMessage:"block",displayColor:"pink"})
 }
-this.setState(initialState)
 }
  change =(e) =>{
    this.setState({[e.target.name]:e.target.value},()=>{
-    if(!this.state.email.includes("@") || !this.state.email.includes(".com")){
+    var regex = /^[A-Za-z0-9 ]+$/
+    var regex2 = /^[0-9]+$/
+    var regex3 = /(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}/
+    var regex4 =/[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$/
+    var isvalidemail =this.state.email.match(regex4)
+    var isvalidfirstname = this.state.firstname.match(regex)
+    var isvalidlastname = this.state.lastname.match(regex)
+    var isvalidcontact = this.state.contact.match(regex2)
+    var isvalidpass = this.state.password.match(regex3)
+    if(!isvalidfirstname){
+      this.setState({firstnameerr:""})
+      return false;
+    }
+    if(!isvalidlastname){
+      this.setState({lastnameerr:""})
+      return false;
+    }
+    if(!isvalidcontact){
+      this.setState({contacterr:""})
+      return false;
+    }
+    if(!isvalidemail){
       this.setState({emailerr:""})
       return false;
     }
-    
+    if(!isvalidpass){
+      this.setState({passworderr:""})
+      return false;
+    }
    })
 
  }
@@ -92,7 +137,9 @@ this.setState(initialState)
            <div>
                 <div className="container register">
                   <h3>Create <span style={{color:"#004d99",textShadow: "0.5px 0.5px #ff0000"}}>Fruget</span> Account</h3><br/>
-
+                 <div className="alert" style={{display:`${this.state.displayMessage}`, backgroundColor:`${this.state.displayColor}`}}>
+                 {this.state.Message}
+                 </div>
                   <form action="/submit/register" onSubmit={this.submit} method="post">
                     <div className="row">
                     <div className="col-sm-12 col-md-6">

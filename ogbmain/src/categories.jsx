@@ -18,6 +18,9 @@ import SearchApp from "./searchapp"
 import Register from "./register"
 import Login from "./login"
 import Profile from "./profile"
+import SavedItems from "./savedItems"
+import CheckOut from "./checkout"
+import ModalSideNavbar from "./modalsidenavbar"
 
 class Category extends Component {
     constructor(props) {
@@ -30,7 +33,7 @@ class Category extends Component {
       
     }
     
-    render() { 
+    render() {  
         return (
             <CookiesProvider>
             <div>
@@ -40,13 +43,15 @@ class Category extends Component {
                  <Route path='/' exact component={Subcats} />
                  
                  <Switch> 
-                     <Route path="bla" exact component={Sidenavbar} />
+                     <Route path="/bla" exact component={ModalSideNavbar} />
                      <Route path='/customer/register' exact component={Register}/>
                      <Route path='/customer/login' exact component={Login}/>
                  <Route path='/product/:details' exact   component={Details} />  
                  <Route path='/category/:category' exact   component={App} />
                  <Route path='/search' exact   component={SearchApp} />   
-                 <Route path='/user/profile' exact component={Profile} />                                    
+                 <Route path='/profile/:userId' exact component={Profile} />   
+                 <Route path="/saved-items/:userId" exact component={SavedItems} />  
+                 <Route path="/checkout/:userId" exact component={CheckOut}/>                               
                  </Switch>          
                  
                 

@@ -25,14 +25,14 @@ class Details extends Component {
          }
     }
     componentDidMount =()=>{
-        axios.get(`http://localhost:5000/customer/check/save?details=${this.props.match.params.details}`)
+        axios.get(`http://localhost:5000/customer/check/save?details=${this.props.match.params.details}`,{ headers: {"Authorization" : `Bearer ${localStorage.getItem("token")}`} })
         .then(res =>  this.setState({save:res.data}))
         .catch(err => console.warn(err)) 
 
         axios.get(`http://localhost:5000/product/${this.props.match.params.details}`)
         .then(res => this.setState({product: res.data}))
         .catch(err => console.warn(err))  
-        
+      
         axios.get(`http://localhost:5000/similiar/${this.props.match.params.details}`)
         .then(res => this.setState({similiarproducts: res.data}))
         .catch(err => console.warn(err))  
@@ -40,7 +40,6 @@ class Details extends Component {
         axios.get(`http://localhost:5000/similiarbrand/${this.props.match.params.details}`)
         .then(res => this.setState({similiarproductsbybrand: res.data}))
         .catch(err => console.warn(err))  
-
         const parsedquery = querystring.parse(this.props.match.location);
         console.log("parsequery", parsedquery)
 
@@ -48,7 +47,7 @@ class Details extends Component {
         window.addEventListener("click", this.handlesavemodalclick)
       }
       save =()=>{
-          axios.get(`http://localhost:5000/customer/save?details=${this.props.match.params.details}`)
+          axios.get(`http://localhost:5000/customer/save?details=${this.props.match.params.details}`,{ headers: {"Authorization" : `Bearer ${localStorage.getItem("token")}`} })
           .then(res => this.setState({saveResponse:res.data, displaysavemodal:"block"}))
           .catch(err => console.log(err))
       }
@@ -133,8 +132,8 @@ class Details extends Component {
              <span className="fa fa-arrow-right" style={{padding:"10px"}}></span>
               <span style={{color:"grey"}}>{products.details }</span> - </small>
            <br/>
-        <div>
-           <center>
+        <div> 
+           <center> 
         {JSON.parse(products.officialimg)[1] !== undefined && JSON.parse(products.officialimg) !== undefined ? 
         <img src={require (`./images/${JSON.parse(products.officialimg)[1]}`)} style={{maxWidth:"70%"}} /> : null}
                
@@ -311,9 +310,7 @@ class Details extends Component {
                 <b>Ratings : {products.numOfRating || 0}</b><br/>
                 <b>Total no of searches : {products.rating}</b><br/>
                         </small>
-                       
-                    </div>
-                
+                    </div>               
                 </div>
             {(JSON.parse(products.img1)[4]) !== undefined ? 
            <div className="col-12 col-lg-6">
@@ -323,14 +320,21 @@ class Details extends Component {
  <div className="savemodaldiv" ref={(a) => this.savemodaldiv =a} id="savemodaldiv" style={{display:`${this.state.displaysavemodal}`,zIndex:"1",width:"100%",height:"100%",backgroundColor:"rgba(0,0,0,0.4)"}}>
  <div className="savediv"  style={{backgroundColor:"white"}}>
      <center>
-            <h3 style={{padding:"50px"}}>{this.state.saveResponse}</h3>
+            <h5 style={{padding:"50px"}}>{ReactHtmlParser(this.state.saveResponse)}</h5>
             <br/>
-<button className="btn btn-link"   onClick={this.undisplaysavemodal} style={{color:"red"}} type="button">Continue Shopping</button> 
+            <div className="row" style={{padding:"10px"}}>  
+                    <div className="col-6">  
+<button className="btn btn-danger" onClick={this.undisplaymodal} style={{boxShadow:"2px 3px lightgrey",padding:"8px",color:"white",width:"100%"}} type="button">Cancel</button> 
+</div>
+<div className="col-6">
+<button className="btn btn-success"  style={{padding:"8px",color:"white",width:"100%",boxShadow:"2px 3px lightgrey"}} >Saved Items</button>
+</div>         
+               </div>
      </center>
      </div>
  </div>
      <div className="mainmodaldiv" ref={(a) => this.modaldiv =a} id="modaldiv" style={{display:`${this.state.display}`,zIndex:"1",width:"100%",height:"100%",backgroundColor:"rgba(0,0,0,0.4)"}}>
-         <div className="modaldiv"  style={{backgroundColor:"white"}}>
+         <div className="modaldiv"  style={{backgroundColor:"white",height:"50%",borderRadius:"10px"}}>
              <div className="inner-modal">
                      <h4 style={{padding:"10px"}}>Comment</h4>
                      <center>   
@@ -342,9 +346,15 @@ class Details extends Component {
              <form onSubmit={this.submitrating}>
     <input type="number" name=""  maxLength="1" onChange={this.change2}  value={this.state.chooserating} style={{width:"10%",position:"absolute",right:"5%",top:"20%"}}/><br/>
 <textarea name="comment"  maxLength="30" cols="5" rows="3" value={this.state.comment} onChange={this.change} className="form-control" style={{width:"70%"}}></textarea>
-                     <span style={{color:"grey"}}>{this.state.comment.length}/30</span> <br/><br/>
-<button className="btn btn-link"   onClick={this.undisplaymodal} style={{color:"red"}} type="button">Cancel</button> 
-<button className="btn btn-link" style={{float:"right"}} type="submit">Submit</button>
+                     <span style={{color:"grey"}}>{this.state.comment.length}/30</span> <br/><br/><br/>
+                     <div className="row" style={{padding:"10px"}}>  
+                    <div className="col-6">  
+<button className="btn btn-danger" onClick={this.undisplaymodal} style={{boxShadow:"2px 3px lightgrey",padding:"8px",color:"white",width:"100%"}} type="button">Cancel</button> 
+</div>
+<div className="col-6">
+<button className="btn btn-success"  style={{padding:"8px",color:"white",width:"100%",boxShadow:"2px 3px lightgrey"}} type="submit">Submit</button>
+</div>         
+               </div>
                      </form>
                 
                </div>
@@ -363,7 +373,7 @@ class Details extends Component {
          <br/>
 <div className="row">
             <div className="col-12" style={{border: "1px solid lightgrey", borderRadius:"5px",backgroundColor:"white",padding:"10px"}}>
-             <small style={{fontSize:"20px"}}>Customer Reviews</small><button style={{float:"right"}} onClick={this.displaymodal}><a href="#modaldiv">Rate</a></button><br/>
+<small style={{fontSize:"20px"}}>Customer Reviews</small><button style={{float:"right",display:`${localStorage.getItem("id") ? "block" : "none"}`}} onClick={this.displaymodal}><a href="#modaldiv">Rate</a></button><br/>
              <hr/>
              <div className="row">
              <div className="col-4">
