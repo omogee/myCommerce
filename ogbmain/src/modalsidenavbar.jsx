@@ -60,11 +60,13 @@ class ModalSideNavbar extends Component {
 <br/>
  <small style={{paddingLeft:"20px"}} className="text-muted"><b>Categories</b></small>
  <div style={{paddingLeft:"30px"}} className="row">
+   <div className="col-6">
     {this.state.category.map((categories) =>
         <div key={categories.subcat1}>
              <a href="" style={{color:"black"}}><small style={{textTransform:"capitalize"}} className="text-muted">{categories.subcat1}</small></a><br/>
         </div>
         )}
+      </div>
  </div>
 <div style={{padding:"30px"}}>
   <a href="/electronics/refrigerator?page=1" style={{color:"black",fontSize:"15px",padding:"0px 8px 8px 8px",textTransform:"capitalize"}}>refrigerator</a>
