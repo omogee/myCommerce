@@ -51,7 +51,7 @@ class App extends Component {
     else if(parsedQuery.view === "list"){
       this.setState({viewrow:"col-12 row", viewcol:"col-6"})
     }
-    axios.get(`http://localhost:5000/${this.props.match.params.category}/price`)
+    axios.get(`http://fruget.herokuapp.com/${this.props.match.params.category}/price`)
  .then(res=> this.setState({price:res.data}, ()=>{
    for(var i=0; i<res.data.length; i++){
     this.setState({highestprice:res.data[i].highestprice, lowestprice:res.data[i].lowestprice}, () =>{
@@ -124,7 +124,7 @@ list =() =>{
   window.location.assign(window.location.pathname +"?"+ currentUrlParams.toString());
 }
 addtocart=(id)=>{
-  axios.get(`http://localhost:5000/customer/add-to-cart?id=${id}`,{ headers: {"Authorization" : `Bearer ${localStorage.getItem("token")}`} })
+  axios.get(`http://fruget.herokuapp.com/customer/add-to-cart?id=${id}`,{ headers: {"Authorization" : `Bearer ${localStorage.getItem("token")}`} })
   .then(res =>{
     if(res.data.success){
       this.setState({cartMessage:res.data.message,display:"block"})
