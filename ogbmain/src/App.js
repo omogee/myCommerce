@@ -271,9 +271,9 @@ handlemodalclick =(e) =>{
           <div className={`${this.state.viewcol}`}> 
         <small style={{float:"left"}}>{product.brand} </small><br/>
            <small style={{height:"40px"}}>
-            <div  className="details">
+            <div  className="details" >
     <Link to ={`/product/${product.details}`} style={{color:'black'}}>
-       {product.details.length > 50 ? product.details.slice(0,50)+ "..." : product.details +"-"+ product.model +"-"+ product.color}
+     <small style={{display:"inline-block"}}>{product.details.length > 50 ? product.details.slice(0,50)+ "..." : product.details +"-"+ product.model +"-"+ product.color}</small>  
        </Link>
         </div>
         <b>{product.mainprice}</b><br/>
