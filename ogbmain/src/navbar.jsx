@@ -68,11 +68,6 @@ class Navbar extends Component {
         return ( 
             <div style={{maxWidth:"100%"}}>
               <div className="row" style={{backgroundColor:"rgb(0, 119, 179)",color:"white",maxWidth:"100%"}}>
-              <div style={{maxWidth:"100%",textIndent:"30px"}}>
-                      <center>
-                    <small><small>Dealers On All Kinds Of Electronics At Extra Affordable prices... Get frugal!!!</small></small>
-                    </center>
-                    </div>
                   </div>
                 <nav className="navbar navbar-expand-md bg-light navbar-light" style={{padding:"0px",margin:"0px",width:"100%"}}>
                   <div style={{width:"100%", backgroundColor:"white"}}>

@@ -313,31 +313,31 @@ handlemodalclick =(e) =>{
              </center>
              <div className="didi" style={{position:"fixed",left:"0px",bottom:"0px",backgroundColor:"white",boxShadow:"2px 3px 3px 3px light",width:"100%",border:"3px solid grey"}}>
                <div className="row">
-                 <div className="col-1" style={{padding:"5px 10px",borderRight:"1px solid lightgrey"}}>
+                 <div className="col-2" style={{padding:"5px 10px",borderRight:"1px solid lightgrey"}}>
                  <div style={{padding:"10px"}} style={{padding:"0px 10px",borderRight:"1px solid lightgrey"}}>
               <i class="fa fa-th" style={{color:  "black"}} onClick={this.grid}></i>
               </div>
                  </div>
-                 <div className="col-1" style={{padding:"5px 10px",borderRight:"1px solid lightgrey"}}>
+                 <div className="col-2" style={{padding:"5px 10px",borderRight:"1px solid lightgrey"}}>
                    <center>
                 <div style={{padding:"10px"}} style={{padding:"0px 10px",borderRight:"1px solid lightgrey"}}>
               <i class="fa fa-grip-vertical" style={{color: "black"}} onClick={this.list}></i>
               </div>
               </center>
                  </div>
-                 <div className="col-3">
+                 <div className="col-4">
                 
                   <button type="button" className="btn btn-link" onClick={this.displayfilter} style={{fontWeight:"bolder",color:"rgb(0, 119, 179)",textTransform:"capitalize"}}>
                     Filter <small className="badge badge-danger">{Object.keys(this.state.parsedUrl).length}</small>
                   </button>
                 
                  </div>
-                 <div className="col-7">
+                 <div className="col-4">
                  <center>
             <div style={{display:"flex",flexWrap:"nowrap"}}>
               <div style={{marginTop:"8px"}}>
                 <small >
-                Sort By : 
+                Sort: 
                 </small>
               </div>
               <div>

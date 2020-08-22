@@ -225,27 +225,27 @@ handleChange=(e)=>{
             
              <div className="didi" style={{position:"fixed",left:"0px",bottom:"0px",backgroundColor:"white",boxShadow:"2px 3px 3px 3px light",width:"100%",border:"3px solid grey"}}>
                <div className="row">
-                 <div className="col-1" style={{padding:"5px 10px",borderRight:"1px solid lightgrey"}}>
+                 <div className="col-2" style={{padding:"5px 10px",borderRight:"1px solid lightgrey"}}>
                  <div style={{padding:"10px"}} style={{padding:"0px 10px",borderRight:"1px solid lightgrey"}}>
               <i class="fa fa-th"  style={{color:`${this.state.parsedQuery.view === "grid"  ? "rgb(0, 119, 179)" : "black"}`}} style={{color:  "black"}} onClick={this.grid}></i>
               </div>
                  </div>
-                 <div className="col-1" style={{padding:"5px 10px",borderRight:"1px solid lightgrey"}}>
+                 <div className="col-2" style={{padding:"5px 10px",borderRight:"1px solid lightgrey"}}>
                    <center>
                 <div style={{padding:"10px"}} style={{padding:"0px 10px",borderRight:"1px solid lightgrey"}}>
               <i class="fa fa-grip-vertical"  style={{color:`${this.state.parsedQuery.view === "view"  ? "rgb(0, 119, 179)" : "black"}`}} onClick={this.list}></i>
               </div>
               </center>
                  </div>
-                 <div className="col-5" style={{color:"rgb(0, 119, 179)",textTransform:"capitalize",paddingTop:"5px"}}>
-                  <b>{this.state.parsedQuery.search}</b>
+                 <div className="col-4" style={{color:"rgb(0, 119, 179)",textTransform:"capitalize",paddingTop:"5px"}}>
+                  <small>{this.state.parsedQuery.search}</small>
                  </div>
-                 <div className="col-5">
+                 <div className="col-4">
                  <center>
             <div style={{display:"flex",flexWrap:"nowrap"}}>
               <div style={{marginTop:"8px"}}>
                 <small >
-                Sort By : 
+                Sort: 
                 </small>
               </div>
               <div>
