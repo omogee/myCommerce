@@ -53,9 +53,9 @@ class SideNav extends Component {
     axios.get('http://localhost:5000/brands')
     .then(res => this.setState({branddata: res.data}))
     .catch(err => console.warn(err))
-  }
+  }  
   change = (e)=>{   
-   
+
      const uri = window.location.href;
      console.log(uri)         
      var pos = uri.indexOf(e.target.name)
