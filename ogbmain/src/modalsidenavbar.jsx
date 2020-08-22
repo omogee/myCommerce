@@ -59,7 +59,7 @@ class ModalSideNavbar extends Component {
 </div>
 <br/>
  <small style={{paddingLeft:"20px"}} className="text-muted"><b>Categories</b></small>
- <div style={{paddingLeft:"30px"}}>
+ <div style={{paddingLeft:"30px"}} className="row">
     {this.state.category.map((categories) =>
         <div key={categories.subcat1}>
              <a href="" style={{color:"black"}}><small style={{textTransform:"capitalize"}} className="text-muted">{categories.subcat1}</small></a><br/>
