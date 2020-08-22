@@ -39,8 +39,7 @@ class Category extends Component {
             <div>
                 <Router>
                  <Provider store={store}>
-                 <Navbar />
-                 <Route path='/' exact component={Subcats} />
+                                 <Route path='/' exact component={Subcats} />
                  
                  <Switch> 
                      <Route path="/bla" exact component={ModalSideNavbar} />

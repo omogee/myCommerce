@@ -268,7 +268,7 @@ handlemodalclick =(e) =>{
           <div className={`${this.state.viewcol}`}>
             <img className="mainImg img-responsive" src={require (`./images/${product.mainimg}`)} style={{maxWidth:"100%"}} ></img>
           </div>
-          <div className={`${this.state.viewcol}`}> 
+          <div className={`${this.state.viewcol}`} style={{padding:"0px", margin:"0px"}}> 
         <small style={{float:"left"}}>{product.brand} </small><br/>
            <small style={{height:"40px"}}>
             <div  className="details" >
@@ -283,7 +283,7 @@ handlemodalclick =(e) =>{
           </div>
         </div> <small style={{fontSize:"12px"}}>({product.numOfRating || 0})</small>
          </small>
-        <br/><br/>
+        <br/>
         <center>
         <button type="button" onClick={()=>this.addtocart(product.productId)} style={{width: "100%",backgroundColor:"rgba(0, 119, 179,0.9)",borderRadius:"5px",padding: "1px",color:"white"}}>
          <span style={{fontWeight:"bold"}}>ADD TO CART</span></button>
@@ -311,7 +311,7 @@ handlemodalclick =(e) =>{
              </Pagination>
              <br/><br/>
              </center>
-             <div className="didi" style={{position:"fixed",left:"0px",bottom:"10px",backgroundColor:"white",width:"100%",border:"3px solid grey"}}>
+             <div className="didi" style={{zIndex:"2",position:"fixed",left:"0px",bottom:"5px",backgroundColor:"white",width:"100%",border:"3px solid grey"}}>
                <div className="row">
                  <div className="col-2" style={{padding:"5px 10px",borderRight:"1px solid lightgrey"}}>
                  <div  style={{padding:"10px",fontSize:"20px"}}>
