@@ -6,9 +6,6 @@ const session = require('express-session')
 const  MySQLStore = require('express-mysql-session')(session);
 const cookieParser= require('cookie-parser')
 const {check,validationResult}= require('express-validator')
-const Rcustomer = require("./routes/customer");
-const Rcart = require("./routes/cart")
-const path = require("path")
 
 const app = express();
 const options = {
@@ -36,59 +33,24 @@ app.use(session({
 }));
 app.use(bodyParser.urlencoded({extended: true}))
 app.use(bodyParser.json())
-
- app.use('/customer',Rcustomer);
- app.use('/cart',Rcart);
- app.get("/allcategories", (req,res)=>{
-     conn.query("SELECT DISTINCT subcat1 FROM product", (err,file)=>{
-         if (err) throw err;
-         res.send(file)
-     })
- })
 app.get('/:category', (req,res)=>{
     const cat = req.params.category;
     const pagee = req.query.page || 1;
-    const sort = req.query.sort;
     const currentPage = parseInt(pagee)
     const numPerPage = 20;
     var skip = (pagee-1)*20;
-    switch (sort){
-        case "low-high":
-            sorter = "sellingprice"
-            setting= "ASC"
-            break;
-            case "high-low":
-            sorter = "sellingprice"
-            setting= "DESC"
-            break;
-            case "cust-rating":
-            sorter = "customerRating"
-            setting= "ASC"
-            break;
-            case "warranty":
-            sorter = "warranty"
-            setting= "ASC"
-            break;
-            default:
-            sorter = "rating"
-            setting="ASC"
-            break;
-    }
- var max = req.query.max ;
-var min = req.query.min ;
-conn.query('SELECT COUNT(*) as numOfRows,MAX(sellingprice) as max,MIN(sellingprice) as min from product WHERE subcat1 ="'+cat+'"', (err,file)=>{
+    var limitter = skip + numPerPage;
+conn.query('SELECT COUNT(*) as numOfRows from product WHERE subcat1 ="'+cat+'"', (err,file)=>{
     if (err) throw err;
 const numOfRows = file[0].numOfRows;
 const numPages = Math.ceil(numOfRows/numPerPage);
-console.log(sorter,numOfRows, max, min)
-
-conn.query('SELECT *,  CONCAT("₦", FORMAT(sellingprice, 0)) AS mainprice FROM product INNER JOIN product_rating using (productId) WHERE (sellingprice >= "'+min+'" AND sellingprice <= "'+max+'") AND `subcat1` = "'+cat+'" ORDER BY '+sorter+' '+setting+' LIMIT ? OFFSET ?',[numPerPage,skip],(err,file)=>{
+conn.query('SELECT *,  CONCAT("₦", FORMAT(sellingprice, 0)) AS mainprice FROM product INNER JOIN product_rating using (productId) WHERE `subcat1` = "'+cat+'" LIMIT ? OFFSET ?',[numPerPage,skip],(err,file)=>{
         if (err) throw err;
         file.map(files => { 
-            files["authur"] = "Eze Ogbonnaya"   
+            files["authur"] = "Eze Ogbonnaya"
             if(files.productrating){      
                 const prating =JSON.parse(files.productrating);
-                const mainrating =[]; 
+                const mainrating =[];
                 for (var i=0; i<Object.values(prating).length; i++){
                  mainrating.push(parseInt(Object.values(prating)[i][0]))
               }
@@ -104,6 +66,7 @@ conn.query('SELECT *,  CONCAT("₦", FORMAT(sellingprice, 0)) AS mainprice FROM 
                   }
                      }     
         }) 
+        console.log("no need for filter")
         res.json({file,numPages,currentPage,numOfRows})
     })
 })
@@ -158,7 +121,59 @@ app.post("/:details/rate",(req,res)=>{
     })
 })
 })
+app.post('/login', (req,res)=>{ 
+    const data = JSON.parse(req.body.data)
+     const username = data.username
+     const password = data.password;
+    const sql ="SELECT * FROM user WHERE username ='"+username+"' ";
+    conn.query(sql, (err,file)=>{
+        if (err) throw err;
+        if(file.length > 0){
+        file.forEach(files =>{
+            if(files.password === password){
+                const user ={
+                    id: 1,
+                    name: files.username,
+                    password: files.password
+                 }
+                 const signature=  jwt.sign({user: user}, 'secretKey', (err, token)=>{
+                    if (err) throw err;
+                res.cookie('jwt',signature,{
+                    maxAge:3600,
+                    httpOnly: true,
+                   // secure: true
+                },console.log('cookie set')) ;               
+                const msg ={
+                 signupMessage:'you are now logged in',
+                 isLoggedin: true,
+                 token: token,
+                 userId: files.id                                      
+                 }  
+                 console.log('details are correct')
+                 res.send(msg)    
 
+             })  
+    }         
+            else{
+               console.log('passwords dont match')
+               const msg ={
+                signupMessage:'you are now logged in',
+                isLoggedin: false
+            }
+                res.send(msg)
+            }
+        })  
+        }
+        else{
+            console.log('user doesnt exist')
+            const msg ={
+                signupMessage:'you are now logged in',
+                isLoggedin: false
+            }
+            res.send(msg)
+        }
+    })
+})
 app.get('/similiar/:details', (req,res)=>{
     const sql = "SELECT * FROM product WHERE  details = '"+req.params.details+"'";
     conn.query(sql, (err,files)=>{
@@ -264,17 +279,24 @@ app.get('/product/rating',(req,res)=>{
         res.send(file)
     })
 })
-
+app.post('/signup',(req,res)=>{
+    const data = JSON.parse(req.body.data)
+     const username = data.username
+     const password = data.password;
+ //    const navigator = req.body.navigator;
+ const error = validationResult(req);
+     conn.query('INSERT INTO user (username, password) VALUES ("'+username+'","'+password+'")', (err, file)=>{
+         if (err) throw err;
+         res.send(true)
+     })
+})
 app.get('/items/search', (req,res) =>{
     const search = req.query.search;
-    let min= req.query.min; 
-    let max = req.query.max;
-    console.log("min", min,max)
-    
-    if(req.query.brand !== "undefined" || req.query.size !== "undefined" || req.query.colour !== "undefined"){
-        var brands = req.query.brand
+    var brands = req.query.brand 
     var sizes = req.query.size
     var colors = req.query.colour
+    var pagee = req.query.page
+    var category = req.params.category
     brands= JSON.stringify(brands.split(",")).toString()
     sizes= JSON.stringify(sizes.split(",")).toString()
     colors= JSON.stringify(colors.split(",")).toString()
@@ -283,47 +305,23 @@ app.get('/items/search', (req,res) =>{
     var colorno = colors.split(",").toString().length
     brands = brands.slice(1,brandno-1)
     sizes = sizes.slice(1,sizeno-1)
-    colors = colors.slice(1,colorno-1)  
-    let sort = req.query.sort;
-    switch (sort){
-        case "low-high":
-            sorter = "sellingprice"
-            setting= "ASC"
-            break;
-            case "high-low":
-            sorter = "sellingprice"
-            setting= "DESC"
-            break;
-            case "cust-rating":
-            sorter = "customerRating"
-            setting= "ASC"
-            break;
-            case "warranty":
-            sorter = "warranty"
-            setting= "ASC"
-            break;
-            default:
-            sorter = `FIELD(brand, ${brands})`
-            setting="ASC"
-            break;
-    }
-    conn.query("SELECT COUNT(*) AS numOfRows FROM product WHERE (brand IN ("+brands+") OR size IN ("+sizes+") OR color IN ("+colors+")) AND details LIKE '%"+search+"%'  AND (sellingprice >= '"+min+"' AND sellingprice <= '"+max+"')", (err, nofile)=>{
+    colors = colors.slice(1,colorno-1)
+    conn.query("SELECT COUNT(*) AS numOfRows FROM product WHERE details LIKE '%"+search+"%' OR brand IN ("+brands+") OR size IN ("+sizes+") OR color IN ("+colors+")", (err, nofile)=>{
         if (err) throw err;
         const numOfRows = nofile[0].numOfRows;
         const numPages = Math.ceil(numOfRows/20)
-        const pagee = req.query.page || 1;  
-        const mainpage = parseInt(pagee)
-        console.log(mainpage)  
-    const skips = (mainpage-1)*20;
-    console.log("skips",skips)          
-    var currentPage = parseInt(req.query.page) 
+        const pagee = parseInt(req.query.page) || 1; 
+    const mainpage = pagee - 1;
+    const skips = mainpage*20;
+    console.log(skips)
+    var currentPage = parseInt(req.query.page)
     var numPerPage =20;
-    conn.query("SELECT *,CONCAT('₦', FORMAT(sellingprice, 0)) AS mainprice FROM product INNER JOIN product_rating using (productId) WHERE (brand IN ("+brands+") OR size IN ("+sizes+") OR color IN ("+colors+")) AND details LIKE '%"+search+"%' AND (sellingprice >= '"+min+"' AND sellingprice <= '"+max+"') ORDER BY "+sorter+" "+setting+" LIMIT ? OFFSET ?",[numPerPage, skips],(err,files)=>{
+    conn.query("SELECT *,CONCAT('₦', FORMAT(sellingprice, 0)) AS mainprice FROM product INNER JOIN product_rating using (productId) WHERE details LIKE '%"+search+"%' OR brand IN ("+brands+") OR size IN ("+sizes+") OR color IN ("+colors+") ORDER BY FIELD(brand, "+brands+") LIMIT ? OFFSET ?",[numPerPage, skips],(err,files)=>{
         if (err) throw err;
         files.map(file => { 
             file["authur"] = "Eze Ogbonnaya"
             if(files.productrating){      
-                const prating =JSON.parse(files.productrating); 
+                const prating =JSON.parse(files.productrating);
                 const mainrating =[];
                 for (var i=0; i<Object.values(prating).length; i++){
                  mainrating.push(parseInt(Object.values(prating)[i][0]))
@@ -341,72 +339,9 @@ app.get('/items/search', (req,res) =>{
                      }
           
         })
-        console.log("fetching")
         res.json({files,numPages,currentPage,numOfRows})
-    })  
+    }) 
 })
-}else{
-conn.query("SELECT COUNT(*) AS numOfRows FROM product WHERE details LIKE '%"+search+"%' AND sellingprice >= '"+min+"' AND sellingprice <= '"+max+"' ", (err, nofile)=>{
-    if (err) throw err;
-    let sort = req.query.sort;
-    switch (sort){
-        case "low-high":
-            sorter = "sellingprice"
-            setting= "ASC"
-            break;
-            case "high-low":
-            sorter = "sellingprice"
-            setting= "DESC"
-            break;
-            case "cust-rating":
-            sorter = "customerRating"
-            setting= "ASC"
-            break;
-            case "warranty":
-            sorter = "warranty"
-            setting= "ASC"
-            break;
-            default:
-            sorter = "rating"
-            setting="ASC"
-            break;
-    }
-    const numOfRows = nofile[0].numOfRows;
-    const numPages = Math.ceil(numOfRows/20)
-    const pagee = parseInt(req.query.page) || 1; 
-const mainpage = pagee - 1;
-const skips = mainpage*20;
-console.log(skips)
-var currentPage = parseInt(req.query.page)
-var numPerPage =20;
-conn.query("SELECT *,CONCAT('₦', FORMAT(sellingprice, 0)) AS mainprice FROM product INNER JOIN product_rating using (productId) WHERE details LIKE '%"+search+"%' AND sellingprice >= '"+min+"' AND sellingprice <= '"+max+"' ORDER BY "+sorter+" "+setting+" LIMIT ? OFFSET ?",[numPerPage, skips],(err,files)=>{
-    if (err) throw err;
-    files.map(file => { 
-        file["authur"] = "Eze Ogbonnaya"
-        if(files.productrating){      
-            const prating =JSON.parse(files.productrating);
-            const mainrating =[];
-            for (var i=0; i<Object.values(prating).length; i++){
-             mainrating.push(parseInt(Object.values(prating)[i][0]))
-          }
-               const reducer = (a,b) => (a+b)
-               const prating2 =mainrating.map(pratings => pratings*20)
-           //    console.log( Object.values(prating2).reduce(reducer)/Object.keys(prating).length)
-               files["numOfRating"] = Object.keys(prating).length
-               if(Object.values(prating).length > 0){
-                   files["percentrating"] = Object.values(prating2).reduce(reducer)/Object.keys(prating).length
-               }
-              else{
-                 files["percentrating"] = 0
-              }
-                 }
-      
-    })
-    console.log("fetching only search")
-    res.json({files,numPages,currentPage,numOfRows})
-}) 
-})
-}
 })
 app.post('/search', (req,res)=>{
      const search = JSON.parse(req.body.data);
@@ -463,7 +398,7 @@ app.get('/items/searchbrand', (req,res)=>{
     brands = brands.slice(1,brandno-1)
     sizes = sizes.slice(1,sizeno-1)
     colors = colors.slice(1,colorno-1)
-   conn.query("SELECT DISTINCT brand FROM product WHERE details LIKE '%"+search+"%' ",(err,files)=>{
+   conn.query("SELECT DISTINCT brand FROM product WHERE details LIKE '%"+search+"%' OR brand IN ("+brands+") OR size IN ("+sizes+") OR color IN ("+colors+")",(err,files)=>{
        if (err) throw err;
        res.send(files)
    })
@@ -517,7 +452,6 @@ app.get('/items/filter/:category', (req,res) =>{
     var colors = req.query.colour || null
     var min = req.query.min || null
     var max = req.query.max || null
-    var sort = req.query.sort;
     var category = req.params.category
     brands= JSON.stringify(brands.split(",")).toString()
     sizes= JSON.stringify(sizes.split(",")).toString()
@@ -528,32 +462,8 @@ app.get('/items/filter/:category', (req,res) =>{
     brands = brands.slice(1,brandno-1)
     sizes = sizes.slice(1,sizeno-1)
     colors = colors.slice(1,colorno-1)
-    let sorter ="";
-    let setting="";
-    switch (sort){
-        case "low-high":
-            sorter = "sellingprice"
-            setting= "ASC"
-            break;
-            case "high-low":
-            sorter = "sellingprice"
-            setting= "DESC"
-            break;
-            case "cust-rating":
-            sorter = "customerRating"
-            setting= "ASC"
-            break;
-            case "warranty":
-            sorter = "warranty"
-            setting= "ASC"
-            break;
-            default:
-            sorter = `(${brand})`
-            setting=""
-            break;
-    }
-     console.log(brands, sizes, colors)
-conn.query("SELECT COUNT(*) AS numOfRows FROM product WHERE (brand IN ("+brands+") OR size IN ("+sizes+") OR color IN ("+colors+") AND (sellingprice >= '"+min+"' AND sellingprice <= '"+max+"')) AND subcat1='"+category+"'", (err, file)=>{
+    console.log(min,max)
+conn.query("SELECT COUNT(*) AS numOfRows FROM product WHERE (brand IN ("+brands+") OR size IN ("+sizes+") OR color IN ("+colors+") OR (sellingprice >= '"+min+"' AND sellingprice <= '"+max+"')) AND subcat1='"+category+"'", (err, file)=>{
   if (err) throw err;
     const numOfRows = file[0].numOfRows;
     const numPages = Math.ceil(numOfRows/20)
@@ -563,13 +473,14 @@ conn.query("SELECT COUNT(*) AS numOfRows FROM product WHERE (brand IN ("+brands+
     console.log(skips)
     var currentPage = parseInt(req.query.page)
     var numPerPage =20;
-const sql = "SELECT *,CONCAT('₦', FORMAT(sellingprice, 0)) AS mainprice FROM product INNER JOIN product_rating using (productId) WHERE (brand IN ("+brands+") OR size IN ("+sizes+") OR color IN ("+colors+") AND (sellingprice >= '"+min+"' AND sellingprice <= '"+max+"')) AND subcat1='"+category+"' ORDER BY "+sorter+" "+setting+" LIMIT ? OFFSET ?";
+const sql = "SELECT *,CONCAT('₦', FORMAT(sellingprice, 0)) AS mainprice FROM product INNER JOIN product_rating using (productId) WHERE (brand IN ("+brands+") OR size IN ("+sizes+") OR color IN ("+colors+") OR (sellingprice >= '"+min+"' AND sellingprice <= '"+max+"')) AND subcat1='"+category+"' ORDER BY FIELD(brand, "+brands+") LIMIT ? OFFSET ?";
 conn.query(sql,[numPerPage, skips], (err, files)=>{
     if (err) throw err;
+    console.log(numOfRows)
     res.json({files,numPages,currentPage,numOfRows})
-}) 
 })
-}) 
+})
+})
 app.post('/searchbrand', (req,res)=>{
     const search = JSON.parse(req.body.data); 
    conn.query("SELECT DISTINCT brand FROM product WHERE details LIKE '%"+search+"%'",(err,files)=>{
@@ -596,7 +507,7 @@ app.get('/distinct/subcats', (req,res)=>{
        if (err) throw err;
        res.send(files)
    })
-}) 
+})
 app.get('/modal/:gencat', (req,res)=>{
     const category = req.params.gencat;
     conn.query("SELECT DISTINCT category from product WHERE generalcategory = '"+category+"' OR subcat1 = '"+category+"'",(err,files4)=>{
@@ -656,7 +567,7 @@ app.get('/:category/subcat2', (req,res)=>{
     conn.query('SELECT DISTINCT `subcat2` FROM product WHERE `subcat1` = "'+cat+'"',(err,files)=>{
         if (err) throw err;
         res.send(files)
-    }) 
+    })
  })
 app.get('/:category/size', (req,res)=>{
     const cat = req.params.category;
@@ -741,17 +652,10 @@ app.get('/product/:details', (req,res)=>{
 app.get('/suggestions/suggestion',(req,res)=>{
     conn.query('SELECT brand,subcat1,subcat2,subcat3,mainimg,details FROM product',(err,files)=>{
         if (err) throw err;
-        res.send(files)  
-    }) 
-}) 
-if(process.env.NODE_ENV === "production"){ 
-app.use(express.static("ogbmain/build"))
-
-app.get('*',(req,res)=>{
-    res.sendFile(path.join(__dirname, 'ogbmain','build', 'index.html'));
+        res.send(files)
+    })
 })
-} 
-const port = process.env.PORT || 5000;   
-app.listen(port, ()=>{   
+const port = process.env.PORT || 5000;
+app.listen(port, ()=>{
     console.log('connected on 5000 expected')
 })

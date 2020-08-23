@@ -28,7 +28,7 @@ const reducer= (state = initialState, action)=>{
     }
     else if(action.type === 'loaded'){
         state = {...state , status: 'loaded', products: action.payloadOne,currentPage:action.payloadThree,totalPages:action.payloadTwo,numOfRows:action.payloadFour}
-        console.log("no need for filter")
+        console.log("no need for filter", action.payloadOne)
         return state;
       }
       else if(action.type === 'filteritems'){
@@ -132,22 +132,22 @@ export const test =()=>{
 export const searcher =(data)=>{
   return (dispatch)=>{
      dispatch({type: 'searched'})
-  axios.post('http://fruget.herokuapp.com/search',{data: JSON.stringify(data)})
+  axios.post('http://localhost:5000/search',{data: JSON.stringify(data)})
   .then(res => dispatch({type:'searching',payload:res.data.files,payloadTwo:res.data.numPages,payloadThree: res.data.currentPage,payloadFour:res.data.numOfRows}))
   .catch(err => dispatch({type: 'error', payload: err}))
 
   dispatch({type: 'brandsearching'})
-    axios.post(`http://fruget.herokuapp.com/searchbrand`, {data: JSON.stringify(data)})
+    axios.post(`http://localhost:5000/searchbrand`, {data: JSON.stringify(data)})
     .then(res=> dispatch({type: 'brandsearched', payload: res.data}))
     .then(err => dispatch({type: 'error', payload: err}))
 
     dispatch({type: 'colorsearching'})
-    axios.post(`http://fruget.herokuapp.com/searchcolour`, {data: JSON.stringify(data)})
+    axios.post(`http://localhost:5000/searchcolour`, {data: JSON.stringify(data)})
     .then(res=> dispatch({type: 'colorsearched', payload: res.data}))
     .then(err => dispatch({type: 'error', payload: err}))
 
     dispatch({type: 'sizesearching'})
-    axios.post(`http://fruget.herokuapp.com/searchsize`, {data: JSON.stringify(data)})
+    axios.post(`http://localhost:5000/searchsize`, {data: JSON.stringify(data)})
     .then(res=> dispatch({type: 'sizesearched', payload: res.data}))
     .then(err => dispatch({type: 'error', payload: err}))
 
@@ -157,22 +157,22 @@ export const searcher =(data)=>{
 export const submitsearcher =(data)=>{
   return (dispatch)=>{
      dispatch({type: 'submitsearched'})
-  axios.get(`http://fruget.herokuapp.com/items/search?search=${data.search}&sort=${data.sort}&max=${data.max}&min=${data.min}&brand=${data.brand}&size=${data.size}&colour=${data.colour}&page=${data.page}`)
+  axios.get(`http://localhost:5000/items/search?search=${data.search}&sort=${data.sort}&max=${data.max}&min=${data.min}&brand=${data.brand}&size=${data.size}&colour=${data.colour}&page=${data.page}`)
   .then(res => dispatch({type:'submitsearching',payload:res.data.files,payloadTwo:res.data.numPages,payloadThree: res.data.currentPage,payloadFour:res.data.numOfRows}))
   .catch(err => dispatch({type: 'error', payload: err}))
 
   dispatch({type: 'submitbrandsearching'})
-  axios.get(`http://fruget.herokuapp.com/items/searchbrand?search=${data.search}&max=${data.max}&min=${data.min}&brand=${data.brand !== undefined ?data.brand : null}&size=${data.size}&colour=${data.colour}`)
+  axios.get(`http://localhost:5000/items/searchbrand?search=${data.search}&max=${data.max}&min=${data.min}&brand=${data.brand !== undefined ?data.brand : null}&size=${data.size}&colour=${data.colour}`)
   .then(res=> dispatch({type: 'submitbrandsearched', payload: res.data}))
   .then(err => dispatch({type: 'error', payload: err}))
 
   dispatch({type: 'submitcolorsearching'})
-  axios.get(`http://fruget.herokuapp.com/items/searchcolour?search=${data.search}&max=${data.max}&min=${data.min}&brand=${data.brand}&size=${data.size}&colour=${data.colour}`)
+  axios.get(`http://localhost:5000/items/searchcolour?search=${data.search}&max=${data.max}&min=${data.min}&brand=${data.brand}&size=${data.size}&colour=${data.colour}`)
   .then(res=> dispatch({type: 'submitcolorsearched', payload: res.data}))
   .then(err => dispatch({type: 'error', payload: err}))
 
   dispatch({type: 'sizesearching'})
-  axios.get(`http://fruget.herokuapp.com/items/searchsize?search=${data.search}&max=${data.max}&min=${data.min}&brand=${data.brand}&size=${data.size}&colour=${data.colour}`)
+  axios.get(`http://localhost:5000/items/searchsize?search=${data.search}&max=${data.max}&min=${data.min}&brand=${data.brand}&size=${data.size}&colour=${data.colour}`)
   .then(res=> dispatch({type: 'submitsizesearched', payload: res.data}))
   .then(err => dispatch({type: 'error', payload: err}))
 
@@ -181,7 +181,7 @@ export const submitsearcher =(data)=>{
 export const checkfilter = data =>{
   return (dispatch) =>{
   dispatch({type: "filter"})
-  axios.get(`http://fruget.herokuapp.com/items/filter/${data.category}?page=${parseInt(data.page)}&sort=${data.sort}&max=${data.max}&min=${data.min}&brand=${data.brand}&size=${data.size}&colour=${data.colour}`)
+  axios.get(`http://localhost:5000/items/filter/${data.category}?page=${parseInt(data.page)}&sort=${data.sort}&max=${data.max}&min=${data.min}&brand=${data.brand}&size=${data.size}&colour=${data.colour}`)
   .then(res => dispatch({type:"filteritems", payload:res.data.files,payloadTwo:res.data.numPages,payloadThree: res.data.currentPage,payloadFour:res.data.numOfRows,input:data.files}))
   .catch(err => console.log(err))
   }
@@ -190,7 +190,7 @@ export const checkfilter = data =>{
 export const getfilteredSuggestions = data =>{
   return (dispatch) =>{
   dispatch({type: "suggestions"})
-  axios.get("http://fruget.herokuapp.com/suggestions/suggestion")
+  axios.get("http://localhost:5000/suggestions/suggestion")
   .then(res => dispatch({type:"suggestionloaded", payload:res.data, input:data}))
   .catch(err => console.log(err))
   }
@@ -198,12 +198,12 @@ export const getfilteredSuggestions = data =>{
  export const getProducts = data =>{
    return (dispatch)=>{
       dispatch({type: 'loading'})
-    axios.get(`http://fruget.herokuapp.com/${data.category}?page=${parseInt(data.page)}&sort=${data.sort}&max=${data.max}&min=${data.min}&brand=${data.brand}&size=${data.size}&colour=${data.colour}`)
+    axios.get(`http://localhost:5000/${data.category}?page=${parseInt(data.page)}&sort=${data.sort}&max=${data.max}&min=${data.min}&brand=${data.brand}&size=${data.size}&colour=${data.colour}`)
     .then(res => dispatch({type: 'loaded', payloadOne: res.data.file,payloadTwo:res.data.numPages,payloadThree: res.data.currentPage,payloadFour:res.data.numOfRows}))
     .catch(err => dispatch({type: 'error', payload: err}))
 
    dispatch({type: 'categoryloading'})
-   axios.get(`http://fruget.herokuapp.com/${data.category}/category?page=${data.page}`)
+   axios.get(`http://localhost:5000/${data.category}/category?page=${data.page}`)
    .then(res=> dispatch({type: 'categoryloaded', payload: res.data}))
    .then(err => dispatch({type: 'error', payload: err}))
 
@@ -213,22 +213,22 @@ export const getsidenav = data =>{
   return (dispatch)=>{
  
    dispatch({type: 'brandloading'})
-   axios.get(`http://fruget.herokuapp.com/${data}/brand`)
+   axios.get(`http://localhost:5000/${data}/brand`)
    .then(res=> dispatch({type: 'brandloaded', payload: res.data}))
    .then(err => dispatch({type: 'error', payload: err}))
 
    dispatch({type: 'colorloading'})
-   axios.get(`http://fruget.herokuapp.com/${data}/color`)
+   axios.get(`http://localhost:5000/${data}/color`)
    .then(res=> dispatch({type: 'colorloaded', payload: res.data}))
    .then(err => dispatch({type: 'error', payload: err}))
 
    dispatch({type: 'sizeloading'})
-   axios.get(`http://fruget.herokuapp.com/${data}/size`)
+   axios.get(`http://localhost:5000/${data}/size`)
    .then(res=> dispatch({type: 'sizeloaded', payload: res.data}))
    .then(err => dispatch({type: 'error', payload: err}))
   
    dispatch({type: 'priceloading'})
-   axios.get(`http://fruget.herokuapp.com/${data}/price`)
+   axios.get(`http://localhost:5000/${data}/price`)
    .then(res=> dispatch({type: 'priceloaded', payload: res.data}))
    .then(err => dispatch({type: 'error', payload: err}))
 

@@ -25,7 +25,7 @@ class Navbar extends Component {
     componentDidMount = () =>{
       this.setState({inputval:this.props.inputval})
       const user = localStorage.getItem("id");
-      axios.get(`http://fruget.herokuapp.com/customer/checkout?user=${user}`)
+      axios.get(`http://localhost:5000/customer/checkout?user=${user}`)
       .then(res => this.setState({cart: res.data},()=>{
        console.log(res.data.length)
       }))

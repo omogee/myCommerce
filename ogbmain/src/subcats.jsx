@@ -15,6 +15,7 @@ class Subcats extends Component {
     constructor(props) {
         super(props);
         this.state = { 
+           loading: true,
             category:[],
              sectionOne:[],
              sectionTwo:[],
@@ -26,25 +27,28 @@ class Subcats extends Component {
     }
     
     componentDidMount = () =>{
-        axios.get("http://fruget.herokuapp.com/distinct/subcats")
+  
+        axios.get("http://localhost:5000/distinct/subcats")
         .then(res => this.setState({category: res.data}))
         .catch(err => console.warn(err))
       
-      axios.get("http://fruget.herokuapp.com/section/one")
+      axios.get("http://localhost:5000/section/one")
         .then(res => this.setState({sectionOne: res.data}))
         .catch(err => console.warn(err))
       
-      axios.get("http://fruget.herokuapp.com/section/two")
+      axios.get("http://localhost:5000/section/two")
       .then(res => this.setState({sectionTwo: res.data}))
       .catch(err => console.warn(err))
 
-      axios.get("http://fruget.herokuapp.com/section/three")
+      axios.get("http://localhost:5000/section/three")
       .then(res => this.setState({sectionThree: res.data}))
       .catch(err => console.warn(err))
 
-      axios.get("http://fruget.herokuapp.com/section/four")
+      axios.get("http://localhost:5000/section/four")
       .then(res => this.setState({sectionFour: res.data}))
       .catch(err => console.warn(err))
+
+      this.setState({loading:false})
     }
     
     display = (e) =>{
@@ -57,6 +61,11 @@ class Subcats extends Component {
         this.setState({subcatmodal : "none"})
     }
     render() { 
+      if(this.state.loading){
+        return (
+          <div>Hi, I am still loading</div>
+        )
+      }
         return (
         <div style={{backgroundColor: "#f5f5f0"}}>   
 <div style={{display:`${this.props.inputval.length > 0 ? "block" : "none"}`,zIndex:"2",width:"100%",height:"100%",backgroundColor:"rgba(0,0,0,0.3)",width:"100%", height:"300%",position:"absolute"}} className="indexer"> 

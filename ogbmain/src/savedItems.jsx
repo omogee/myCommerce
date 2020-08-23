@@ -11,7 +11,7 @@ class SavedItems extends Component {
     componentDidMount =()=>{
       let userId = this.props.match.params.userId;
       userId= userId.split(",")[1] 
-        axios.get(`http://fruget.herokuapp.com/customer/${userId}/saveditems`)
+        axios.get(`http://localhost:5000/customer/${userId}/saveditems`)
         .then(res =>{
         if(res.data.message){
           this.setState({products:res.data.files})

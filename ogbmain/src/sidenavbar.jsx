@@ -35,7 +35,7 @@ class Sidenavbar extends Component {
          }
     }
     componentDidMount =()=>{
-        getProducts(this.props.category)
+  //      getProducts(this.props.category)
 
       const parsedQuery = queryString.parse(this.props.location.search);
       const {brand, color,sizes} = parsedQuery;
@@ -60,7 +60,7 @@ class Sidenavbar extends Component {
        sort:parsedQuery.sort
      }
      
- axios.get(`http://fruget.herokuapp.com/${this.props.category}/price`)
+ axios.get(`http://localhost:5000/${this.props.category}/price`)
  .then(res=> this.setState({price:res.data}, ()=>{
    for(var i=0; i<res.data.length; i++){
     console.log (res.data[i].highestprice)
@@ -73,7 +73,7 @@ class Sidenavbar extends Component {
  .then(err => console.warn(err))
  
  
-  this.props.checkfilter(data)
+ // this.props.checkfilter(data)
     }
     
     brandchange=(e) =>{

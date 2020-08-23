@@ -14,7 +14,7 @@
     "install-client": "cd ogbmain && npm install",
     "heroku-postbuild": "npm run install-client && npm run build",
     "ogbmain": "cd ogbmain && npm start",
-    "server": "concurrently \" npm run dev \" \"npm run client\""
+    "server": "concurrently \" npm run dev \" \"npm run ogbmain\""
   },
   "author": "Eze Ogbonnaya Okereke",
   "license": "MIT",

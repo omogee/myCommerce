@@ -16,24 +16,24 @@ class CheckOut extends Component {
     getcart =()=>{
         let user = this.props.match.params.userId
         user = user.split(",")[1]
-        axios.get(`http://fruget.herokuapp.com/customer/checkout?user=${user}`)
+        axios.get(`http://localhost:5000/customer/checkout?user=${user}`)
         .then(res => this.setState({cart: res.data.files,totalprice:res.data.totalprice},()=>{
             console.log(res.data.totalprice)
         }))
         .catch(err => console.warn(err))
     }
     increaseCart = details =>{
-        axios.get(`http://fruget.herokuapp.com/customer/increasecart?details=${details}`)
+        axios.get(`http://localhost:5000/customer/increasecart?details=${details}`)
         .then(res => this.getcart())
         .catch(err => console.warn(err))
     }
     decreaseCart = details =>{
-        axios.get(`http://fruget.herokuapp.com/customer/decreasecart?details=${details}`)
+        axios.get(`http://localhost:5000/customer/decreasecart?details=${details}`)
         .then(res => this.getcart())
         .catch(err => console.warn(err))
     }
    deletecart=(details)=>{
-    axios.get(`http://fruget.herokuapp.com/customer/deletecart?details=${details}`)
+    axios.get(`http://localhost:5000/customer/deletecart?details=${details}`)
         .then(res => this.getcart())
         .catch(err => console.warn(err))
    }

@@ -54,7 +54,7 @@ class SearchApp extends Component {
   size: parsedQuery.sizes,
   colour:parsedQuery.color,
 }
- axios.get(`http://fruget.herokuapp.com/category/searched/price?search=${data.search}&brand=${data.brand}&size=${data.size}&colour=${data.colour}`)
+ axios.get(`http://localhost:5000/category/searched/price?search=${data.search}&brand=${data.brand}&size=${data.size}&colour=${data.colour}`)
  .then(res=> this.setState({price:res.data}, ()=>{
    for(var i=0; i<res.data.length; i++){
     console.log (res.data[i].highestprice)
