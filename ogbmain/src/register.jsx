@@ -82,7 +82,7 @@ class Register extends Component {
      };
 const data ={
   navigation:navigation,firstname:this.state.firstname,lastname:this.state.lastname,email:this.state.email,contact:this.state.contact,gender:this.state.gender,password:this.state.password}
-axios.post("http://localhost:5000/customer/submit/register", {data:JSON.stringify(data)})
+axios.post("http://fruget.herokuapp.com/customer/submit/register", {data:JSON.stringify(data)})
 .then(res => { 
   if(res.data.register){
     this.setState({Message:res.data.message,displayMessage:"block",displayColor:"lightgreen",firstname:"",lastname:"",email:"",password:"",gender:"",})
@@ -136,7 +136,7 @@ axios.post("http://localhost:5000/customer/submit/register", {data:JSON.stringif
         return ( 
            <div>
                 <div className="container register">
-                  <h3>Create <span style={{color:"#004d99",textShadow: "0.5px 0.5px #ff0000"}}>Fruget</span> Account</h3><br/>
+                  <h5>Create <span style={{color:"#004d99",textShadow: "0.5px 0.5px #ff0000"}}>Fruget</span> Account</h5>
                  <div className="alert" style={{display:`${this.state.displayMessage}`, backgroundColor:`${this.state.displayColor}`}}>
                  {this.state.Message}
                  </div>

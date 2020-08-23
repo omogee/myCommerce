@@ -39,9 +39,16 @@ class App extends Component {
       lowestprice:"",
       viewrow:"col-6 col-md-4 col-lg-3",
       viewcol:"",
+      viewcoldetails:"",
       display:"none",
       cartMessage:"",
-      loading:true
+      loading:true,
+      viewborder:"",
+      viewaddtocartbutton:"block",
+      viewcartbtnwidth: "100%",
+      displayviewbrand:"block",
+      griddetails: "block",
+      listdetails:"none"
      }
   }
   componentDidMount =()=>{
@@ -50,9 +57,12 @@ class App extends Component {
     this.setState({viewrow:"col-6 col-md-4 col-lg-3", viewcol:""})
     }
     else if(parsedQuery.view === "list"){
-      this.setState({viewrow:"col-12 row", viewcol:"col-6"})
+      this.setState({viewrow:"col-12 row", viewcol:"col-4",viewcoldetails:"col-8",viewborder:"5px",viewcartbtnwidth:"40%",displayviewbrand:"none",griddetails:"none",listdetails:"block"})
+      if(window.innerWidth <= 600){ 
+        this.setState({viewaddtocartbutton:"none"})
+      }
     }
-    axios.get(`http://localhost:5000/${this.props.match.params.category}/price`)
+    axios.get(`http://fruget.herokuapp.com/${this.props.match.params.category}/price`)
  .then(res=> this.setState({price:res.data}, ()=>{
    for(var i=0; i<res.data.length; i++){
     this.setState({highestprice:res.data[i].highestprice, lowestprice:res.data[i].lowestprice}, () =>{
@@ -132,7 +142,7 @@ list =() =>{
   window.location.assign(window.location.pathname +"?"+ currentUrlParams.toString());
 }
 addtocart=(id)=>{
-  axios.get(`http://localhost:5000/customer/add-to-cart?id=${id}`,{ headers: {"Authorization" : `Bearer ${localStorage.getItem("token")}`} })
+  axios.get(`http://fruget.herokuapp.com/customer/add-to-cart?id=${id}`,{ headers: {"Authorization" : `Bearer ${localStorage.getItem("token")}`} })
   .then(res =>{
     if(res.data.success){
       this.setState({cartMessage:res.data.message,display:"block"})
@@ -282,27 +292,32 @@ handlemodalclick =(e) =>{
           <div className='row' > 
           
         {this.props.products.map((product) =>          
-           <div className={`${this.state.viewrow}`}   key={product.productId} >         
+           <div className={`${this.state.viewrow}`} style={{paddingBottom:`${this.state.viewborder}`}}   key={product.productId} >         
           <div className={`${this.state.viewcol}`}>
-            <img className="mainImg img-responsive" src={require (`./images/${product.mainimg}`)}  ></img>
+            <img className="mainImg img-responsive" src={require (`./images/${product.mainimg}`)}></img>
           </div>
-          <div className={`${this.state.viewcol}`} > 
-        <small style={{float:"left"}}>{product.brand} </small><br/>
-           <small>
+          <div className={`${this.state.viewcoldetails}`} > 
+        <small style={{float:"left",textTransform:"capitalize",display:`${this.state.displayviewbrand}`}}>{product.brand} <br/></small>
+           <div style={{height:"100px"}}>
             <div  className="details" >
-    <Link to ={`/product/${product.details}`} style={{color:'black'}}>
+    <Link to ={`/product/${product.details}`} style={{color:'black',display:`${this.state.griddetails}`}}>
      <small style={{display:"inline-block",fontSize:"13px"}}>{product.details.length > 40 ? product.details.slice(0,40)+ "..." : product.details +"-"+ product.model +"-"+ product.color}</small>  
        </Link>
+       <Link to ={`/product/${product.details}`} style={{color:'black',display:`${this.state.listdetails}`}}>
+     <small style={{display:"inline-block",fontSize:"13px"}}>{product.details +"-"+ product.model +"-"+ product.color}</small>  
+       </Link>
         </div>
-        <b>{product.mainprice}</b><br/>
-        <div className="outer">  
-          <div className="inner" style={{width:`${product.percentrating || 0}%`}}>
+        <small style={{fontWeight:"bold",fontSize:"18px"}}>{product.mainprice}</small> <br/>
+       <div><small class="text-muted" style={{textDecoration:"line-through",fontSize:"15px"}}>{product.discount ? product.mainprice : null}</small><b className="badge" style={{fontSize:"12px",fontWeight:"bolder",color:"rgba(0, 119, 179)",backgroundColor:"rgba(0, 119, 179,0.1)",float:"right"}}>{product.discount ? `-${product.discount}%` : null}</b></div> 
+       {product.numOfRating > 0 ? <div className="outer">  
+          <div className="inner" style={{width:`${product.percentrating || 0}%`}}> 
  
           </div>
-        </div> <small style={{fontSize:"12px"}}>({product.numOfRating || 0})</small>
-         </small>
-        <br/><br/>
-        <center>
+          <small style={{fontSize:"12px"}}>({product.numOfRating || 0}) </small></div> : null }
+         </div>
+        <br/>
+        <center   style={{display:`${window.innerWidth >= 600 ? this.state.viewaddtocartbutton : `none`}`,width:`${this.state.viewcartbtnwidth}`}}>
+        <br/>
         <button type="button" className="btn addtocartbtn" onClick={()=>this.addtocart(product.productId)} >
          <span>ADD TO CART</span></button>
         </center>
@@ -329,36 +344,15 @@ handlemodalclick =(e) =>{
              </Pagination>
              <br/><br/>
              </center>
-             <div className="didi filterdiv">
+             <div className="didi bg-dark filterdiv">
                <div className="row">
-                 <div className="col-2 fiterdiv-col">
-                   <center>    
-              <i class="fa fa-th" onClick={this.grid}></i>
-                  </center>
-                 </div>
-                 <div className="col-2 fiterdiv-col">
-                   <center>
-              <i class="fa fa-grip-vertical" onClick={this.list}></i>
-                   </center>
-                 </div>
-                 <div className="col-3">               
-                  <button type="button" className="btn btn-link filter-btn" onClick={this.displayfilter} >
-                    Filter <small className="badge badge-danger">{Object.keys(this.state.parsedUrl).length}</small>
-                  </button>
-               
-                 </div>
                  <div className="col-5">
                  <center>
             <div style={{display:"flex",flexWrap:"nowrap"}}>
-              <div style={{marginTop:"8px"}}>
-                <small >
-                Sort: 
-                </small>
-              </div>
               <div>
               <Dropdown>
-  <Dropdown.Toggle  id="filterdiv-dropdown">
-   <small> {this.state.parsedQuery.sort || "popularity"}</small>
+  <Dropdown.Toggle className="bg-dark" id="filterdiv-dropdown">
+   <small className="bg-dark"> {this.state.parsedQuery.sort || "popularity"}</small>
   </Dropdown.Toggle>
 
   <Dropdown.Menu>
@@ -371,8 +365,27 @@ handlemodalclick =(e) =>{
 </Dropdown>
               </div>
             </div>
-            </center>
-                 
+            </center>               
+                 </div>
+                 <div className="col-2 fiterdiv-col" style={{borderLeft:"1px solid lightgrey"}}>
+                   <center>    
+              <button type="button" className="btn btn-link filter-btn" onClick={this.grid} style={{color:`${this.state.parsedQuery.view === "grid"  ? "white" : "rgb(0, 119, 179)"}`}}>
+              <i class="fa fa-th" ></i>
+                  </button>
+                  </center>
+                 </div>
+                 <div className="col-2 fiterdiv-col"  style={{borderLeft:"1px solid lightgrey",borderRight:"1px solid lightgrey"}}>
+                   <center>
+              <button type="button" className="btn btn-link filter-btn" onClick={this.list} style={{color:`${this.state.parsedQuery.view === "list"  ? "white" : "rgb(0, 119, 179)"}`}}>
+              <i class="fa fa-grip-vertical" ></i>
+                  </button>
+                   </center>
+                 </div>
+                 <div className="col-3">               
+                  <button type="button" className="btn btn-link filter-btn" onClick={this.displayfilter} >
+                    Filter <small className="badge badge-danger" style={{display:Object.keys(this.state.parsedUrl).length > 0 ? "inline-block": "none"}}>{Object.keys(this.state.parsedUrl).length}</small>
+                  </button>
+               
                  </div>
                </div>
              </div>

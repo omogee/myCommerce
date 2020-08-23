@@ -22,12 +22,12 @@ input:focus {
     outline: none !important;
 }
 
-.filterdiv{z-index:2;position:fixed;left:0px;bottom:2px;background-color:white;width:100%;border:3px solid grey}
- #filterdiv-dropdown{background-color:white; border:none;font-weight:bolder;color:rgb(0 119, 179)}
- #filterdiv-dropdown small{font-weight:bolder;color:rgb(0, 119, 179);text-transform:capitalize}
- .filterdiv-col{border-right:1px solid lightgrey}
+.filterdiv{z-index:2;position:fixed;left:0px;color:white;bottom:2px;width:100%;border:3px solid grey}
+ #filterdiv-dropdown{border:none;color:white}
+ #filterdiv-dropdown small{font-weight:bolder;color:white;text-transform:capitalize;}
+ .filterdiv-col{border-right:2px solid white;padding:auto;margin:auto}
  .filterdiv-col center{font-size:20px; color:  "black"}
- .filter-btn{font-weight:bolder;color:rgb(0, 119, 179);text-transform:capitalize}
+ .filter-btn{font-weight:bolder;color:white;text-transform:capitalize}
  .continueshopping{padding:2px;color:white;width:100%;box-shadow:2px 3px lightgrey}
  .checkout{box-shadow:2px 3px lightgrey;padding:3px;color:white;width:100%}
  .modaldiv p{position:absolute;top:3px;right:10px;font-size:25px;cursor:pointer}

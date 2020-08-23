@@ -548,7 +548,7 @@ app.get('/items/filter/:category', (req,res) =>{
             setting= "ASC"
             break;
             default:
-            sorter = `(${brand})`
+            sorter = `(${brands})`
             setting=""
             break;
     }

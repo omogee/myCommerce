@@ -28,23 +28,23 @@ class Subcats extends Component {
     
     componentDidMount = () =>{
   
-        axios.get("http://localhost:5000/distinct/subcats")
+        axios.get("http://fruget.herokuapp.com/distinct/subcats")
         .then(res => this.setState({category: res.data}))
         .catch(err => console.warn(err))
       
-      axios.get("http://localhost:5000/section/one")
+      axios.get("http://fruget.herokuapp.com/section/one")
         .then(res => this.setState({sectionOne: res.data}))
         .catch(err => console.warn(err))
       
-      axios.get("http://localhost:5000/section/two")
+      axios.get("http://fruget.herokuapp.com/section/two")
       .then(res => this.setState({sectionTwo: res.data}))
       .catch(err => console.warn(err))
 
-      axios.get("http://localhost:5000/section/three")
+      axios.get("http://fruget.herokuapp.com/section/three")
       .then(res => this.setState({sectionThree: res.data}))
       .catch(err => console.warn(err))
 
-      axios.get("http://localhost:5000/section/four")
+      axios.get("http://fruget.herokuapp.com/section/four")
       .then(res => this.setState({sectionFour: res.data}))
       .catch(err => console.warn(err))
 
@@ -76,7 +76,7 @@ class Subcats extends Component {
               <div className="row" >
                 
       <div className="col-12  col-lg-9 caro #f5f5f0" >
-                <Carousel className="caro">
+       <Carousel className="caro">
       <Carousel.Item>
           
         <img
@@ -171,12 +171,12 @@ class Subcats extends Component {
               </div>
               <br/>
               <div className="row">
-              <div  style={{width: "100%",padding:"5px 0px 0px 5px",backgroundColor: "rgb(0, 119, 179)",color:"rgb(64, 64, 64)", borderTopRadius: "4px",border: "0px"}}>
-              <p  style={{textIndent: "3px"}}>
+              <div className="col-12" style={{backgroundColor: "rgb(0, 119, 179)",color:"rgb(64, 64, 64)", borderTopRadius: "4px"}}>
+              <p >
                 <span style={{fontWeight:"bold",color: "white"}}>POPULAR CATEGORY</span>  
                 </p> 
                 </div>
-              <div className="col-6 col-lg-2" >
+              <div className="col-6 col-lg-2" style={{padding:"10px"}}>
                 <div className="row" style={{padding:"0px"}}>
                   <div className="col-8  d-md-none" style={{padding:"0px"}}>
                     Dispensers
@@ -186,7 +186,7 @@ class Subcats extends Component {
                   </div>
                 </div>
               </div>
-              <div className="col-6 col-lg-2">
+              <div className="col-6 col-lg-2" style={{padding:"10px"}}>
                 <div className="row" style={{padding:"0px"}}>
                   <div className="col-8  d-md-none" style={{padding:"0px"}}>
                     refrigerators
@@ -196,7 +196,7 @@ class Subcats extends Component {
                   </div>
                 </div>
               </div>
-              <div className="col-6 col-lg-2" >
+              <div className="col-6 col-lg-2" style={{padding:"10px"}}>
                 <div className="row" style={{padding:"0px"}}>
                   <div className="col-8  d-md-none" style={{padding:"0px"}}>
                     washing machine
@@ -211,7 +211,7 @@ class Subcats extends Component {
                   <div className="col-8  d-md-none" style={{padding:"0px"}}>
                     air conditioners
                   </div>
-                  <div className="col-4 col-md-12">
+                  <div className="col-4 col-md-12" style={{padding:"10px"}}>
                   <img style={{width:"100%"}} className="img-thumbnail" src="https://www-konga-com-res.cloudinary.com/image/upload/w_auto,f_auto,fl_lossy,dpr_auto,q_auto/v1595215707/contentservice/3.jpg_rk7D1qGeP.jpg" alt=""/>
                   </div>
                 </div>
@@ -221,7 +221,7 @@ class Subcats extends Component {
                   <div className="col-8 d-md-none" style={{padding:"0px"}}>
                     Electric fan
                   </div>
-                  <div className="col-4 col-md-12">
+                  <div className="col-4 col-md-12" style={{padding:"10px"}}> 
                   <img style={{width:"100%"}} className="img-thumbnail" src="https://www-konga-com-res.cloudinary.com/image/upload/w_auto,f_auto,fl_lossy,dpr_auto,q_auto/v1595215707/contentservice/3.jpg_rk7D1qGeP.jpg" alt=""/>
                   </div>
                 </div>
@@ -231,7 +231,7 @@ class Subcats extends Component {
                   <div className="col-8  d-md-none">
                     Kitchen Aid
                   </div>
-                  <div className="col-4 col-md-12">
+                  <div className="col-4 col-md-12" style={{padding:"10px"}}>
                   <img style={{width:"100%"}} className="img-thumbnail" src="https://www-konga-com-res.cloudinary.com/image/upload/w_auto,f_auto,fl_lossy,dpr_auto,q_auto/v1595215707/contentservice/3.jpg_rk7D1qGeP.jpg" alt=""/>
                   </div>
                 </div>
@@ -246,10 +246,9 @@ class Subcats extends Component {
                  </div>
                <div className="noscrolling">
                    {this.state.sectionOne.map(section1 => 
-                    <div className="col-6 col-md-3 col-lg-2" key={section1.productId}>
-                      <div style={{backgroundColor:"white",width:"115%",padding:"8px"}}>
-                        
-<img src={require( `./images/${Object.values(JSON.parse(section1.img1))[0]}`)} onMouseOver={e => Object.values(JSON.parse(section1.img1))[1] !== undefined ? e.currentTarget.src= require( `./images/${Object.values(JSON.parse(section1.img1))[1]}`) : e.currentTarget.src= require( `./images/${Object.values(JSON.parse(section1.img1))[0]}`)} onMouseLeave={e => e.currentTarget.src= require( `./images/${Object.values(JSON.parse(section1.img1))[0]}`)} style={{width:"100%",height:"180px",  padding:"0px"}} alt=""/> 
+                    <div className="col-6 col-md-3 col-lg-2" key={section1.productId}  style={{boxShadow:"2px 2px 3px  lightgrey"}}>
+                      <div style={{backgroundColor:"white",width:"110%",padding:"8px"}}>         
+<img src={require( `./images/${Object.values(JSON.parse(section1.img1))[0]}`)} onMouseOver={e => Object.values(JSON.parse(section1.img1))[1] !== undefined ? e.currentTarget.src= require( `./images/${Object.values(JSON.parse(section1.img1))[1]}`) : e.currentTarget.src= require( `./images/${Object.values(JSON.parse(section1.img1))[0]}`)} onMouseLeave={e => e.currentTarget.src= require( `./images/${Object.values(JSON.parse(section1.img1))[0]}`)} style={{width:"100%",height:"140px",  padding:"0px"}} alt=""/> 
 <small><a href="" style={{color:"black",textTransform:"capitalize",whiteSpace:"nowrap",textOverflow:"ellipsis",overflow:"hidden", width:"100%",display:"block"}}>{ section1.details}</a> </small>
                    <b>{section1.mainprice}</b> <br/>
                    <small>
@@ -272,19 +271,13 @@ class Subcats extends Component {
                  </div>
                <div className="noscrolling">
                    {this.state.sectionTwo.map(section2 => 
-                    <div className="col-6  col-md-3 col-lg-2" key={section2.productId}>
-                      <div style={{backgroundColor:"white",width:"115%",padding:"8px"}}>
-<img src={require( `./images/${Object.values(JSON.parse(section2.img1))[0]}`)} onMouseOver={e => Object.values(JSON.parse(section2.img1))[1] !== undefined ? e.currentTarget.src= require( `./images/${Object.values(JSON.parse(section2.img1))[1]}`) : e.currentTarget.src= require( `./images/${Object.values(JSON.parse(section2.img1))[0]}`)} onMouseLeave={e => e.currentTarget.src= require( `./images/${Object.values(JSON.parse(section2.img1))[0]}`)} style={{width:"100%",height:"180px",  padding:"0px"}} alt=""/> 
+                    <div className="col-6  col-md-3 col-lg-2" key={section2.productId} style={{boxShadow:"2px 2px 3px  lightgrey"}}>
+                      <div style={{backgroundColor:"white",minWidth:"110%",padding:"8px"}}>
+<img src={require( `./images/${Object.values(JSON.parse(section2.img1))[0]}`)} onMouseOver={e => Object.values(JSON.parse(section2.img1))[1] !== undefined ? e.currentTarget.src= require( `./images/${Object.values(JSON.parse(section2.img1))[1]}`) : e.currentTarget.src= require( `./images/${Object.values(JSON.parse(section2.img1))[0]}`)} onMouseLeave={e => e.currentTarget.src= require( `./images/${Object.values(JSON.parse(section2.img1))[0]}`)} style={{width:"100%",height:"140px",  padding:"0px"}} alt=""/> 
 
  <small><a href="" style={{color:"black",textTransform:"capitalize",whiteSpace:"nowrap",textOverflow:"ellipsis",overflow:"hidden", width:"100%",display:"block"}}>{ section2.details}</a> </small>
                    <b>{section2.mainprice}</b> <br/>
-                   <small>
-                       <div className="outer">
-                           <div className="inner">
-
-                           </div>
-                       </div>
-                   </small>
+                  
                     </div>
                     </div>
                     )}
@@ -297,18 +290,12 @@ class Subcats extends Component {
                  </div>
                <div className="noscrolling">
                    {this.state.sectionThree.map(section3 => 
-                    <div className="col-6  col-md-3 col-lg-2" key={section3.productId}>
-                      <div style={{backgroundColor:"white",width:"115%",padding:"8px"}}>
+                    <div className="col-6  col-md-3 col-lg-2" key={section3.productId}  style={{boxShadow:"2px 2px 3px  lightgrey"}}>
+                      <div style={{backgroundColor:"white",width:"110%",padding:"8px"}}>
 <img src={require( `./images/${Object.values(JSON.parse(section3.img1))[0]}`)} onMouseOver={e => Object.values(JSON.parse(section3.img1))[1] !== undefined ? e.currentTarget.src= require( `./images/${Object.values(JSON.parse(section3.img1))[1]}`) : e.currentTarget.src= require( `./images/${Object.values(JSON.parse(section3.img1))[0]}`)} onMouseLeave={e => e.currentTarget.src= require( `./images/${Object.values(JSON.parse(section3.img1))[0]}`)} style={{width:"100%",height:"180px",  padding:"0px"}} alt=""/> 
 <small><a href="" style={{color:"black",textTransform:"capitalize",whiteSpace:"nowrap",textOverflow:"ellipsis",overflow:"hidden", width:"100%",display:"block"}}>{ section3.details}</a> </small>
                    <b>{section3.mainprice}</b> <br/>
-                   <small>
-                       <div className="outer">
-                           <div className="inner">
-
-                           </div>
-                       </div>
-                   </small>
+                  
                    </div>
                     </div>
                     )}
@@ -322,19 +309,13 @@ class Subcats extends Component {
                  </div>
                <div className="noscrolling">
                    {this.state.sectionFour.map(section4 => 
-                    <div className="col-6  col-md-3 col-lg-2" key={section4.productId}>
-                      <div style={{backgroundColor:"white",width:"115%",padding:"8px"}}>
+                    <div className="col-6  col-md-3 col-lg-2" key={section4.productId} style={{boxShadow:"2px 2px 3px  lightgrey"}}>
+                      <div style={{backgroundColor:"white",width:"110%",padding:"8px"}}>
 <img src={require( `./images/${Object.values(JSON.parse(section4.img1))[0]}`)} onMouseOver={e => Object.values(JSON.parse(section4.img1))[1] !== undefined ? e.currentTarget.src= require( `./images/${Object.values(JSON.parse(section4.img1))[1]}`) : e.currentTarget.src= require( `./images/${Object.values(JSON.parse(section4.img1))[0]}`)} onMouseLeave={e => e.currentTarget.src= require( `./images/${Object.values(JSON.parse(section4.img1))[0]}`)} style={{width:"100%",height:"180px",  padding:"0px"}} alt=""/> 
 
 <small><a href="" style={{color:"black",textTransform:"capitalize",whiteSpace:"nowrap",textOverflow:"ellipsis",overflow:"hidden", width:"100%",display:"block"}}>{ section4.details}</a> </small>
                    <b>{section4.mainprice}</b> <br/>
-                   <small>
-                       <div className="outer">
-                           <div className="inner">
-
-                           </div>
-                       </div>
-                   </small>
+                  
                     </div>
                     </div>
                     )}
