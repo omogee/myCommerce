@@ -36,16 +36,21 @@ class SearchApp extends Component {
       lowestprice:"",
       viewrow:"col-6 col-md-4 col-lg-3",
       viewcol:"",
+      viewcolTwo:"",
+      displayviewbrand:"block",
+      viewborder:"",
+      griddetails:"block",
+      listdetails:"none",
       listpadding:5
      }
   }
   componentDidMount =()=>{
   const parsedQuery = queryString.parse(this.props.location.search)
   if(parsedQuery.view === "grid"){
-    this.setState({viewrow:"col-6 col-md-4 col-lg-3", viewcol:""})
+    this.setState({viewrow:"col-6 col-md-4 col-lg-3", viewcolOne:"",viewcolTwo:"",griddetails:"block",listdetails:"none"})
     }
     else if(parsedQuery.view === "list"){
-      this.setState({viewrow:"col-12 row", viewcol:"col-6",listpadding: "30px 10px"})
+      this.setState({viewrow:"col-12 row", viewcolOne:"col-5",viewcolTwo:"col-7",listpadding: "30px 10px",displayviewbrand:"none",viewborder:"10px",listdetails:"block",griddetails:"none"})
     }
  let data={
   search: parsedQuery.search,
@@ -54,7 +59,7 @@ class SearchApp extends Component {
   size: parsedQuery.sizes,
   colour:parsedQuery.color,
 }
- axios.get(`http://fruget.herokuapp.com/category/searched/price?search=${data.search}&brand=${data.brand}&size=${data.size}&colour=${data.colour}`)
+ axios.get(`http://localhost:5000/search/category/searched/price?search=${data.search}&brand=${data.brand}&size=${data.size}&colour=${data.colour}`)
  .then(res=> this.setState({price:res.data}, ()=>{
    for(var i=0; i<res.data.length; i++){
     console.log (res.data[i].highestprice)
@@ -181,25 +186,32 @@ handleChange=(e)=>{
     <p>{this.props.searcher}</p>
           <div className='row'> 
         {this.props.searchedproducts.map((product) =>          
-           <div className={`${this.state.viewrow}`} style={{padding:"10px"}} key={product.productId} > 
-                <div className={`${this.state.viewcol}`} >
+           <div className={`${this.state.viewrow}`}   key={product.productId} > 
+                <div className={`${this.state.viewcolOne}`} >
            <img className="mainImg img-responsive" src={require (`./images/${product.mainimg}`)} style={{maxWidth:"100%"}} ></img>
            </div>
-           <div className={`${this.state.viewcol}`} style={{padding:`${this.state.listpadding}`}}>
-        <small style={{float:"left"}}>{product.brand} </small><br/>
-           <small style={{height:"40px"}}>
+           <div className={`${this.state.viewcolTwo}`} >
+        <small style={{float:"left",textTransform:"capitalize",display:`${this.state.displayviewbrand}`}}>{product.brand} <br/></small>
+           <div className="detaildiv">
+             
             <div  className="details">
-    <Link to ={`/product/${product.productId}`} style={{color:'black'}}>
-       {product.details.length > 50 ? product.details.slice(0,50)+ "..." : product.details +"-"+ product.model +"-"+ product.color}
+            <Link to ={`/product/${product.details}`} style={{color:'black',display:`${this.state.griddetails}`}}>
+     <small style={{display:"inline-block",fontSize:"13px"}}>{product.details.length > 40 ? product.details.slice(0,40)+ "..." : product.details +"-"+ product.model +"-"+ product.color}</small>  
+       </Link>
+       <Link to ={`/product/${product.details}`} style={{color:'black',display:`${this.state.listdetails}`}}>
+     <small style={{display:"inline-block",fontSize:"13px"}}>{product.details +"-"+ product.model +"-"+ product.color}</small>  
        </Link>
         </div>
-        <b>{product.mainprice}</b><br/>
-        <div className="outer">
-          <div className="inner" style={{width:`${product.percentrating || 0}%`}}>
-
-          </div>
-        </div> <small style={{fontSize:"12px"}}>({product.numOfRating || 0})</small>
-         </small>
+        <small style={{fontWeight:"bold",fontSize:"14px"}}>{product.mainprice}</small> <br/>
+       <div><small class="text-muted" style={{textDecoration:"line-through",fontSize:"12px"}}>{product.discount ? product.mainprice : null}</small><b className="badge" style={{fontSize:"12px",fontWeight:"bolder",color:"rgba(0, 119, 179)",backgroundColor:"rgba(0, 119, 179,0.1)",float:"right"}}>{product.discount ? `-${product.discount}%` : null}</b></div> 
+       {product.numOfRating > 0 ?
+         <div className="outer">     
+          <div className="inner" style={{width:`${product.percentrating || 0}%`}}>   
+ 
+          </div> 
+          <small style={{fontSize:"12px"}}>({product.numOfRating || 0}) </small></div> : null }
+         </div>
+        
         <br/><br/>
         </div>
            </div> 

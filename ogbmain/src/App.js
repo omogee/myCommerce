@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
 import {Link, Redirect} from 'react-router-dom'
 import 'bootstrap/dist/css/bootstrap.min.css'
-import {test} from './store'
-import {getProducts,getsidenav,checkfilter} from './store'
+// import {test, undisplaymodal} from './store'
+import {getProducts,getsidenav,checkfilter,addtocart,undisplaymodal} from './store'
 import {compose} from 'redux'
 import {connect} from 'react-redux'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+// import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import {withCookies} from 'react-cookie'
 import Sidenavbar from "./sidenavbar"
 import Suggestions from "./suggestions"
@@ -20,12 +20,9 @@ class App extends Component {
     const { cookies } = props; 
     super(props); 
     this.state = { 
+      productss:props.products,
       products:[],
       search: '',
-      username: " ",
-      password: "",
-      signupMessage: '', 
-      isLoggedin: false,
       token: {},
       currentPage: 1,
       noPages:0,
@@ -40,29 +37,28 @@ class App extends Component {
       viewrow:"col-6 col-md-4 col-lg-3",
       viewcol:"",
       viewcoldetails:"",
-      display:"none",
-      cartMessage:"",
       loading:true,
       viewborder:"",
       viewaddtocartbutton:"block",
       viewcartbtnwidth: "100%",
       displayviewbrand:"block",
+      viewbgcolor:"white",
       griddetails: "block",
       listdetails:"none"
      }
   }
-  componentDidMount =()=>{
+  componentWillMount =()=>{
     var parsedQuery = querystring.parse(this.props.location.search);
     if(parsedQuery.view === "grid"){
     this.setState({viewrow:"col-6 col-md-4 col-lg-3", viewcol:""})
     }
     else if(parsedQuery.view === "list"){
-      this.setState({viewrow:"col-12 row", viewcol:"col-4",viewcoldetails:"col-8",viewborder:"5px",viewcartbtnwidth:"40%",displayviewbrand:"none",griddetails:"none",listdetails:"block"})
+      this.setState({viewrow:"col-12 row", viewcol:"col-5",viewcoldetails:"col-7",viewborder:"10px",viewcartbtnwidth:"40%",viewbgcolor:"lightgrey",displayviewbrand:"none",griddetails:"none",listdetails:"block"})
       if(window.innerWidth <= 600){ 
         this.setState({viewaddtocartbutton:"none"})
       }
     }
-    axios.get(`http://fruget.herokuapp.com/${this.props.match.params.category}/price`)
+    axios.get(`http://localhost:5000/products/${this.props.match.params.category}/price`)
  .then(res=> this.setState({price:res.data}, ()=>{
    for(var i=0; i<res.data.length; i++){
     this.setState({highestprice:res.data[i].highestprice, lowestprice:res.data[i].lowestprice}, () =>{
@@ -79,7 +75,8 @@ if(!checker){
           min:parsedQuery.min !== undefined ? parsedQuery.min : this.state.lowestprice,
           max:parsedQuery.max !== undefined ? parsedQuery.max : this.state.highestprice
         }
-        this.props.getProducts(data)
+   this.props.getProducts(data)
+
      }
       else{ 
       const data ={
@@ -96,7 +93,6 @@ if(!checker){
       this.props.checkfilter(data)
     }  
 
-    
     })
    }
  }))
@@ -106,6 +102,10 @@ if(!checker){
    
     this.props.getsidenav(this.props.match.params.category)
     window.addEventListener("click", this.handlemodalclick)
+    
+  }
+  componentDidMount =()=>{
+    this.setState({ productss: this.props.products });
   }
   handleChange=(e)=>{
     this.setState({search:e.target.value})
@@ -142,34 +142,26 @@ list =() =>{
   window.location.assign(window.location.pathname +"?"+ currentUrlParams.toString());
 }
 addtocart=(id)=>{
-  axios.get(`http://fruget.herokuapp.com/customer/add-to-cart?id=${id}`,{ headers: {"Authorization" : `Bearer ${localStorage.getItem("token")}`} })
-  .then(res =>{
-    if(res.data.success){
-      this.setState({cartMessage:res.data.message,display:"block"})
-    }else{
-      window.location.assign("/customer/login")
-    }
-  })
-  .catch(err => console.warn(err))
+   this.props.addtocart(id)
+ 
 }
 undisplaymodal =() =>{
- this.setState({display:"none"})
+ this.props.undisplaymodal()
 }
 handlemodalclick =(e) =>{
-  //  this.modaldiv.style.display = "none"
   if(e.target == this.modaldiv){
-      this.setState({display:"none"})
+     this.props.undisplaymodal()
   }
 }
   render() { 
-  //  console.log(this.props.products)
+   console.log("products",this.state.productss)
    
     let active = parseInt(this.props.currentPage) || 1;
     var PageNumbers = [];
     for (var i=1; i<=this.props.totalPages; i++){
        PageNumbers.push(i)
     }
-  //  console.log(Object.keys(this.state.parsedQuery).toString())
+  /*  console.log(Object.keys(this.state.parsedQuery).toString())
     if(this.props.products.length === 0){
       return(
         <div style={{width:"100%", height:"100%"}}>
@@ -177,15 +169,19 @@ handlemodalclick =(e) =>{
             <img src={require(`./images/35.gif`)} />
           </center>
         </div>
-      )
-    }else{
+      ) 
+    }else{  */
     return (   
            <div>
-             <div style={{display:`${this.props.inputval.length > 0 ? "block" : "none"}`,zIndex:"2",width:"100%",height:"100%",backgroundColor:"rgba(0,0,0,0.3)",width:"100%", height:"300%",position:"absolute"}} className="indexer"> 
+             <div style={{display:`${this.props.inputval.length > 0 ? "block" : "none"}`,zIndex:"2",width:"100%",height:"100%",position:"absolute"}} className="indexer"> 
              <Suggestions></Suggestions>       
              </div>
           <div className="container">
-          
+          {this.props.loading ?     
+          <center style={{position:"absolute", top:"50%",left:"50%"}}>
+            <img src={require(`./images/35.gif`)} />
+          </center>
+        : null}
           <div className="row dodo" style={{backgroundColor:"white"}}>
               <div className="col-9" >
     <small><a href="" style={{color:"black"}}>Home</a> > <a href="" style={{color:"rgb(0, 119, 179)",textTransform:"capitalize"}}>{this.props.match.params.category}</a></small>
@@ -258,21 +254,23 @@ handlemodalclick =(e) =>{
               </div>
               <div className="col-3">
     <span style={{color:"blue"}}><a href="">Apply</a></span>
-              </div>
+              </div> 
               </div>
             
           <Sidenavbar category={this.props.match.params.category} />
         </div>
         
-          <div className={this.state.appclass}>
+
+         
+          <div className={this.state.appclass} >
      
-          <div className="mainmodaldiv" ref={(a) => this.modaldiv =a} id="modaldiv" style={{display:`${this.state.display}`}}>
+          <div className="mainmodaldiv" ref={(a) => this.modaldiv =a} id="modaldiv" style={{display:`${this.props.display}`}}>
          <div className="modaldiv"  style={{backgroundColor:"white",borderRadius:"5px"}}>
            <p onClick={this.undisplaymodal}>x</p>
-             <div className="inner-modal">
+             <div className="inner-modal"> 
                <br/><br/>
                <center>
-                 <h5 style={{padding:"10px"}}>{ReactHtmlParser(this.state.cartMessage)} </h5>
+                 <h5 style={{padding:"10px"}}>{ReactHtmlParser(this.props.cartMessage)} </h5>
                </center>
                <center>                        
                <div className="row" style={{padding:"3px"}}>  
@@ -282,46 +280,44 @@ handlemodalclick =(e) =>{
 <div className="col-6">
 <button className="btn btn-warning continueshopping" onClick={this.undisplaymodal}  type="submit">Continue Shopping</button>
 </div>         
-               </div>
+               </div> 
              </center> 
-         </div>
-
+         </div> 
+ 
      </div>
- </div>
-    <p>{this.props.searcher}</p>
-          <div className='row' > 
-          
-        {this.props.products.map((product) =>          
+ </div> 
+          <div className='row'>      
+           {this.props.products.map((product) =>          
            <div className={`${this.state.viewrow}`} style={{paddingBottom:`${this.state.viewborder}`}}   key={product.productId} >         
-          <div className={`${this.state.viewcol}`}>
-            <img className="mainImg img-responsive" src={require (`./images/${product.mainimg}`)}></img>
+          <div className={`${this.state.viewcol}`} >
+            <img className="mainImg img-responsive" src={require (`./images/${product.mainimg || 'emptyimg.jpg'}`)} style={{maxWidth:"100%"}}></img>
           </div>
-          <div className={`${this.state.viewcoldetails}`} > 
+          <div className={`${this.state.viewcoldetails}`} style={{marginRight:"0px",paddingRight:"0px"}}> 
         <small style={{float:"left",textTransform:"capitalize",display:`${this.state.displayviewbrand}`}}>{product.brand} <br/></small>
-           <div style={{height:"100px"}}>
-            <div  className="details" >
+           <div className="detaildiv"> 
+            <div  className="details" > 
     <Link to ={`/product/${product.details}`} style={{color:'black',display:`${this.state.griddetails}`}}>
      <small style={{display:"inline-block",fontSize:"13px"}}>{product.details.length > 40 ? product.details.slice(0,40)+ "..." : product.details +"-"+ product.model +"-"+ product.color}</small>  
        </Link>
        <Link to ={`/product/${product.details}`} style={{color:'black',display:`${this.state.listdetails}`}}>
      <small style={{display:"inline-block",fontSize:"13px"}}>{product.details +"-"+ product.model +"-"+ product.color}</small>  
        </Link>
-        </div>
-        <small style={{fontWeight:"bold",fontSize:"18px"}}>{product.mainprice}</small> <br/>
-       <div><small class="text-muted" style={{textDecoration:"line-through",fontSize:"15px"}}>{product.discount ? product.mainprice : null}</small><b className="badge" style={{fontSize:"12px",fontWeight:"bolder",color:"rgba(0, 119, 179)",backgroundColor:"rgba(0, 119, 179,0.1)",float:"right"}}>{product.discount ? `-${product.discount}%` : null}</b></div> 
-       {product.numOfRating > 0 ? <div className="outer">  
-          <div className="inner" style={{width:`${product.percentrating || 0}%`}}> 
+        </div> 
+        <small style={{fontWeight:"bold",fontSize:"14px"}}>{product.mainprice}</small> <br/>
+       <div><small class="text-muted" style={{textDecoration:"line-through",fontSize:"12px"}}>{product.discount ? product.mainprice : null}</small><b className="badge" style={{fontSize:"12px",fontWeight:"bolder",color:"rgba(0, 119, 179)",backgroundColor:"rgba(0, 119, 179,0.1)",float:"right"}}>{product.discount ? `-${product.discount}%` : null}</b></div> 
+       {product.numOfRating > 0 ?
+         <div className="outer">     
+          <div className="inner" style={{width:`${product.percentrating || 0}%`}}>   
  
-          </div>
+          </div> 
           <small style={{fontSize:"12px"}}>({product.numOfRating || 0}) </small></div> : null }
          </div>
         <br/>
         <center   style={{display:`${window.innerWidth >= 600 ? this.state.viewaddtocartbutton : `none`}`,width:`${this.state.viewcartbtnwidth}`}}>
         <br/>
         <button type="button" className="btn addtocartbtn" onClick={()=>this.addtocart(product.productId)} >
-         <span>ADD TO CART</span></button>
-        </center>
-        <br/>
+         <span>ADD TO CART</span></button><br/>
+        </center><br/>
         </div>
            </div> 
            
@@ -346,7 +342,7 @@ handlemodalclick =(e) =>{
              </center>
              <div className="didi bg-dark filterdiv">
                <div className="row">
-                 <div className="col-5">
+                 <div className="col-4">
                  <center>
             <div style={{display:"flex",flexWrap:"nowrap"}}>
               <div>
@@ -381,7 +377,7 @@ handlemodalclick =(e) =>{
                   </button>
                    </center>
                  </div>
-                 <div className="col-3">               
+                 <div className="col-4">               
                   <button type="button" className="btn btn-link filter-btn" onClick={this.displayfilter} >
                     Filter <small className="badge badge-danger" style={{display:Object.keys(this.state.parsedUrl).length > 0 ? "inline-block": "none"}}>{Object.keys(this.state.parsedUrl).length}</small>
                   </button>
@@ -397,7 +393,7 @@ handlemodalclick =(e) =>{
      );
   }
 }
-}
+
  const mapStateToProps =(store)=>{
     return{           
        products: store.products,
@@ -407,7 +403,10 @@ handlemodalclick =(e) =>{
        inputval: store.inputval,
        currentPage: store.currentPage,
        totalPages: store.totalPages,
-       numOfRows:store.numOfRows
+       numOfRows:store.numOfRows,
+       cartMessage:store.cartMessage,
+       display:store.display,
+       loading:store.loading
      }
  }
  const mapDispatchToProps =(dispatch)=>{
@@ -415,7 +414,9 @@ handlemodalclick =(e) =>{
      test: ()=> dispatch(test()),
      getProducts: (data)=> dispatch(getProducts(data)),
      getsidenav: (data) => dispatch(getsidenav(data)),
-    checkfilter: (data) => dispatch(checkfilter(data))
+    checkfilter: (data) => dispatch(checkfilter(data)),
+    addtocart: (data) => dispatch(addtocart(data)),
+    undisplaymodal:()=> dispatch(undisplaymodal())
    }
  }
  export default compose(withCookies, connect(mapStateToProps, mapDispatchToProps))(App);

@@ -25,19 +25,19 @@ class Details extends Component {
          }
     }
     componentDidMount =()=>{
-        axios.get(`http://fruget.herokuapp.com/customer/check/save?details=${this.props.match.params.details}`,{ headers: {"Authorization" : `Bearer ${localStorage.getItem("token")}`} })
+        axios.get(`http://localhost:5000/customer/check/save?details=${this.props.match.params.details}`,{ headers: {"Authorization" : `Bearer ${localStorage.getItem("token")}`} })
         .then(res =>  this.setState({save:res.data}))
         .catch(err => console.warn(err)) 
 
-        axios.get(`http://fruget.herokuapp.com/product/${this.props.match.params.details}`)
+        axios.get(`http://localhost:5000/product/${this.props.match.params.details}`)
         .then(res => this.setState({product: res.data}))
         .catch(err => console.warn(err))  
       
-        axios.get(`http://fruget.herokuapp.com/similiar/${this.props.match.params.details}`)
+        axios.get(`http://localhost:5000/similiar/${this.props.match.params.details}`)
         .then(res => this.setState({similiarproducts: res.data}))
         .catch(err => console.warn(err))  
 
-        axios.get(`http://fruget.herokuapp.com/similiarbrand/${this.props.match.params.details}`)
+        axios.get(`http://localhost:5000/similiarbrand/${this.props.match.params.details}`)
         .then(res => this.setState({similiarproductsbybrand: res.data}))
         .catch(err => console.warn(err))  
         const parsedquery = querystring.parse(this.props.match.location);
@@ -47,7 +47,7 @@ class Details extends Component {
         window.addEventListener("click", this.handlesavemodalclick)
       }
       save =()=>{
-          axios.get(`http://fruget.herokuapp.com/customer/save?details=${this.props.match.params.details}`,{ headers: {"Authorization" : `Bearer ${localStorage.getItem("token")}`} })
+          axios.get(`http://localhost:5000/customer/save?details=${this.props.match.params.details}`,{ headers: {"Authorization" : `Bearer ${localStorage.getItem("token")}`} })
           .then(res => this.setState({saveResponse:res.data, displaysavemodal:"block"}))
           .catch(err => console.log(err))
       }
@@ -108,7 +108,7 @@ class Details extends Component {
              rating: this.state.chooserating,
              comment: this.state.comment
          }
-        axios.post(`http://fruget.herokuapp.com/${this.props.match.params.details}/rate`, {data: JSON.stringify(data)})
+        axios.post(`http://localhost:5000/${this.props.match.params.details}/rate`, {data: JSON.stringify(data)})
         .then(res => console.log(res.data))
         .catch(err => console.log(err)) 
 

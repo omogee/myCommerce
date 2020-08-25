@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import "./fontawesome"
 import Navbar from './navbar'
-import {BrowserRouter as Router, Route, Switch} from 'react-router-dom'
+import {BrowserRouter as Router, Route, Switch, withRouter} from 'react-router-dom'
  import App from './App'
 import Details from './details'
 // import SideNav from './sidenav'
@@ -39,20 +39,22 @@ class Category extends Component {
             <div>
                 <Router>
                  <Provider store={store}>
-                                 <Route path='/' exact component={Subcats} />
-                 
+                                 
+                      <Navbar />
                  <Switch> 
+                 <Route path='/' exact component={Subcats} />
                      <Route path="/bla" exact component={ModalSideNavbar} />
                      <Route path='/customer/register' exact component={Register}/>
                      <Route path='/customer/login' exact component={Login}/>
                  <Route path='/product/:details' exact   component={Details} />  
-                 <Route path='/category/:category' exact   component={App} />
+                 <Route path='/category/:category' exact   component={withRouter(App)} />
                  <Route path='/search' exact   component={SearchApp} />   
                  <Route path='/profile/:userId' exact component={Profile} />   
                  <Route path="/saved-items/:userId" exact component={SavedItems} />  
-                 <Route path="/checkout/:userId" exact component={CheckOut}/>                               
+                 <Route path="/checkout/:userId" exact component={CheckOut}/>       
+                 <Route path="/suggestions" exact component={Suggestions}/>                       
                  </Switch>          
-                 
+                
                 
                 
                      </Provider>

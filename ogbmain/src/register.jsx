@@ -82,7 +82,7 @@ class Register extends Component {
      };
 const data ={
   navigation:navigation,firstname:this.state.firstname,lastname:this.state.lastname,email:this.state.email,contact:this.state.contact,gender:this.state.gender,password:this.state.password}
-axios.post("http://fruget.herokuapp.com/customer/submit/register", {data:JSON.stringify(data)})
+axios.post("http://localhost:5000/customer/submit/register", {data:JSON.stringify(data)})
 .then(res => { 
   if(res.data.register){
     this.setState({Message:res.data.message,displayMessage:"block",displayColor:"lightgreen",firstname:"",lastname:"",email:"",password:"",gender:"",})

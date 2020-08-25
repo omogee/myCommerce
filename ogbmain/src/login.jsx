@@ -18,7 +18,7 @@ class Login extends Component {
          }
     }
     componentDidMount= ()=>{
-        axios.get("http://fruget.herokuapp.com/customer/csrftoken")
+        axios.get("http://localhost:5000/customer/csrftoken")
         .then(res => this.setState({_csrf: res.data}))
         .catch(err => console.log(err))
     }
@@ -32,7 +32,7 @@ class Login extends Component {
             password:this.state.password,
             _csrf: this.state._csrf
         }
-        axios.post("http://fruget.herokuapp.com/customer/submit/login", {data:JSON.stringify(data)})
+        axios.post("http://localhost:5000/customer/submit/login", {data:JSON.stringify(data)})
         .then(res => this.setState({token:res.data.token, user:res.data.user,displayMessage:"block"},()=>{
             if(res.data.token){
                 localStorage.setItem("user", res.data)

@@ -9,15 +9,18 @@ class ModalSideNavbar extends Component {
           }
     }
     componentDidMount =()=>{
-        axios.get("http://fruget.herokuapp.com/allcategories")
+        axios.get("http://localhost:5000/allcategories")
         .then(res => this.setState({category: res.data}))
         .catch(err => console.warn(err))
     }
     subcategoryclick =(e)=>{
         const category = e.currentTarget.textContent;
-        axios.get(`http://fruget.herokuapp.com/customer/allcategories?category=${category}`)
+        axios.get(`http://localhost:5000/customer/allcategories?category=${category}`)
         .then(res => this.setState({subcategory: res.data}))
         .catch(err=> console.warn(err))
+    }
+    subcat=(e)=>{
+      console.log(e.currentTarget.textContent)
     }
     render() { 
         return ( 
@@ -63,9 +66,12 @@ class ModalSideNavbar extends Component {
    <div className="col-6">
     {this.state.category.map((categories) =>
         <div key={categories.subcat1}>
-             <a href="" style={{color:"black"}}><small style={{textTransform:"capitalize"}} className="text-muted">{categories.subcat1}</small></a><br/>
+             <p onClick={(e)=>this.subcat(e)} style={{color:"black"}}><small style={{textTransform:"capitalize"}} className="text-muted">{categories.subcat1}</small></p>
         </div>
         )}
+      </div>
+      <div>
+         
       </div>
  </div>
 <div style={{padding:"30px"}}>

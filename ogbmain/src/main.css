@@ -1,10 +1,7 @@
-.details{ display: block; color: black; text-transform: capitalize;width:100%; padding:auto;}
-.mainImg{ width:100%; height:220px;  padding:0px;}
+.details{ display: block; color: black; text-transform: capitalize;width:100%}
 .zeropadding{padding:0px}
-.outer::before { content: "★★★★★"; font-family: 'Font Awesome 5 Free'; color: lightgrey; font-weight:800; font-size: 20px;}
 .outer{ position:relative; display: inline-block;}
 .inner{ position: absolute; top:0px;overflow: hidden;}
-.inner::before {content: "★★★★★"; font-family: 'Font Awesome 5 Free'; font-size: 20px; color:orange;font-weight: 900;}
 .innerone::before{content:"★";font-family: 'Font Awesome 5 Free';font-size: 20px; color:orange; font-weight: 700;}
 .mainmodaldiv{ position:fixed; top: 0px;left:0px;z-index:1;width:100%;height:100%;background-color:rgba(0,0,0,0.4)}
 .savemodaldiv{ position:fixed; top: 0px;left:0px;}
@@ -33,6 +30,9 @@ input:focus {
  .modaldiv p{position:absolute;top:3px;right:10px;font-size:25px;cursor:pointer}
 
 @media all and (min-width: 900px){
+    .detaildiv{height:90px}
+    .outer::before { content: "★★★★★"; font-family: 'Font Awesome 5 Free'; color: lightgrey; font-weight:800; font-size: 15px;}
+    .inner::before {content: "★★★★★"; font-family: 'Font Awesome 5 Free'; font-size: 15px; color:orange;font-weight: 900;}
     .addtocartbtn{width: 100%;border-radius:5px;padding: 1px;color:rgba(0, 119, 179,0.9);box-shadow:2px 3px 5px 2px grey;font-weight:bold}
     .modaldiv{ position: absolute;width:30%;height:30%;top:30%;left:35%}
     .savediv{ position: absolute;width:40%;height:35%;top:30%;left:30%;}
@@ -40,31 +40,37 @@ input:focus {
    .didi{display: none;}
    .dodo{display: "true";}
    .cartbutton{bottom:0px;width: 100%;background-color:orange;border-radius: 3px;padding:5px;box-shadow:2px 2px 1px 2px #f2f2f2;color:rgb(133, 23, 23)}
-   .mainImg{height:"100%"}
+   .mainImg{height:170px;width:100%}
   
 }
-@media all and (max-width: 900px) and (min-width: 600px){
+@media all and (max-width: 1000px) and (min-width: 600px){
+    .detaildiv{height:90px}
+    .outer::before { content: "★★★★★"; font-family: 'Font Awesome 5 Free'; color: lightgrey; font-weight:800; font-size: 15px;}
+    .inner::before {content: "★★★★★"; font-family: 'Font Awesome 5 Free'; font-size: 15px; color:orange;font-weight: 900;}
     .addtocartbtn{width: 100%;border-radius:5px;padding: 1px;color:white;background-color:rgba(0, 119, 179,0.9);box-shadow:2px 3px 5px 2px grey;font-weight:bold}
-    .mainImg{height:150px}
+    .mainImg{height:150px;width:100%}
     .savediv{ position: absolute;width:80%;height:40%;top:30%;left:10%;}
     .cartbutton{position:fixed;left:0px;z-index:2;bottom:0px;width: 100%;background-color:orange;border-radius: 3px;padding:5px;box-shadow:2px 2px 1px 2px #f2f2f2;color:white}
     .didi{display:"true"}
     .dodo{display: none;}
     .noscrolling{display:flex;flex-wrap:nowrap; overflow:auto;-ms-overflow-style: none;scrollbar-width:none;padding:5px}
     .noscrolling::-webkit-scrollbar {display: none;} 
-    .modaldiv{ position: absolute;width:80%;height:30%;top:30%;left:10%;}
+    .modaldiv{ position: absolute;width:100%;height:30%;top:30%;left:10%;}
     .register{padding:20px}
     
 } 
 @media all and (max-width: 600px){
-    .addtocartbtn{width: 100%;border-radius:5px;padding: 1px;color:white;background-color:rgba(0, 119, 179,0.9);box-shadow:2px 3px 5px 2px grey;font-weight:bold}
-    .mainImg{height:140px}
+    .detaildiv{height:100px}
+    .inner::before {content: "★★★★★"; font-family: 'Font Awesome 5 Free'; font-size: 15px; color:orange;font-weight: 900;}
+    .outer::before { content: "★★★★★"; font-family: 'Font Awesome 5 Free'; color: lightgrey; font-weight:800; font-size: 15px;}
+    .addtocartbtn{display:none}
+    .mainImg{height:120px;width:100%}
     .savediv{ position: absolute;width:80%;height:40%;top:30%;left:10%;}
     .cartbutton{position:fixed;left:0px;z-index:2;bottom:0px;width: 100%;background-color:orange;border-radius: 3px;padding:5px;box-shadow:2px 2px 1px 2px #f2f2f2;color:white}
     .didi{display:"true"}
     .dodo{display: none;}
     .noscrolling{display:flex;flex-wrap:nowrap; overflow:auto;-ms-overflow-style: none;scrollbar-width:none;padding:5px}
     .noscrolling::-webkit-scrollbar {display: none;} 
-    .modaldiv{ position: absolute;width:90%;height:35%;top:30%;left:5%;}
+    .modaldiv{ position: absolute;width:100%;height:35%;top:30%;left:5%;}
     .register{padding:20px}
 }

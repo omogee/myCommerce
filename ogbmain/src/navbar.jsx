@@ -25,7 +25,7 @@ class Navbar extends Component {
     componentDidMount = () =>{
       this.setState({inputval:this.props.inputval})
       const user = localStorage.getItem("id");
-      axios.get(`http://fruget.herokuapp.com/customer/checkout?user=${user}`)
+      axios.get(`http://localhost:5000/customer/checkout?user=${user}`)
       .then(res => this.setState({cart: res.data},()=>{
        console.log(res.data.length)
       }))
@@ -50,16 +50,17 @@ class Navbar extends Component {
       this.setState({inputval:e.target.value})
       const parsedQuery = queryString.parse(this.props.location.search)
       this.props.searcher(e.target.value)
-         
+        
      this.props.getfilteredSuggestions(e.target.value)
-
+/*
      if(e.target.value.length === 0){
      
       const url = window.location.href;
       const uri = url.split("?")[0]
       window.location.assign(uri)
      }
-    }
+     */
+    } 
     displaysidenav =()=>{
 
     }
@@ -161,10 +162,7 @@ class Navbar extends Component {
                   </div>
               
               </div>
-              <div className="row" style={{backgroundColor:"rgb(0, 119, 179)",color:"white",padding:"0px",margin:"0px",maxWidth:"100%"}}>
-                      <div className="col-12"><small>All Categories</small></div>
-                      
-                    </div>
+              
                    
                     </div>
                   

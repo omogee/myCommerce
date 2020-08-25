@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import {connect} from 'react-redux'
-import {getProducts} from './store'
+import {getProducts, setLoadingtoTrue} from './store'
 import {compose} from 'redux'
-import {withRouter} from 'react-router-dom'
+import {withRouter,Link} from 'react-router-dom'
 import queryString from 'query-string'
 import {checkfilter} from "./store"
 import axios from 'axios';
@@ -60,20 +60,18 @@ class Sidenavbar extends Component {
        sort:parsedQuery.sort
      }
      
- axios.get(`http://fruget.herokuapp.com/${this.props.category}/price`)
+ axios.get(`http://localhost:5000/products/${this.props.category}/price`)
  .then(res=> this.setState({price:res.data}, ()=>{
    for(var i=0; i<res.data.length; i++){
     console.log (res.data[i].highestprice)
     this.setState({highestprice:res.data[i].highestprice, lowestprice:res.data[i].lowestprice}, ()=> {
       this.inputelement.max= `${this.state.highestprice}`
       this.inputelement.min =`${this.state.lowestprice}`
+      this.inputelement.value=`${this.state.highestprice}`
     })
    }
  }))
  .then(err => console.warn(err))
- 
- 
- // this.props.checkfilter(data)
     }
     
     brandchange=(e) =>{
@@ -101,7 +99,7 @@ class Sidenavbar extends Component {
     change = (e)=>{
       const uri = window.location.href;
      const  parsedQuery = queryString.parse(this.props.location.search);
-     if(window.innerWidth >= 700){
+     if(window.innerWidth >= 1000){
       if(parsedQuery[e.target.name] !== undefined){
        // const query = parsedQuery[e.target.name]
         if(uri.indexOf(e.target.value) > -1){
@@ -191,17 +189,20 @@ class Sidenavbar extends Component {
     currentUrlParams.set("min",this.state.lowestprice);
     window.location.assign(window.location.pathname +"?"+ currentUrlParams.toString()); 
    }
+   navigate =(category)=>{
+     window.location.assign(`/category/${category}`)
+   }
     render() { 
-     // console.log(this.state.parsedUrl.brand ? this.state.parsedUrl.brand.split(",") : null)
+      
         return ( 
             <div>
               <small>CATEGORIES</small>
               <br/>
               <ul>
-              {this.props.subcategories.map((subcategory,index) =>
+              {this.props.subcategories.map((subcategory) =>
                 <div key={subcategory}>
-                  <a href="" style={{color:"black"}}><small> {subcategory.subcat2}</small></a>
-                  <a href="" style={{color:"black"}}><small> {subcategory.subcat3}</small> </a>
+<small style={{cursor:"pointer"}} onClick={() => this.navigate(subcategory.subcat2)}> {subcategory.subcat2}</small>
+                <small> {subcategory.subcat3}</small> 
                  
                 </div>
                 )}
@@ -209,7 +210,7 @@ class Sidenavbar extends Component {
                 <hr/>
                 <small>PRICES (₦)</small> <small style={{float:"right"}}> <a href="" style={{color:`${this.state.applycolour}`}} onClick={this.pricefilter}>Apply Filter</a></small><br/>
                  <center>
-                <input type="range" ref={(a)=> this.inputelement = a} name="price" min="" max="" value={this.state.highestprice} onChange={this.pricechange}/>
+                <input type="range" ref={(a)=> this.inputelement = a} name="price" min="" max="" value="" onChange={this.pricechange}/>
                 <br/>
                 <div className="row">
                   <div className="col-5">
@@ -314,7 +315,8 @@ this.state.filteredsize.map(product =>  <div key={product}>
  const mapDispatchToProps = (dispatch) =>{
    return{
     getProducts: (data)=> dispatch(getProducts(data)),
-    checkfilter:(data)=> dispatch(checkfilter(data))
+    checkfilter:(data)=> dispatch(checkfilter(data)),
+    setLoadingtoTrue:()=> dispatch(setLoadingtoTrue())
    }
  }
 export default compose(withRouter ,connect(mapStateToProps,mapDispatchToProps))(Sidenavbar);

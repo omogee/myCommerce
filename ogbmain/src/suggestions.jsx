@@ -9,11 +9,10 @@ class Suggestions extends Component {
     render() { 
         return ( 
             <div>
-            <div className="container" >
-                <div className="row">
-                    <div className="col-3"></div>
+            <div>
+                <div>
                     <center>
-<div style={{display:`${this.props.inputval.length > 0 ? "block" : "none"}`,width:"50%",borderRadius:"10px",position:"absolute",backgroundColor:"white",left:"15%",top:"-20px",padding:"15px",border:"1px solid lightgrey", zIndex:"2"}}>
+<div style={{display:`${this.props.inputval.length > 0 ? "block" : "none"}`,width:"100%",borderRadius:"10px",position:"absolute",backgroundColor:"white",top:"-20px",padding:"15px", zIndex:"2"}}>
 <ul style={{listStyleType:"none", textAlign:"left"}}>
          <p style={{color:"lightgrey",fontSize:"12px",borderBottom:"1px solid lightgrey",width:"100%"}}>BRANDS</p>
 { this.props.showSuggestions === true && this.props.inputval.length > 0 && this.props.filteredSuggestions.length > 0 ?

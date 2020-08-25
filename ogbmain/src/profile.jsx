@@ -12,7 +12,7 @@ class Profile extends Component {
 componentDidMount =()=>{
     const userId = this.props.match.params.userId;
     let id= userId.split(",")[1]
-    axios.get(`http://fruget.herokuapp.com/customer/userprofile/${id}`)
+    axios.get(`http://localhost:5000/customer/userprofile/${id}`)
     .then(res => {
         if(res.data.message){
             this.setState({user:res.data.file})
