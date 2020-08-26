@@ -11,6 +11,7 @@ import Sidenavbar from "./sidenavbar"
 import Suggestions from "./suggestions"
 import querystring from 'query-string'
 import axios from "axios"
+import ModalSideNavbar from "./modalsidenavbar"
 import ReactHtmlParser from "react-html-parser"
 import {Pagination, Dropdown} from 'react-bootstrap'
 import './main.css'
@@ -50,6 +51,9 @@ class App extends Component {
   }
   componentWillMount =()=>{
     var parsedQuery = querystring.parse(this.props.location.search);
+    if(window.innerWidth <= 800){
+      this.setState({displayviewbrand:"none"})
+    }
     if(parsedQuery.view === "grid"){
     this.setState({viewrow:"col-6 col-md-4 col-lg-3", viewcol:""})
     }
@@ -177,10 +181,16 @@ displaycartbtn =(e)=>{
     }else{  */
     return (   
            <div>
+             <div style={{display:`${this.props.mainbgcolor==="white" ? "none" : "block"}`,backgroundColor:"rgba(242,242,242,0.5)",width:"100%",height:"200%",position:"absolute",top:"0px",zIndex:"2"}}>
+               x
+             <div className="sidenavbar" style={{zIndex:"1",display:`${this.props.modalsidenavbardisplay}`,position:"absolute",top:"0px",width:`${this.props.modalsidenavbarwidth}`}}>
+              <ModalSideNavbar/>            
+             </div>
+             </div>
              <div style={{display:`${this.props.inputval.length > 0 ? "block" : "none"}`,zIndex:"2",width:"100%",height:"100%",position:"absolute"}} className="indexer"> 
              <Suggestions></Suggestions>       
              </div>
-          <div className="container">
+          <div className="container main">
           {this.props.loading ?     
           <center style={{position:"absolute", top:"50%",left:"50%"}}>
             <img src={require(`./images/35.gif`)} />
@@ -300,12 +310,12 @@ displaycartbtn =(e)=>{
           <div className={`${this.state.viewcoldetails}`} style={{marginRight:"0px",paddingRight:"0px"}}> 
         <small style={{float:"left",textTransform:"capitalize",display:`${this.state.displayviewbrand}`}}>{product.brand} <br/></small>
            <div className="detaildiv"> 
-            <div  className="details" > 
+            <div  className="details"> 
     <Link to ={`/product/${product.details}`} style={{color:'black',display:`${this.state.griddetails}`}}>
-     <small style={{display:"inline-block",fontSize:"13px"}}>{product.details.length > 40 ? product.details.slice(0,40)+ "..." : product.details +"-"+ product.model +"-"+ product.color}</small>  
+     <small style={{display:"inline-block",fontSize:"12px"}}>{product.details.length > 40 ? product.details.slice(0,40)+ "..." : product.details +"-"+ product.model +"-"+ product.color}</small>  
        </Link>
        <Link to ={`/product/${product.details}`} style={{color:'black',display:`${this.state.listdetails}`}}>
-     <small style={{display:"inline-block",fontSize:"13px"}}>{product.details +"-"+ product.model +"-"+ product.color}</small>  
+     <small style={{display:"inline-block",fontSize:"12px"}}>{product.details.length > 50 ? product.details.slice(0,50)+ "..." : product.details +"-"+ product.model +"-"+ product.color}</small>  
        </Link>
         </div> 
         <small style={{fontWeight:"bold",fontSize:"14px"}}>{product.mainprice}</small> <br/>
@@ -411,7 +421,10 @@ displaycartbtn =(e)=>{
        numOfRows:store.numOfRows,
        cartMessage:store.cartMessage,
        display:store.display,
-       loading:store.loading
+       loading:store.loading,
+       mainbgcolor:store.mainbgcolor,
+       modalsidenavbarwidth: store.modalsidenavbarwidth,
+       modalsidenavbardisplay: store.modalsidenavbardisplay
      }
  }
  const mapDispatchToProps =(dispatch)=>{

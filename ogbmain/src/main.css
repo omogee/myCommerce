@@ -19,7 +19,7 @@ input:focus {
     outline: none !important;
 }
 
-.filterdiv{z-index:2;position:fixed;left:0px;color:white;bottom:2px;width:100%;border:3px solid grey}
+.filterdiv{z-index:2;position:fixed;left:0px;color:white;bottom:0px;width:100%}
  #filterdiv-dropdown{border:none;color:white}
  #filterdiv-dropdown small{font-weight:bolder;color:white;text-transform:capitalize;}
  .filterdiv-col{border-right:2px solid white;padding:auto;margin:auto}

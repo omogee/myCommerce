@@ -22,7 +22,13 @@ const initialState ={
     inputval:"",
     cartMessage:"",
     display:"none",
-    loading: false
+    loading: false,
+    allcategories:[],
+    allsubcategories:[],
+    mainbgcolor:"white",
+    modalsidenavbarwidth:"0%",
+    modalsidenavbardisplay:"none",
+    modalsidenavbarwidthmargin:"0%"
 }
 const reducer= (state = initialState, action)=>{
     if(action.type === 'loading'){
@@ -111,6 +117,22 @@ const reducer= (state = initialState, action)=>{
       }
       else if(action.type === 'undisplaymodal'){
         state ={...state, status:'undisplaymodal', display:action.payload}
+      }
+      else if(action.type === 'allcategories'){
+        state = {...state, status:'allcategories',loading:false, allcategories : action.payload}
+        return state;
+      }
+      else if(action.type === 'allsubcategories'){
+        state = {...state, status:'allsubcategories', loading:false, allsubcategories: action.payload}
+        return state;
+      }
+      else if(action.type === 'showmodalsidenavbar'){
+        state = {...state, status:'showmodalsidenavbar', mainbgcolor: "rgba(242,242,242,0.7)",modalsidenavbarwidth:"80%",modalsidenavbarwidthmargin:"0%",modalsidenavbardisplay:"block"}
+        return state;
+      }
+      else if(action.type === 'unshowmodalsidenavbar'){
+        state = {...state, status:'unshowmodalsidenavbar',mainbgcolor: "white",modalsidenavbarwidth:"0%", modalsidenavbarwidthmargin:"0%",modalsidenavbardisplay:"none"}
+        return state;
       }
       else if(action.type === 'suggestionloaded'){
         const suggestions = action.payload;
@@ -246,6 +268,32 @@ export const addtocart = data =>{
 export const undisplaymodal =()=>{
   return (dispatch)=>{
      dispatch({type: "undisplaymodal", payload:"none"})
+  }
+}
+export const allcategories = ()=>{
+  return(dispatch)=>{
+     dispatch({type:"loading"})
+    axios.get("http://fruget.herokuapp.com/products/products/allcategories")
+    .then(res => dispatch({type:"allcategories", payload:res.data}))
+    .catch(err => dispatch({type:"err", payload:err}))
+  }
+}
+export const allsubcategories = (data)=>{
+  return(dispatch)=>{
+     dispatch({type:"loading"})
+    axios.get(`http://fruget.herokuapp.com/products/${data}/category`)
+    .then(res => dispatch({type:"allsubcategories", payload:res.data}))
+    .catch(err => dispatch({type:"err", payload:err}))
+  }
+}
+export const showmodalsidenavbar =()=>{
+  return(dispatch)=>{
+    dispatch({type:"showmodalsidenavbar"})
+  }
+}
+export const unshowmodalsidenavbar =()=>{
+  return(dispatch)=>{
+    dispatch({type:"unshowmodalsidenavbar"})
   }
 }
 export const getsidenav = data =>{

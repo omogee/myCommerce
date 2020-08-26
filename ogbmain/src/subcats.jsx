@@ -7,6 +7,7 @@ import {getfilteredSuggestions} from "./store"
 import {Carousel} from 'react-bootstrap'
 import {connect} from "react-redux"
 import Suggestions from "./suggestions"
+import ModalSideNavbar from "./modalsidenavbar"
 const bgimage = require("./images/binble-BLG-595MK2.jpg")
 const logo = require("./images/binble-BLG-595MK2.jpg")
 
@@ -28,23 +29,23 @@ class Subcats extends Component {
     
     componentDidMount = () =>{
   
-        axios.get("http://fruget.herokuapp.com/distinct/subcats")
+        axios.get("http://fruget.herokuapp.com/products/distinct/subcats")
         .then(res => this.setState({category: res.data}))
         .catch(err => console.warn(err))
       
-      axios.get("http://fruget.herokuapp.com/section/one")
+      axios.get("http://fruget.herokuapp.com/products/section/one")
         .then(res => this.setState({sectionOne: res.data}))
         .catch(err => console.warn(err))
       
-      axios.get("http://fruget.herokuapp.com/section/two")
+      axios.get("http://fruget.herokuapp.com/products/section/two")
       .then(res => this.setState({sectionTwo: res.data}))
       .catch(err => console.warn(err))
 
-      axios.get("http://fruget.herokuapp.com/section/three")
+      axios.get("http://fruget.herokuapp.com/products/section/three")
       .then(res => this.setState({sectionThree: res.data}))
       .catch(err => console.warn(err))
 
-      axios.get("http://fruget.herokuapp.com/section/four")
+      axios.get("http://fruget.herokuapp.com/products/section/four")
       .then(res => this.setState({sectionFour: res.data}))
       .catch(err => console.warn(err))
 
@@ -67,6 +68,13 @@ class Subcats extends Component {
         )
       }
         return (
+          <div>
+             <div style={{display:`${this.props.mainbgcolor==="white" ? "none" : "block"}`,backgroundColor:"rgba(242,242,242,0.5)",width:"100%",height:"200%",position:"absolute",top:"0px",zIndex:"2"}}>
+               x
+             <div className="sidenavbar" style={{zIndex:"1",display:`${this.props.modalsidenavbardisplay}`,position:"absolute",top:"0px",width:`${this.props.modalsidenavbarwidth}`}}>
+              <ModalSideNavbar/>            
+             </div>
+             </div>
         <div style={{backgroundColor: "#f5f5f0"}}>   
 <div style={{display:`${this.props.inputval.length > 0 ? "block" : "none"}`,zIndex:"2",width:"100%",height:"100%",backgroundColor:"rgba(0,0,0,0.3)",width:"100%", height:"300%",position:"absolute"}} className="indexer"> 
              <Suggestions></Suggestions>       
@@ -170,15 +178,37 @@ class Subcats extends Component {
                 </div>
               </div>
               <br/>
-              <div className="row">
+              <div className="row" >
+                <div className="col-4 col-md-2">
+                 <img src={require("./images/htc-logo.jpg")} style={{width:"100%",marginBottom:"5px"}} alt=""/>
+                </div>
+                 
+                <div className="col-4 col-md-2">
+                 <img src={require("./images/lglogo.png")} style={{width:"100%",marginBottom:"5px"}} alt=""/>
+                </div>
+                <div className="col-4 col-md-2">
+                 <img src={require("./images/hisenselogo.png")} style={{width:"100%",marginBottom:"5px"}} alt=""/>
+                </div>
+                <div className="col-4 col-md-2">
+                 <img src={require("./images/biancoofficial.png")} style={{width:"100%",marginBottom:"5px"}} alt=""/>
+                </div>
+                <div className="col-4 col-md-2">
+                 <img src={require("./images/nexuslogo.png")} style={{width:"100%",marginBottom:"5px"}} alt=""/>
+                </div>
+                <div className="col-4 col-md-2">
+                 <img src={require("./images/midealogo.jpg")} style={{width:"100%",marginBottom:"5px"}} alt=""/>
+                </div>
+              </div>
+              <br/>
+              <div className="row" style={{padding:"10px"}}>
               <div className="col-12" style={{backgroundColor: "rgb(0, 119, 179)",color:"rgb(64, 64, 64)", borderTopRadius: "4px"}}>
-              <p >
+              <p>
                 <span style={{fontWeight:"bold",color: "white"}}>POPULAR CATEGORY</span>  
                 </p> 
                 </div>
-              <div className="col-6 col-lg-2" style={{padding:"10px"}}>
-                <div className="row" style={{padding:"0px"}}>
-                  <div className="col-8  d-md-none" style={{padding:"0px"}}>
+              <div className="col-6 col-lg-2" style={{padding:"10px",border:"1px solid lightgrey",backgroundColor:"white"}}>
+                <div className="row">
+                  <div className="col-8  d-md-none" style={{}}>
                     Dispensers
                   </div>
                   <div className="col-4 col-md-12">
@@ -186,69 +216,139 @@ class Subcats extends Component {
                   </div>
                 </div>
               </div>
-              <div className="col-6 col-lg-2" style={{padding:"10px"}}>
+              <div className="col-6 col-lg-2" style={{padding:"10px",border:"1px solid lightgrey",backgroundColor:"white"}}>
                 <div className="row" style={{padding:"0px"}}>
-                  <div className="col-8  d-md-none" style={{padding:"0px"}}>
+                  <div className="col-8  d-md-none" style={{}}>
                     refrigerators
                   </div>
                   <div className="col-4 col-md-12">
-                  <img style={{width:"100%"}} className="img-thumbnail" src="https://www-konga-com-res.cloudinary.com/image/upload/w_auto,f_auto,fl_lossy,dpr_auto,q_auto/v1595215707/contentservice/3.jpg_rk7D1qGeP.jpg" alt=""/>
+                  <img style={{width:"100%",float:"right"}} className="img-thumbnail" src="https://www-konga-com-res.cloudinary.com/image/upload/w_auto,f_auto,fl_lossy,dpr_auto,q_auto/v1595215707/contentservice/3.jpg_rk7D1qGeP.jpg" alt=""/>
                   </div>
                 </div>
               </div>
-              <div className="col-6 col-lg-2" style={{padding:"10px"}}>
+              <div className="col-6 col-lg-2" style={{padding:"10px",border:"1px solid lightgrey",backgroundColor:"white"}}>
                 <div className="row" style={{padding:"0px"}}>
-                  <div className="col-8  d-md-none" style={{padding:"0px"}}>
-                    washing machine
+                  <div className="col-8  d-md-none" style={{}}>
+                    refrigerators
                   </div>
                   <div className="col-4 col-md-12">
-                  <img style={{width:"100%"}} className="img-thumbnail" src="https://www-konga-com-res.cloudinary.com/image/upload/w_auto,f_auto,fl_lossy,dpr_auto,q_auto/v1595215707/contentservice/3.jpg_rk7D1qGeP.jpg" alt=""/>
+                  <img style={{width:"100%",float:"right"}} className="img-thumbnail" src="https://www-konga-com-res.cloudinary.com/image/upload/w_auto,f_auto,fl_lossy,dpr_auto,q_auto/v1595215707/contentservice/3.jpg_rk7D1qGeP.jpg" alt=""/>
                   </div>
                 </div>
               </div>
-              <div className="col-6 col-lg-2" >
+              <div className="col-6 col-lg-2" style={{padding:"10px",border:"1px solid lightgrey",backgroundColor:"white"}}>
                 <div className="row" style={{padding:"0px"}}>
-                  <div className="col-8  d-md-none" style={{padding:"0px"}}>
-                    air conditioners
+                  <div className="col-8  d-md-none" style={{}}>
+                    refrigerators
                   </div>
-                  <div className="col-4 col-md-12" style={{padding:"10px"}}>
-                  <img style={{width:"100%"}} className="img-thumbnail" src="https://www-konga-com-res.cloudinary.com/image/upload/w_auto,f_auto,fl_lossy,dpr_auto,q_auto/v1595215707/contentservice/3.jpg_rk7D1qGeP.jpg" alt=""/>
+                  <div className="col-4 col-md-12">
+                  <img style={{width:"100%",float:"right"}} className="img-thumbnail" src="https://www-konga-com-res.cloudinary.com/image/upload/w_auto,f_auto,fl_lossy,dpr_auto,q_auto/v1595215707/contentservice/3.jpg_rk7D1qGeP.jpg" alt=""/>
                   </div>
                 </div>
               </div>
-              <div className="col-6  col-lg-2" >
+              <div className="col-6 col-lg-2" style={{padding:"10px",border:"1px solid lightgrey",backgroundColor:"white"}}>
                 <div className="row" style={{padding:"0px"}}>
-                  <div className="col-8 d-md-none" style={{padding:"0px"}}>
-                    Electric fan
+                  <div className="col-8  d-md-none" style={{}}>
+                    refrigerators
                   </div>
-                  <div className="col-4 col-md-12" style={{padding:"10px"}}> 
-                  <img style={{width:"100%"}} className="img-thumbnail" src="https://www-konga-com-res.cloudinary.com/image/upload/w_auto,f_auto,fl_lossy,dpr_auto,q_auto/v1595215707/contentservice/3.jpg_rk7D1qGeP.jpg" alt=""/>
+                  <div className="col-4 col-md-12">
+                  <img style={{width:"100%",float:"right"}} className="img-thumbnail" src="https://www-konga-com-res.cloudinary.com/image/upload/w_auto,f_auto,fl_lossy,dpr_auto,q_auto/v1595215707/contentservice/3.jpg_rk7D1qGeP.jpg" alt=""/>
                   </div>
                 </div>
               </div>
-              <div className="col-6 col-lg-2">
+              <div className="col-6 col-lg-2" style={{padding:"10px",border:"1px solid lightgrey",backgroundColor:"white"}}>
                 <div className="row" style={{padding:"0px"}}>
-                  <div className="col-8  d-md-none">
-                    Kitchen Aid
+                  <div className="col-8  d-md-none" style={{}}>
+                    refrigerators
                   </div>
-                  <div className="col-4 col-md-12" style={{padding:"10px"}}>
-                  <img style={{width:"100%"}} className="img-thumbnail" src="https://www-konga-com-res.cloudinary.com/image/upload/w_auto,f_auto,fl_lossy,dpr_auto,q_auto/v1595215707/contentservice/3.jpg_rk7D1qGeP.jpg" alt=""/>
+                  <div className="col-4 col-md-12">
+                  <img style={{width:"100%",float:"right"}} className="img-thumbnail" src="https://www-konga-com-res.cloudinary.com/image/upload/w_auto,f_auto,fl_lossy,dpr_auto,q_auto/v1595215707/contentservice/3.jpg_rk7D1qGeP.jpg" alt=""/>
                   </div>
                 </div>
-              </div>
+              </div>             
              
+              </div>
+              <br/>
+
+              <div className="row" style={{padding:"10px"}}>
+              <div className="col-12" style={{backgroundColor: "white",color:"grey", borderTopRadius: "4px"}}>
+              <p>
+                <span style={{fontWeight:"bold",color: "rgb(0, 119, 179)"}}>POPULAR CATEGORY</span>  
+                </p> 
+                </div>
+              <div className="col-6 col-lg-2" style={{padding:"10px",border:"1px solid lightgrey",backgroundColor:"white"}}>
+                <div className="row">
+                  <div className="col-8  d-md-none" style={{}}>
+                    Dispensers
+                  </div>
+                  <div className="col-4 col-md-12">
+                  <img style={{width:"100%",float:"right"}} className="img-thumbnail" src="https://www-konga-com-res.cloudinary.com/image/upload/w_auto,f_auto,fl_lossy,dpr_auto,q_auto/v1595215707/contentservice/3.jpg_rk7D1qGeP.jpg" alt=""/>
+                  </div>
+                </div>
+              </div>
+              <div className="col-6 col-lg-2" style={{padding:"10px",border:"1px solid lightgrey",backgroundColor:"white"}}>
+                <div className="row" style={{padding:"0px"}}>
+                  <div className="col-8  d-md-none" style={{}}>
+                    refrigerators
+                  </div>
+                  <div className="col-4 col-md-12">
+                  <img style={{width:"100%",float:"right"}} className="img-thumbnail" src="https://www-konga-com-res.cloudinary.com/image/upload/w_auto,f_auto,fl_lossy,dpr_auto,q_auto/v1595215707/contentservice/3.jpg_rk7D1qGeP.jpg" alt=""/>
+                  </div>
+                </div>
+              </div>
+              <div className="col-6 col-lg-2" style={{padding:"10px",border:"1px solid lightgrey",backgroundColor:"white"}}>
+                <div className="row" style={{padding:"0px"}}>
+                  <div className="col-8  d-md-none" style={{}}>
+                    refrigerators
+                  </div>
+                  <div className="col-4 col-md-12">
+                  <img style={{width:"100%",float:"right"}} className="img-thumbnail" src="https://www-konga-com-res.cloudinary.com/image/upload/w_auto,f_auto,fl_lossy,dpr_auto,q_auto/v1595215707/contentservice/3.jpg_rk7D1qGeP.jpg" alt=""/>
+                  </div>
+                </div>
+              </div>
+              <div className="col-6 col-lg-2" style={{padding:"10px",border:"1px solid lightgrey",backgroundColor:"white"}}>
+                <div className="row" style={{padding:"0px"}}>
+                  <div className="col-8  d-md-none" style={{}}>
+                    refrigerators
+                  </div>
+                  <div className="col-4 col-md-12">
+                  <img style={{width:"100%",float:"right"}} className="img-thumbnail" src="https://www-konga-com-res.cloudinary.com/image/upload/w_auto,f_auto,fl_lossy,dpr_auto,q_auto/v1595215707/contentservice/3.jpg_rk7D1qGeP.jpg" alt=""/>
+                  </div>
+                </div>
+              </div>
+              <div className="col-6 col-lg-2" style={{padding:"10px",border:"1px solid lightgrey",backgroundColor:"white"}}>
+                <div className="row" style={{padding:"0px"}}>
+                  <div className="col-8  d-md-none" style={{}}>
+                    refrigerators
+                  </div>
+                  <div className="col-4 col-md-12">
+                  <img style={{width:"100%",float:"right"}} className="img-thumbnail" src="https://www-konga-com-res.cloudinary.com/image/upload/w_auto,f_auto,fl_lossy,dpr_auto,q_auto/v1595215707/contentservice/3.jpg_rk7D1qGeP.jpg" alt=""/>
+                  </div>
+                </div>
+              </div>
+              <div className="col-6 col-lg-2" style={{padding:"10px",border:"1px solid lightgrey",backgroundColor:"white"}}>
+                <div className="row" style={{padding:"0px"}}>
+                  <div className="col-8  d-md-none" style={{}}>
+                    refrigerators
+                  </div>
+                  <div className="col-4 col-md-12">
+                  <img style={{width:"100%",float:"right"}} className="img-thumbnail" src="https://www-konga-com-res.cloudinary.com/image/upload/w_auto,f_auto,fl_lossy,dpr_auto,q_auto/v1595215707/contentservice/3.jpg_rk7D1qGeP.jpg" alt=""/>
+                  </div>
+                </div>
+              </div>             
              
               </div>
 
+
              <div className="row" style={{padding:"0px"}}>
              <div style={{width:"100%",padding:"5px"}}>
- <small style={{fontSize:"15px",textTransform:"uppercase"}}>Cooling Appliances <span className="fa fa-arrow-right"></span></small><small style={{float:"right",fontWeight:"bold"}}><a href="" style={{color:"black"}}>see more <span className="fa fa-arrow-right"></span></a></small>
+ <small style={{fontSize:"13px",textTransform:"uppercase"}}>Cooling Appliances <span className="fa fa-arrow-right"></span></small><small style={{float:"right",fontWeight:"bold"}}><a href="" style={{color:"black"}}>see more <span className="fa fa-arrow-right"></span></a></small>
                  </div>
                <div className="noscrolling">
                    {this.state.sectionOne.map(section1 => 
                     <div className="col-6 col-md-3 col-lg-2" key={section1.productId}  style={{boxShadow:"2px 2px 3px  lightgrey"}}>
                       <div style={{backgroundColor:"white",width:"110%",padding:"8px"}}>         
-<img src={require( `./images/${Object.values(JSON.parse(section1.img1))[0]}`)} onMouseOver={e => Object.values(JSON.parse(section1.img1))[1] !== undefined ? e.currentTarget.src= require( `./images/${Object.values(JSON.parse(section1.img1))[1]}`) : e.currentTarget.src= require( `./images/${Object.values(JSON.parse(section1.img1))[0]}`)} onMouseLeave={e => e.currentTarget.src= require( `./images/${Object.values(JSON.parse(section1.img1))[0]}`)} style={{width:"100%",height:"140px",  padding:"0px"}} alt=""/> 
+<img src={require( `./images/${Object.values(JSON.parse(section1.img1))[0]}`)} onMouseOver={e => Object.values(JSON.parse(section1.img1))[1] !== undefined ? e.currentTarget.src= require( `./images/${Object.values(JSON.parse(section1.img1))[1]}`) : e.currentTarget.src= require( `./images/${Object.values(JSON.parse(section1.img1))[0]}`)} onMouseLeave={e => e.currentTarget.src= require( `./images/${Object.values(JSON.parse(section1.img1))[0]}`)} style={{padding:"0px"}} className="mainImg" alt=""/> 
 <small><a href="" style={{color:"black",textTransform:"capitalize",whiteSpace:"nowrap",textOverflow:"ellipsis",overflow:"hidden", width:"100%",display:"block"}}>{ section1.details}</a> </small>
                    <b>{section1.mainprice}</b> <br/>
                    <small>
@@ -264,16 +364,16 @@ class Subcats extends Component {
                </div>
              </div>
              
-             <br/>
+            
              <div className="row" style={{padding:"0px"}}>
              <div style={{width:"100%",padding:"5px"}}>
-<small style={{fontSize:"15px",textTransform:"uppercase"}}>Power Regulating Appliances <span className="fa fa-arrow-right"></span></small><small style={{float:"right",fontWeight:"bold"}}><a href="" style={{color:"black"}}>see more <span className="fa fa-arrow-right"></span></a></small>
+<small style={{fontSize:"13px",textTransform:"uppercase"}}>Power Regulating Appliances <span className="fa fa-arrow-right"></span></small><small style={{float:"right",fontWeight:"bold"}}><a href="" style={{color:"black"}}>see more <span className="fa fa-arrow-right"></span></a></small>
                  </div>
                <div className="noscrolling">
                    {this.state.sectionTwo.map(section2 => 
                     <div className="col-6  col-md-3 col-lg-2" key={section2.productId} style={{boxShadow:"2px 2px 3px  lightgrey"}}>
                       <div style={{backgroundColor:"white",minWidth:"110%",padding:"8px"}}>
-<img src={require( `./images/${Object.values(JSON.parse(section2.img1))[0]}`)} onMouseOver={e => Object.values(JSON.parse(section2.img1))[1] !== undefined ? e.currentTarget.src= require( `./images/${Object.values(JSON.parse(section2.img1))[1]}`) : e.currentTarget.src= require( `./images/${Object.values(JSON.parse(section2.img1))[0]}`)} onMouseLeave={e => e.currentTarget.src= require( `./images/${Object.values(JSON.parse(section2.img1))[0]}`)} style={{width:"100%",height:"140px",  padding:"0px"}} alt=""/> 
+<img src={require( `./images/${Object.values(JSON.parse(section2.img1))[0]}`)} onMouseOver={e => Object.values(JSON.parse(section2.img1))[1] !== undefined ? e.currentTarget.src= require( `./images/${Object.values(JSON.parse(section2.img1))[1]}`) : e.currentTarget.src= require( `./images/${Object.values(JSON.parse(section2.img1))[0]}`)} onMouseLeave={e => e.currentTarget.src= require( `./images/${Object.values(JSON.parse(section2.img1))[0]}`)} style={{padding:"0px"}} className="mainImg" alt=""/> 
 
  <small><a href="" style={{color:"black",textTransform:"capitalize",whiteSpace:"nowrap",textOverflow:"ellipsis",overflow:"hidden", width:"100%",display:"block"}}>{ section2.details}</a> </small>
                    <b>{section2.mainprice}</b> <br/>
@@ -283,16 +383,16 @@ class Subcats extends Component {
                     )}
                </div>
              </div>
-             <br/>
+     
              <div className="row" style={{padding:"0px"}}>
              <div style={{width:"100%",padding:"5px"}}>
-<small style={{fontSize:"15px",textTransform:"uppercase"}}>Kitchen Appliances <span className="fa fa-arrow-right"></span></small><small style={{float:"right",fontWeight:"bold"}}><a href="" style={{color:"black"}}>see more <span className="fa fa-arrow-right"></span></a></small>
+<small style={{fontSize:"13px",textTransform:"uppercase"}}>Kitchen Appliances <span className="fa fa-arrow-right"></span></small><small style={{float:"right",fontWeight:"bold"}}><a href="" style={{color:"black"}}>see more <span className="fa fa-arrow-right"></span></a></small>
                  </div>
                <div className="noscrolling">
                    {this.state.sectionThree.map(section3 => 
                     <div className="col-6  col-md-3 col-lg-2" key={section3.productId}  style={{boxShadow:"2px 2px 3px  lightgrey"}}>
                       <div style={{backgroundColor:"white",width:"110%",padding:"8px"}}>
-<img src={require( `./images/${Object.values(JSON.parse(section3.img1))[0]}`)} onMouseOver={e => Object.values(JSON.parse(section3.img1))[1] !== undefined ? e.currentTarget.src= require( `./images/${Object.values(JSON.parse(section3.img1))[1]}`) : e.currentTarget.src= require( `./images/${Object.values(JSON.parse(section3.img1))[0]}`)} onMouseLeave={e => e.currentTarget.src= require( `./images/${Object.values(JSON.parse(section3.img1))[0]}`)} style={{width:"100%",height:"180px",  padding:"0px"}} alt=""/> 
+<img src={require( `./images/${Object.values(JSON.parse(section3.img1))[0]}`)} onMouseOver={e => Object.values(JSON.parse(section3.img1))[1] !== undefined ? e.currentTarget.src= require( `./images/${Object.values(JSON.parse(section3.img1))[1]}`) : e.currentTarget.src= require( `./images/${Object.values(JSON.parse(section3.img1))[0]}`)} onMouseLeave={e => e.currentTarget.src= require( `./images/${Object.values(JSON.parse(section3.img1))[0]}`)} style={{padding:"0px"}} className="mainImg" alt=""/> 
 <small><a href="" style={{color:"black",textTransform:"capitalize",whiteSpace:"nowrap",textOverflow:"ellipsis",overflow:"hidden", width:"100%",display:"block"}}>{ section3.details}</a> </small>
                    <b>{section3.mainprice}</b> <br/>
                   
@@ -302,16 +402,16 @@ class Subcats extends Component {
                </div>
              </div>
 
-             <br/>
+
              <div className="row" style={{padding:"0px"}}>
                  <div style={{width:"100%",padding:"5px"}}>
-<small style={{fontSize:"15px",textTransform:"uppercase"}}>Cooling Appliances <span className="fa fa-arrow-right"></span></small><small style={{float:"right",fontWeight:"bold"}}><a href="" style={{color:"black"}}>see more <span className="fa fa-arrow-right"></span></a></small>
+<small style={{fontSize:"13px",textTransform:"uppercase"}}>Cooling Appliances <span className="fa fa-arrow-right"></span></small><small style={{float:"right",fontWeight:"bold"}}><a href="" style={{color:"black"}}>see more <span className="fa fa-arrow-right"></span></a></small>
                  </div>
                <div className="noscrolling">
                    {this.state.sectionFour.map(section4 => 
                     <div className="col-6  col-md-3 col-lg-2" key={section4.productId} style={{boxShadow:"2px 2px 3px  lightgrey"}}>
                       <div style={{backgroundColor:"white",width:"110%",padding:"8px"}}>
-<img src={require( `./images/${Object.values(JSON.parse(section4.img1))[0]}`)} onMouseOver={e => Object.values(JSON.parse(section4.img1))[1] !== undefined ? e.currentTarget.src= require( `./images/${Object.values(JSON.parse(section4.img1))[1]}`) : e.currentTarget.src= require( `./images/${Object.values(JSON.parse(section4.img1))[0]}`)} onMouseLeave={e => e.currentTarget.src= require( `./images/${Object.values(JSON.parse(section4.img1))[0]}`)} style={{width:"100%",height:"180px",  padding:"0px"}} alt=""/> 
+<img src={require( `./images/${Object.values(JSON.parse(section4.img1))[0]}`)} onMouseOver={e => Object.values(JSON.parse(section4.img1))[1] !== undefined ? e.currentTarget.src= require( `./images/${Object.values(JSON.parse(section4.img1))[1]}`) : e.currentTarget.src= require( `./images/${Object.values(JSON.parse(section4.img1))[0]}`)} onMouseLeave={e => e.currentTarget.src= require( `./images/${Object.values(JSON.parse(section4.img1))[0]}`)} style={{padding:"0px"}} className="mainImg" alt=""/> 
 
 <small><a href="" style={{color:"black",textTransform:"capitalize",whiteSpace:"nowrap",textOverflow:"ellipsis",overflow:"hidden", width:"100%",display:"block"}}>{ section4.details}</a> </small>
                    <b>{section4.mainprice}</b> <br/>
@@ -321,6 +421,7 @@ class Subcats extends Component {
                     )}
                </div>
              </div>
+            </div>
             </div>
             </div>
           );
@@ -334,12 +435,17 @@ const mapStateToProps =(store)=>{
      filteredSuggestions: store.filteredSuggestions,
      suggestions: store.suggestions,
      showSuggestions: store.showSuggestions,
-     inputval: store.inputval
+     inputval: store.inputval,
+     loading:store.loading,
+     mainbgcolor:store.mainbgcolor,
+     modalsidenavbarwidth: store.modalsidenavbarwidth,
+     modalsidenavbardisplay: store.modalsidenavbardisplay
    }
 }
 const mapDispatchToProps =(dispatch)=>{
  return{
-   getfilteredSuggestions: (data) => dispatch(getfilteredSuggestions(data))
+   getfilteredSuggestions: (data) => dispatch(getfilteredSuggestions(data)),
+
  }
 }
 export default connect(mapStateToProps, mapDispatchToProps)(Subcats);

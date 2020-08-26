@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css'
 import {getfilteredSuggestions} from "./store"
 import axios from 'axios';
-import {searcher, submitsearcher} from './store'
+import {searcher, submitsearcher,showmodalsidenavbar, unshowmodalsidenavbar} from './store'
 import {connect} from 'react-redux';
 import {withRouter} from "react-router-dom"
 import {compose} from "redux"
@@ -38,7 +38,6 @@ class Navbar extends Component {
       this.props.searcher(e.target.value)
          
      this.props.getfilteredSuggestions(e.target.value)
-
      if(e.target.value.length === 0){
      
       const url = window.location.href;
@@ -62,7 +61,7 @@ class Navbar extends Component {
      */
     } 
     displaysidenav =()=>{
-
+    this.props.showmodalsidenavbar()
     }
     render() { 
     
@@ -74,19 +73,19 @@ class Navbar extends Component {
                   <div style={{width:"100%", backgroundColor:"white"}}>
                 <div className="container">  
      
-              <div className="row" >
+              <div className="row" style={{padding:"0px 0px 20px 0px"}}>
                 <div className="col-1 d-md-none">
                   <center>
-                    <span onClick={this.displaysidenav} className="fa fa-bars" style={{marginTop:"20px",marginLeft:"5px",fontSize:"25px"}}></span>
+                    <span onClick={this.displaysidenav} className="fa fa-bars" style={{margin:"10px",marginLeft:"5px",fontSize:"15px"}}></span>
                   </center>              
                 </div>
                   <div className="col-2 col-md-1" >
-                    <img src={require("./images/fruget.jpg")} style={{width:"100%",height:"70%",paddingTop:"10px"}} alt=""/>
+                    <img  src={require("./images/fruget.jpg")} style={{width:"100%",height:"70%",paddingTop:"10px"}} alt=""/>
                   </div>
                   <div className="d-none d-md-block col-md-8" >
                     <center style={{padding:"15px 0px 0px 20px"}}>
                     <form action="/search" method="get" onSubmit={this.submit} className="row">
-                      <div  className="col-10">
+                      <div className="col-10">
  <input type="text" className="form-control" style={{width:"100%"}}  value={this.state.inputval} name="search" onChange={this.change2} placeholder="Search products , brand and categories here..."/>
  </div>
  <div className="col-2">
@@ -125,39 +124,15 @@ class Navbar extends Component {
                   </div>
                   </div>
 
-                  <div className="col-2 d-md-none" >
-                   
-                   <div className="row">
-                     <div className="col-6" style={{padding:"15px 0px 0px 0px",border:"0px"}}>
-                 <Dropdown>
-                <Dropdown.Toggle style={{backgroundColor:"white",border:"0px"}}>            
-              <span class=""  style={{color:"black"}} ><span className="far fa-user"></span></span>              
-              </Dropdown.Toggle>     
-              <Dropdown.Menu>
-          <Dropdown.Item ><Link to={encodeURI(`/profile/1996,${localStorage.getItem("id")},fruget0829?user$login&#172`)}><span className="far fa-user"></span> <small> My Profile</small></Link></Dropdown.Item>
-         <Dropdown.Item><Link to={`/saved-items/199666229jshs9,${localStorage.getItem("id")},fruget0829?user$login&#172`}><i class="fas fa-cloud-download-alt"></i> <small> Saved Items</small></Link></Dropdown.Item>    
-          </Dropdown.Menu>       
-               </Dropdown>
-               </div>
-                 <div className="col-6" style={{padding:"15px 0px 0px 0px",border:"0px"}}>           
-                  <Dropdown>
-                  <Dropdown.Toggle style={{backgroundColor:"white",border:"0px"}}>            
-                  <div style={{backgroundColor:"white",border:"0px",position:"relative"}}>
-                  <span style={{color:"black"}}><span className="fa fa-cart-plus"></span></span> 
-        <span className="badge badge-danger" style={{display:`${this.state.cart.length > 0 ?"block" : "none"}`,position:"absolute",left:"60px",top:"-5px",fontWeight:"bolder"}}>{this.state.cart.length }</span>
-                     </div>              
-               </Dropdown.Toggle> 
-                  </Dropdown>
-               </div>
-               </div>
-               </div>
-                  <div className=" col-12 d-md-none" style={{padding:"0px 10px 0px 10px "}}>
+                  <div className=" col-12 d-md-none" style={{padding:"0px 10px 0px 10px"}}>
+                    <form   action="/search" method="get" onSubmit={this.submit}>
                   <div className="input-group mb-3">
-    <input type="text" className="form-control form-control-sm" style={{backgroundColor:"rgba(242,242,242,0.9)",fontWeight:"bold"}}  onChange={this.change2} placeholder="Search products , brand and categories here..." />
+    <input type="text" className="form-control form-control-sm" name="search" style={{}} value={this.state.inputval}  onChange={this.change2} placeholder="Search products , brand and categories here..." />
     <div className="input-group-append">
       <button className="btn btn-sm" style={{color:"white",backgroundColor:"rgb(0, 119, 179)"}} type="submit">Go</button>  
      </div>
   </div>
+  </form>
   </div>
                   </div>
               
@@ -172,6 +147,14 @@ class Navbar extends Component {
     }
 }
 /*
+  <div className=" col-12 d-md-none" style={{padding:"0px 10px 0px 10px "}}>
+                  <div className="input-group mb-3">
+    <input type="text" className="form-control form-control-sm" style={{backgroundColor:"rgba(242,242,242,0.9)",fontWeight:"bold"}}  onChange={this.change2} placeholder="Search products , brand and categories here..." />
+    <div className="input-group-append">
+      <button className="btn btn-sm" style={{color:"white",backgroundColor:"rgb(0, 119, 179)"}} type="submit">Go</button>  
+     </div>
+  </div>
+  </div>
 <div style={{backgroundColor:"white",border:"0px",position:"relative"}}>
                        <span style={{color:"black"}}><small>My Cart</small><span className="fa fa-cart-plus"></span></span>
         <span className="badge badge-danger" style={{display:`${this.state.cart.length > 0 ?"block" : "none"}`,position:"absolute",left:"60px",top:"-5px",fontWeight:"bolder"}}>{this.state.cart.length }</span>
@@ -228,7 +211,9 @@ const mapDispatchToProps =(dispatch)=>{
  return{
   submitsearcher: (data)=> dispatch(submitsearcher(data)),
    searcher: (data)=> dispatch(searcher(data)),
-   getfilteredSuggestions: (data) => dispatch(getfilteredSuggestions(data))
+   getfilteredSuggestions: (data) => dispatch(getfilteredSuggestions(data)),
+   showmodalsidenavbar:()=>dispatch(showmodalsidenavbar()),
+   unshowmodalsidenavbar:()=>dispatch(unshowmodalsidenavbar())
  }
 }
 export default compose(withRouter, connect(mapStateToProps,mapDispatchToProps))(Navbar);

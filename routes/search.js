@@ -2,11 +2,11 @@ var express = require('express')
 var conn = require('./connection')
 const router = express.Router()
 
- router.get('/items/search', (req,res) =>{
+ router.get('/items/search', (req,res) =>{ 
     const search = req.query.search;
     let min= req.query.min; 
     let max = req.query.max;
-    console.log("min", min,max)
+    console.log("min", min,max) 
     
     if(req.query.brand !== "undefined" || req.query.size !== "undefined" || req.query.colour !== "undefined"){
         var brands = req.query.brand

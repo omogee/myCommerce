@@ -256,9 +256,7 @@ if(savedItem.includes(productId[0].productId)){
     })
 })
 })
-router.get("/allcategories/subcat",(req,res)=>{
-    conn.query("SELECT DISTINCT ")
-})
+
 router.get("/:userId/saveditems",(req,res)=>{
     const id= req.params.userId;
     console.log(id)

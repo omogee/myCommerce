@@ -241,11 +241,10 @@ router.get('/product/:details', (req,res)=>{
    })
 })
 
-router.get("/allcategories", (req,res)=>{
+router.get("/products/allcategories", (req,res)=>{
     conn.query("SELECT DISTINCT subcat1 FROM product", (err,file)=>{
         if (err) throw err;
         res.send(file)
     })
 })
-
  module.exports = router;
