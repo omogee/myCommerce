@@ -10,9 +10,9 @@ const Rcustomer = require("./routes/customer");
 const Rsearch = require("./routes/search")
 const Rproducts = require("./routes/products")
 const Rdetails = require("./routes/details")
-const path = require("path")
+const path = require("path") 
  
-const app = express(); 
+const app = express();  
 const options = {
     host: 'us-cdbr-east-02.cleardb.com',
     user: 'b9b001ef539d5b',

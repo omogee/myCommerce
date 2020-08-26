@@ -1,16 +1,6 @@
 var express = require('express')
-var mysql = require('mysql')
+var conn = require('./connection')
 const router = express.Router()
-
-const options = {
-    host: 'us-cdbr-east-02.cleardb.com',  
-    user: 'b9b001ef539d5b',
-    password: '8b36306e',
-    database: 'heroku_ea5621dea112dad'
-   }
-
-const conn = mysql.createPool(options)
- console.log('mysql connected successfully')
 
  router.get('/items/search', (req,res) =>{
     const search = req.query.search;
@@ -27,7 +17,7 @@ const conn = mysql.createPool(options)
     colors= JSON.stringify(colors.split(",")).toString()
     var brandno = brands.split(",").toString().length
     var sizeno = sizes.split(",").toString().length
-    var colorno = colors.split(",").toString().length
+    var colorno = colors.split(",").toString().length 
     brands = brands.slice(1,brandno-1)
     sizes = sizes.slice(1,sizeno-1)
     colors = colors.slice(1,colorno-1)  

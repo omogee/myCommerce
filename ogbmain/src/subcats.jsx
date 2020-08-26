@@ -28,23 +28,23 @@ class Subcats extends Component {
     
     componentDidMount = () =>{
   
-        axios.get("http://localhost:5000/distinct/subcats")
+        axios.get("http://fruget.herokuapp.com/distinct/subcats")
         .then(res => this.setState({category: res.data}))
         .catch(err => console.warn(err))
       
-      axios.get("http://localhost:5000/section/one")
+      axios.get("http://fruget.herokuapp.com/section/one")
         .then(res => this.setState({sectionOne: res.data}))
         .catch(err => console.warn(err))
       
-      axios.get("http://localhost:5000/section/two")
+      axios.get("http://fruget.herokuapp.com/section/two")
       .then(res => this.setState({sectionTwo: res.data}))
       .catch(err => console.warn(err))
 
-      axios.get("http://localhost:5000/section/three")
+      axios.get("http://fruget.herokuapp.com/section/three")
       .then(res => this.setState({sectionThree: res.data}))
       .catch(err => console.warn(err))
 
-      axios.get("http://localhost:5000/section/four")
+      axios.get("http://fruget.herokuapp.com/section/four")
       .then(res => this.setState({sectionFour: res.data}))
       .catch(err => console.warn(err))
 

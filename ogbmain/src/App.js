@@ -44,7 +44,8 @@ class App extends Component {
       displayviewbrand:"block",
       viewbgcolor:"white",
       griddetails: "block",
-      listdetails:"none"
+      listdetails:"none",
+      frugetshow:""
      }
   }
   componentWillMount =()=>{
@@ -53,12 +54,12 @@ class App extends Component {
     this.setState({viewrow:"col-6 col-md-4 col-lg-3", viewcol:""})
     }
     else if(parsedQuery.view === "list"){
-      this.setState({viewrow:"col-12 row", viewcol:"col-5",viewcoldetails:"col-7",viewborder:"10px",viewcartbtnwidth:"40%",viewbgcolor:"lightgrey",displayviewbrand:"none",griddetails:"none",listdetails:"block"})
+      this.setState({viewrow:"col-12 row", viewcol:"col-5",viewcoldetails:"col-7",viewborder:"10px",frugetshow:"right",viewcartbtnwidth:"40%",viewbgcolor:"lightgrey",displayviewbrand:"none",griddetails:"none",listdetails:"block"})
       if(window.innerWidth <= 600){ 
         this.setState({viewaddtocartbutton:"none"})
       }
     }
-    axios.get(`http://localhost:5000/products/${this.props.match.params.category}/price`)
+    axios.get(`http://fruget.herokuapp.com/products/${this.props.match.params.category}/price`)
  .then(res=> this.setState({price:res.data}, ()=>{
    for(var i=0; i<res.data.length; i++){
     this.setState({highestprice:res.data[i].highestprice, lowestprice:res.data[i].lowestprice}, () =>{
@@ -152,6 +153,9 @@ handlemodalclick =(e) =>{
   if(e.target == this.modaldiv){
      this.props.undisplaymodal()
   }
+}
+displaycartbtn =(e)=>{
+  e.currentTarget.button.style.display ="block";
 }
   render() { 
    console.log("products",this.state.productss)
@@ -288,8 +292,9 @@ handlemodalclick =(e) =>{
  </div> 
           <div className='row'>      
            {this.props.products.map((product) =>          
-           <div className={`${this.state.viewrow}`} style={{paddingBottom:`${this.state.viewborder}`}}   key={product.productId} >         
+           <div className={`${this.state.viewrow}`}    key={product.productId} >         
           <div className={`${this.state.viewcol}`} >
+            <div style={{position:"absolute",top:"0px"}}><img src={require(`./images/fruget.jpg`)} style={{height:"30px",width:"20%"}}></img></div>
             <img className="mainImg img-responsive" src={require (`./images/${product.mainimg || 'emptyimg.jpg'}`)} style={{maxWidth:"100%"}}></img>
           </div>
           <div className={`${this.state.viewcoldetails}`} style={{marginRight:"0px",paddingRight:"0px"}}> 
@@ -315,7 +320,7 @@ handlemodalclick =(e) =>{
         <br/>
         <center   style={{display:`${window.innerWidth >= 600 ? this.state.viewaddtocartbutton : `none`}`,width:`${this.state.viewcartbtnwidth}`}}>
         <br/>
-        <button type="button" className="btn addtocartbtn" onClick={()=>this.addtocart(product.productId)} >
+        <button type="button" ref={this.detailsRef} className="btn addtocartbtn" onClick={()=>this.addtocart(product.productId)}>
          <span>ADD TO CART</span></button><br/>
         </center><br/>
         </div>

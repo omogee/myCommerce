@@ -1,5 +1,5 @@
 var express = require('express')
-var mysql = require('mysql')
+var conn = require('./connection')
 const jwt = require('jsonwebtoken')
 const {check,validationResult}= require('express-validator')
 const bcryptjs = require("bcrypt")
@@ -7,16 +7,6 @@ const cookieParser= require('cookie-parser')
 const csrf = require('csurf');
 const { JsonWebTokenError } = require('jsonwebtoken')
 const router = express.Router()
-
-const options = {
-    host: 'us-cdbr-east-02.cleardb.com',
-    user: 'b9b001ef539d5b',
-    password: '8b36306e',
-    database: 'heroku_ea5621dea112dad'
-   }
-
-const conn = mysql.createPool(options)
- console.log('mysql connected successfully')
 
  const csrfProtection= csrf({cookie:true, value : (req) => (req.cookies.csrfToken)});
   //router.use(csrfProtection);
@@ -266,7 +256,9 @@ if(savedItem.includes(productId[0].productId)){
     })
 })
 })
-
+router.get("/allcategories/subcat",(req,res)=>{
+    conn.query("SELECT DISTINCT ")
+})
 router.get("/:userId/saveditems",(req,res)=>{
     const id= req.params.userId;
     console.log(id)

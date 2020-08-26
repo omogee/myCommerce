@@ -1,17 +1,7 @@
 var express = require('express')
-var mysql = require('mysql')
+var conn = require("./connection")
 
 const router = express.Router()
-const options = {
-    host: 'us-cdbr-east-02.cleardb.com',
-    user: 'b9b001ef539d5b',
-    password: '8b36306e',
-    database: 'heroku_ea5621dea112dad'
-   }
-
-const conn = mysql.createPool(options)
- console.log('mysql connected successfully')
-
 
  router.get('/:category', (req,res)=>{
     const cat = req.params.category;

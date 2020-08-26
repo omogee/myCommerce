@@ -18,7 +18,7 @@ class Login extends Component {
          }
     }
     componentDidMount= ()=>{
-        axios.get("http://localhost:5000/customer/csrftoken")
+        axios.get("http://fruget.herokuapp.com/customer/csrftoken")
         .then(res => this.setState({_csrf: res.data}))
         .catch(err => console.log(err))
     }
@@ -32,7 +32,7 @@ class Login extends Component {
             password:this.state.password,
             _csrf: this.state._csrf
         }
-        axios.post("http://localhost:5000/customer/submit/login", {data:JSON.stringify(data)})
+        axios.post("http://fruget.herokuapp.com/customer/submit/login", {data:JSON.stringify(data)})
         .then(res => this.setState({token:res.data.token, user:res.data.user,displayMessage:"block"},()=>{
             if(res.data.token){
                 localStorage.setItem("user", res.data)
@@ -53,7 +53,7 @@ class Login extends Component {
             <div className="container">
                 <div className="row">
                 <div className="col-md-6 col-xs-12" style={{padding:"2vw",borderRight:"1px solid rgba(242,242,242,0.7)"}}>
-        <h2 style={{fontWeight:"bolder",color:"#004d99", textShadow: "0.5px 0.5px #ff0000"}}>Member Login</h2><br/>
+        <h5 style={{fontWeight:"bolder",color:"#004d99", textShadow: "0.5px 0.5px #ff0000"}}> Login</h5>
     
         <div className="alert" style={{backgroundColor:`${this.state.colorMessage}`,display:`${this.state.displayMessage}`}}>
           {this.state.Message}
@@ -71,7 +71,7 @@ class Login extends Component {
                  </div><br/>
      <small style={{fontWeight:"bolder",color:"black"}}><input type="checkbox"/>  <span>  Remember  me</span></small> <small style={{float:"right",color:"#004d99"}}>Forgot your password</small>
 <input type="text" name="_csrf"  value={this.state._csrf} />
-    <br/><br/><br/>
+    <br/><br/>
     <div style={{minWidth: "100%"}}>
      <button type="submit" className="" style={{width: "100%",backgroundColor:"#004d99",borderRadius: "5px",padding: "7px",color:"white"}}><span className="fa fa-sign-in" style={{float:"left",fontSize:"25px"}}></span><span style={{fontWeight:"bolder",color:"white"}}>LOGIN</span></button><br/><br/>
  <button type="button" className="" style={{width: "100%",backgroundColor:"white",borderRadius: "5px",padding: "7px",boxShadow:"1px 1px 1px 1px lightgrey",color:"#004d99"}}><span className="fab fa-facebook" style={{float:"left",fontSize:"20px"}}></span>  <span style={{fontWeight:"bolder"}}>LOGIN WITH FACEBOOK</span></button>
@@ -85,8 +85,8 @@ class Login extends Component {
 <p>
  Create an account with us in just few steps and gain access to numerous services and platform. You can register with either your email address or facebook account.
 </p>
-</div>
-<a href="/customers/register"><button type="button" style={{width: "100%",border:"1px solid grey",boxShadow:"1px 5px 5px 1px lightgrey",backgroundColor:"#white",borderRadius:"5px",padding: "7px",color:"#004d99"}}><span style={{fontWeight:"bolder"}}>CREATE AN EMAIL ACCOUNT</span></button></a><br/><br/>
+</div><br/><br/>
+<a href="/customer/register"><button type="button" style={{width: "100%",border:"1px solid grey",boxShadow:"1px 5px 5px 1px lightgrey",backgroundColor:"#white",borderRadius:"5px",padding: "7px",color:"#004d99"}}><span style={{fontWeight:"bolder"}}>CREATE AN EMAIL ACCOUNT</span></button></a><br/><br/>
  <button type="button" style={{width: "100%",backgroundColor:"#004d99",border:"1px solid grey",borderRadius:"5px",padding: "7px",boxShadow:"1px 5px 5px 1px lightgrey",color:"white"}}><span className="fab fa-facebook-square" style={{float:"left",fontsSize:"25px"}}></span><span style={{fontWeight:"bolder",color:"white"}}>REGISTER WITH FACEBOOK</span></button>
 </div>
                 </div>

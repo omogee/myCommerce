@@ -82,7 +82,7 @@ class Register extends Component {
      };
 const data ={
   navigation:navigation,firstname:this.state.firstname,lastname:this.state.lastname,email:this.state.email,contact:this.state.contact,gender:this.state.gender,password:this.state.password}
-axios.post("http://localhost:5000/customer/submit/register", {data:JSON.stringify(data)})
+axios.post("http://fruget.herokuapp.com/customer/submit/register", {data:JSON.stringify(data)})
 .then(res => { 
   if(res.data.register){
     this.setState({Message:res.data.message,displayMessage:"block",displayColor:"lightgreen",firstname:"",lastname:"",email:"",password:"",gender:"",})
@@ -136,13 +136,14 @@ axios.post("http://localhost:5000/customer/submit/register", {data:JSON.stringif
         return ( 
            <div>
                 <div className="container register">
-                  <h5>Create <span style={{color:"#004d99",textShadow: "0.5px 0.5px #ff0000"}}>Fruget</span> Account</h5>
-                 <div className="alert" style={{display:`${this.state.displayMessage}`, backgroundColor:`${this.state.displayColor}`}}>
+                <br/>
+                  <p>Create <span style={{color:"#004d99",textShadow: "0.5px 0.5px #ff0000"}}>Fruget</span> Account</p>
+            <div className="alert" style={{display:`${this.state.displayMessage}`, backgroundColor:`${this.state.displayColor}`}}>
                  {this.state.Message}
                  </div>
                   <form action="/submit/register" onSubmit={this.submit} method="post">
                     <div className="row">
-                    <div className="col-sm-12 col-md-6">
+                    <div className="col-sm-12 col-md-6"> 
                     <div style={{padding:"10px"}}>
                       <label for="fname" >First Name </label>
 	<input type="text" id="fname" name="firstname" placeholder=""  pattern="[A-Za-z]+" value={this.state.firstname} onChange={this.change} className="form-control " style={{width:"100%"}}/>
@@ -197,11 +198,11 @@ axios.post("http://localhost:5000/customer/submit/register", {data:JSON.stringif
                  <div className="col-12">
                  <br/>
                    <input type="checkbox" checked/> <small>I would love to recieve updates on major goods and other news letters</small> <br/><br/>
-<button type="submit" className="" style={{width: "100%",backgroundColor:"#004d99",borderRadius: "5px",padding: "7px",color:"white"}}><span className="fa fa-sign-in" style={{float:"left",fontSize:"25px"}}></span><span style={{fontWeight:"bolder",color:"white"}}>LOGIN</span></button><br/><br/>
+<button type="submit" className="" style={{width: "100%",backgroundColor:"#004d99",borderRadius: "5px",padding: "7px",color:"white"}}><span className="fa fa-sign-in" style={{float:"left",fontSize:"25px"}}></span><span style={{fontWeight:"bolder",color:"white"}}>REGISTER</span></button><br/><br/>
 <center>
   <small><b>OR</b></small>
 </center>
-<button type="button" className="" style={{width: "100%",backgroundColor:"white",borderRadius: "5px",padding: "7px",boxShadow:"1px 1px 1px 1px lightgrey",color:"#004d99"}}><span className="fab fa-facebook" style={{float:"left",fontSize:"20px"}}></span>  <span style={{fontWeight:"bolder"}}>LOGIN WITH FACEBOOK</span></button>
+<button type="button" className="" style={{width: "100%",backgroundColor:"white",borderRadius: "5px",padding: "7px",boxShadow:"1px 1px 1px 1px lightgrey",color:"#004d99"}}><span className="fab fa-facebook" style={{float:"left",fontSize:"20px"}}></span>  <span style={{fontWeight:"bolder"}}>REGISTER WITH FACEBOOK</span></button>
 
                  </div>
                   </div>

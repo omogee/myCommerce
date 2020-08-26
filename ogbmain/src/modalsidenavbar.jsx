@@ -9,18 +9,16 @@ class ModalSideNavbar extends Component {
           }
     }
     componentDidMount =()=>{
-        axios.get("http://localhost:5000/allcategories")
+        axios.get("http://fruget.herokuapp.com/allcategories")
         .then(res => this.setState({category: res.data}))
         .catch(err => console.warn(err))
     }
-    subcategoryclick =(e)=>{
-        const category = e.currentTarget.textContent;
-        axios.get(`http://localhost:5000/customer/allcategories?category=${category}`)
-        .then(res => this.setState({subcategory: res.data}))
-        .catch(err=> console.warn(err))
-    }
+    
     subcat=(e)=>{
       console.log(e.currentTarget.textContent)
+      axios.get(`http://fruget.herokuapp.com/customer/allcategories/subcat?category=${e.currentTarget.textContent}`)
+      .then(res => this.setState({subcategory:res.data}))
+      .catch(err => console.warn(err))
     }
     render() { 
         return ( 

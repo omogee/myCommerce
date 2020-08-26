@@ -59,7 +59,7 @@ class SearchApp extends Component {
   size: parsedQuery.sizes,
   colour:parsedQuery.color,
 }
- axios.get(`http://localhost:5000/search/category/searched/price?search=${data.search}&brand=${data.brand}&size=${data.size}&colour=${data.colour}`)
+ axios.get(`http://fruget.herokuapp.com/search/category/searched/price?search=${data.search}&brand=${data.brand}&size=${data.size}&colour=${data.colour}`)
  .then(res=> this.setState({price:res.data}, ()=>{
    for(var i=0; i<res.data.length; i++){
     console.log (res.data[i].highestprice)
@@ -211,8 +211,12 @@ handleChange=(e)=>{
           </div> 
           <small style={{fontSize:"12px"}}>({product.numOfRating || 0}) </small></div> : null }
          </div>
-        
-        <br/><br/>
+         <br/>
+        <center   style={{display:`${window.innerWidth >= 600 ? this.state.viewaddtocartbutton : `none`}`,width:`${this.state.viewcartbtnwidth}`}}>
+        <br/>
+        <button type="button" className="btn addtocartbtn" onClick={()=>this.addtocart(product.productId)} >
+         <span>ADD TO CART</span></button><br/>
+        </center><br/>
         </div>
            </div> 
            

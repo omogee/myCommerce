@@ -60,7 +60,7 @@ class Sidenavbar extends Component {
        sort:parsedQuery.sort
      }
      
- axios.get(`http://localhost:5000/products/${this.props.category}/price`)
+ axios.get(`http://fruget.herokuapp.com/products/${this.props.category}/price`)
  .then(res=> this.setState({price:res.data}, ()=>{
    for(var i=0; i<res.data.length; i++){
     console.log (res.data[i].highestprice)

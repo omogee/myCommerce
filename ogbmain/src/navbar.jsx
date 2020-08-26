@@ -25,7 +25,7 @@ class Navbar extends Component {
     componentDidMount = () =>{
       this.setState({inputval:this.props.inputval})
       const user = localStorage.getItem("id");
-      axios.get(`http://localhost:5000/customer/checkout?user=${user}`)
+      axios.get(`http://fruget.herokuapp.com/customer/checkout?user=${user}`)
       .then(res => this.setState({cart: res.data},()=>{
        console.log(res.data.length)
       }))
@@ -47,8 +47,8 @@ class Navbar extends Component {
      }
     }
     focus =(e) =>{
-      this.setState({inputval:e.target.value})
-      const parsedQuery = queryString.parse(this.props.location.search)
+   //   this.setState({inputval:e.target.value})
+  //    const parsedQuery = queryString.parse(this.props.location.search)
       this.props.searcher(e.target.value)
         
      this.props.getfilteredSuggestions(e.target.value)
@@ -153,7 +153,7 @@ class Navbar extends Component {
                </div>
                   <div className=" col-12 d-md-none" style={{padding:"0px 10px 0px 10px "}}>
                   <div className="input-group mb-3">
-    <input type="text" className="form-control form-control-sm" style={{backgroundColor:"rgba(242,242,242,0.9)",fontWeight:"bold"}} onFocus={this.focus} onChange={this.change2} placeholder="Search products , brand and categories here..." />
+    <input type="text" className="form-control form-control-sm" style={{backgroundColor:"rgba(242,242,242,0.9)",fontWeight:"bold"}}  onChange={this.change2} placeholder="Search products , brand and categories here..." />
     <div className="input-group-append">
       <button className="btn btn-sm" style={{color:"white",backgroundColor:"rgb(0, 119, 179)"}} type="submit">Go</button>  
      </div>
