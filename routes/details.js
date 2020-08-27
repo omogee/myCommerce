@@ -1,23 +1,23 @@
 var express = require('express')
 var mysql = require('mysql')
 const router = express.Router()
-
-const options = {
-    host: 'us-cdbr-east-02.cleardb.com',
+ 
+const options = {    
+    host: 'us-cdbr-east-02.cleardb.com',    
     user: 'b9b001ef539d5b',
     password: '8b36306e',
     database: 'heroku_ea5621dea112dad'
-   }
-
+   }   
+  
 const conn = mysql.createPool(options)
  console.log('mysql connected successfully')
- router.post("/:details/rate",(req,res)=>{
+ router.post("/:details/rate",(req,res)=>{   
     const data = JSON.parse(req.body.data);
-    const details = req.params.details;
-    const userId = data.userId;
+    const details = req.params.details; 
+    const userId = data.userId;  
     const rating = data.rating;
     const comment = data.comment;
-    const currentDate = new Date();
+    const currentDate = new Date();         
     conn.query("SELECT productId FROM product WHERE details = '"+details+"'",(err, file)=>{
         if (err) throw err;
         const productId = file[0].productId;
@@ -56,7 +56,7 @@ const conn = mysql.createPool(options)
             console.log("new rating added successfully")
             res.send("added succesffully")
         })
-        
+         
     }
     })
 })

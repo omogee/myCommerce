@@ -2,13 +2,17 @@ import React, { Component } from 'react';
 import axios from "axios"
 import {allcategories, allsubcategories, unshowmodalsidenavbar} from "./store"
 import {connect} from "react-redux"
+import {Link} from "react-router-dom"
 
 class ModalSideNavbar extends Component {
     constructor(props) {
         super(props);
         this.state = {
             category:[],
-            subcategory:[]
+            subcategory:[],
+            currentcategory:"",
+            set:"Category",
+            subcategorydisplay:"none"
           }
     }
     componentDidMount =()=>{
@@ -17,6 +21,8 @@ class ModalSideNavbar extends Component {
     
     subcat=(e)=>{
       this.props.allsubcategories(e.currentTarget.textContent)
+      this.setState({currentcategory:e.currentTarget.textContent,set:"Sub-Category",subcategorydisplay:"block"})
+
     }
     undisplaysidenav =()=>{
       this.props.showmodalsidenavbar()
@@ -28,7 +34,7 @@ class ModalSideNavbar extends Component {
                <div id="mySidebar" className="container"  style={{backgroundColor:"white",zIndex:"1000000"}}>
               <div className="row">
                 <div className="col-1">
-                  <a href="javascript:void(0)" className="closebtn" onClick={this.undisplaysidenav} style={{textDecoration:"none",fontSize:"25px"}}>x</a>
+                  <a href="javascript:void(0)" className="closebtn" onClick={this.undisplaysidenav} style={{color:"black",textDecoration:"none",fontSize:"25px"}}>x</a>
                   </div>
               <div style={{zIndex:"1000000"}} className="col-3">
      <img src={require("./images/fruget.jpg")} className="img-responsive" style={{width:"50%",display:"none"}}/>
@@ -65,24 +71,22 @@ class ModalSideNavbar extends Component {
 
 </div>
 <br/>
- <p style={{paddingLeft:"20px"}} >Categories</p>
+
+ <p>{this.state.set}</p>
+ <a href={`/category/${this.state.currentcategory}`}>
+ <p style={{backgroundColor:"black", color:"white",padding:"10px",display:`${this.state.subcategorydisplay}`}}>
+  {this.state.currentcategory}
+   <i style={{float:"right"}} className="fas fa-chevron-down ml-1"></i>
+ </p></a>
  <div style={{paddingLeft:"30px"}} className="row">
-   <div className="col-6">
-    {this.props.allcategory.map((categories) =>
-        <div key={categories.subcat1} style={{color:"black",cursor:"pointer"}}>
-             <p onClick={(e)=>this.subcat(e)} ><small style={{textTransform:"capitalize"}} >{categories.subcat1}</small>
-             <span class="fa fa-tv" style={{float: "right"}}></span></p>
+   <div className="col-12">
+    {this.props.allcategory.length > 0 ? this.props.allcategory.map((categories) =>
+        <div key={categories.subcat1 || categories.subcat2} style={{color:"black",cursor:"pointer"}}>
+             <p onClick={(e)=>this.subcat(e)} ><small style={{textTransform:"capitalize"}} >{categories.subcat1 || categories.subcat2}</small>
+             </p>
             <hr/>
         </div>
-        )}
-      </div>
-      <div className="col-6">
-        {this.props.allsubcategory.length > 0 ? <small>Sub-Categories</small> : null}
-    {this.props.allsubcategory.map((categories) =>
-        <div key={categories.subcat2}>
-<p onClick={(e)=>this.subcat(e)} style={{color:"black"}}><small style={{textTransform:"capitalize"}} className="text-muted">{categories.subcat2}</small></p>
-        </div>
-        )}
+        ) : null}
       </div>
       <div>
       <p>Our Services :</p>

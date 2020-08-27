@@ -220,7 +220,7 @@ router.get('/product/:details', (req,res)=>{
         files["authur"] = "Eze Ogbonnaya"
         if(files.productrating){      
    const prating =JSON.parse(files.productrating);
-   const mainrating =[];
+   const mainrating =[]; 
    for (var i=0; i<Object.values(prating).length; i++){
 	mainrating.push(parseInt(Object.values(prating)[i][0]))
  }

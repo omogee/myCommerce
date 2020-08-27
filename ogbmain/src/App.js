@@ -147,9 +147,8 @@ list =() =>{
   window.location.assign(window.location.pathname +"?"+ currentUrlParams.toString());
 }
 addtocart=(id)=>{
-   this.props.addtocart(id)
- 
-}
+   this.props.addtocart(id) 
+  }
 undisplaymodal =() =>{
  this.props.undisplaymodal()
 }
@@ -304,11 +303,10 @@ displaycartbtn =(e)=>{
            {this.props.products.map((product) =>          
            <div className={`${this.state.viewrow}`}    key={product.productId} >         
           <div className={`${this.state.viewcol}`} >
-            <div style={{position:"absolute",top:"0px"}}><img src={require(`./images/fruget.jpg`)} style={{height:"30px",width:"20%"}}></img></div>
             <img className="mainImg img-responsive" src={require (`./images/${product.mainimg || 'emptyimg.jpg'}`)} style={{maxWidth:"100%"}}></img>
           </div>
           <div className={`${this.state.viewcoldetails}`} style={{marginRight:"0px",paddingRight:"0px"}}> 
-        <small style={{float:"left",textTransform:"capitalize",display:`${this.state.displayviewbrand}`}}>{product.brand} <br/></small>
+<small style={{float:"left",textTransform:"capitalize",display:`${this.state.displayviewbrand}`}}>{product.brand} <br/></small>
            <div className="detaildiv"> 
             <div  className="details"> 
     <Link to ={`/product/${product.details}`} style={{color:'black',display:`${this.state.griddetails}`}}>
@@ -326,11 +324,13 @@ displaycartbtn =(e)=>{
  
           </div> 
           <small style={{fontSize:"12px"}}>({product.numOfRating || 0}) </small></div> : null }
+          <div style={{float:"right"}}><img src={require(`./images/fruget.jpg`)} style={{height:"20px",width:"40%",float:"right"}}></img></div>
          </div>
+         
         <br/>
         <center   style={{display:`${window.innerWidth >= 600 ? this.state.viewaddtocartbutton : `none`}`,width:`${this.state.viewcartbtnwidth}`}}>
         <br/>
-        <button type="button" ref={this.detailsRef} className="btn addtocartbtn" onClick={()=>this.addtocart(product.productId)}>
+        <button style={{display:"none"}} type="button" ref={this.detailsRef} className="btn addtocartbtn" onClick={()=>this.addtocart(product.productId)}>
          <span>ADD TO CART</span></button><br/>
         </center><br/>
         </div>

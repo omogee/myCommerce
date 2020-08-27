@@ -6,6 +6,7 @@ import "slick-carousel/slick/slick-theme.css";
 import {getfilteredSuggestions} from "./store"
 import {Carousel} from 'react-bootstrap'
 import {connect} from "react-redux"
+import {Link} from "react-router-dom"
 import Suggestions from "./suggestions"
 import ModalSideNavbar from "./modalsidenavbar"
 const bgimage = require("./images/binble-BLG-595MK2.jpg")
@@ -19,7 +20,7 @@ class Subcats extends Component {
            loading: true,
             category:[],
              sectionOne:[],
-             sectionTwo:[],
+             sectionTwo:[], 
              sectionThree:[],
              sectionFour:[],
              subcatmodal:"none",
@@ -203,66 +204,67 @@ class Subcats extends Component {
               <div className="row" style={{padding:"10px"}}>
               <div className="col-12" style={{backgroundColor: "rgb(0, 119, 179)",color:"rgb(64, 64, 64)", borderTopRadius: "4px"}}>
               <p>
-                <span style={{fontWeight:"bold",color: "white"}}>POPULAR CATEGORY</span>  
+                <span style={{fontWeight:"bold",color: "white"}}>SUPER DEALS</span>  
                 </p> 
                 </div>
-              <div className="col-6 col-lg-2" style={{padding:"10px",border:"1px solid lightgrey",backgroundColor:"white"}}>
+              <div className="col-12 col-md-2" style={{padding:"10px",border:"1px solid lightgrey",backgroundColor:"white"}}>
                 <div className="row">
                   <div className="col-8  d-md-none" style={{}}>
-                    Dispensers
+                   <p>Bianco Basket Standing Fan</p>
+                   <small className="text-muted"> With as low as N 5500 you can order an all plastic a/c fan from  fruget with warranty of 6 months</small>
                   </div>
                   <div className="col-4 col-md-12">
-                  <img style={{width:"100%",float:"right"}} className="img-thumbnail" src="https://www-konga-com-res.cloudinary.com/image/upload/w_auto,f_auto,fl_lossy,dpr_auto,q_auto/v1595215707/contentservice/3.jpg_rk7D1qGeP.jpg" alt=""/>
+                  <img style={{width:"100%",float:"right"}} className="img-thumbnail mainImg" src="https://www-konga-com-res.cloudinary.com/image/upload/w_auto,f_auto,fl_lossy,dpr_auto,q_auto/v1595215707/contentservice/3.jpg_rk7D1qGeP.jpg" alt=""/>
                   </div>
                 </div>
               </div>
-              <div className="col-6 col-lg-2" style={{padding:"10px",border:"1px solid lightgrey",backgroundColor:"white"}}>
+              <div className="col-12 col-md-2" style={{padding:"10px",border:"1px solid lightgrey",backgroundColor:"white"}}>
                 <div className="row" style={{padding:"0px"}}>
                   <div className="col-8  d-md-none" style={{}}>
                     refrigerators
                   </div>
                   <div className="col-4 col-md-12">
-                  <img style={{width:"100%",float:"right"}} className="img-thumbnail" src="https://www-konga-com-res.cloudinary.com/image/upload/w_auto,f_auto,fl_lossy,dpr_auto,q_auto/v1595215707/contentservice/3.jpg_rk7D1qGeP.jpg" alt=""/>
+                  <img style={{width:"100%",float:"right"}} className="img-thumbnail mainImg" src="https://www-konga-com-res.cloudinary.com/image/upload/w_auto,f_auto,fl_lossy,dpr_auto,q_auto/v1595215707/contentservice/3.jpg_rk7D1qGeP.jpg" alt=""/>
                   </div>
                 </div>
               </div>
-              <div className="col-6 col-lg-2" style={{padding:"10px",border:"1px solid lightgrey",backgroundColor:"white"}}>
+              <div className="col-12 col-md-2" style={{padding:"10px",border:"1px solid lightgrey",backgroundColor:"white"}}>
+                <div className="row" style={{padding:"0px"}}>
+                  <div className="col-8  d-md-none" >
+                    refrigerators
+                  </div>
+                  <div className="col-4 col-md-12">
+                  <img style={{width:"100%",float:"right"}} className="img-thumbnail mainImg" src="https://www-konga-com-res.cloudinary.com/image/upload/w_auto,f_auto,fl_lossy,dpr_auto,q_auto/v1595215707/contentservice/3.jpg_rk7D1qGeP.jpg" alt=""/>
+                  </div>
+                </div>
+              </div>
+              <div className="col-12 col-md-2" style={{padding:"10px",border:"1px solid lightgrey",backgroundColor:"white"}}>
+                <div className="row" style={{padding:"0px"}}>
+                  <div className="col-8  d-md-none" >
+                    refrigerators
+                  </div>
+                  <div className="col-4 col-md-12">
+                  <img style={{width:"100%",float:"right"}} className="img-thumbnail mainImg" src="https://www-konga-com-res.cloudinary.com/image/upload/w_auto,f_auto,fl_lossy,dpr_auto,q_auto/v1595215707/contentservice/3.jpg_rk7D1qGeP.jpg" alt=""/>
+                  </div>
+                </div>
+              </div>
+              <div className="col-12 col-md-2" style={{padding:"10px",border:"1px solid lightgrey",backgroundColor:"white"}}>
+                <div className="row" style={{padding:"0px"}}>
+                  <div className="col-8  d-md-none" >
+                    refrigerators
+                  </div>
+                  <div className="col-4 col-md-12">
+                  <img style={{width:"100%",float:"right"}} className="img-thumbnail mainImg" src="https://www-konga-com-res.cloudinary.com/image/upload/w_auto,f_auto,fl_lossy,dpr_auto,q_auto/v1595215707/contentservice/3.jpg_rk7D1qGeP.jpg" alt=""/>
+                  </div>
+                </div>
+              </div>
+              <div className="col-12 col-md-2" style={{padding:"10px",border:"1px solid lightgrey",backgroundColor:"white"}}>
                 <div className="row" style={{padding:"0px"}}>
                   <div className="col-8  d-md-none" style={{}}>
                     refrigerators
                   </div>
                   <div className="col-4 col-md-12">
-                  <img style={{width:"100%",float:"right"}} className="img-thumbnail" src="https://www-konga-com-res.cloudinary.com/image/upload/w_auto,f_auto,fl_lossy,dpr_auto,q_auto/v1595215707/contentservice/3.jpg_rk7D1qGeP.jpg" alt=""/>
-                  </div>
-                </div>
-              </div>
-              <div className="col-6 col-lg-2" style={{padding:"10px",border:"1px solid lightgrey",backgroundColor:"white"}}>
-                <div className="row" style={{padding:"0px"}}>
-                  <div className="col-8  d-md-none" style={{}}>
-                    refrigerators
-                  </div>
-                  <div className="col-4 col-md-12">
-                  <img style={{width:"100%",float:"right"}} className="img-thumbnail" src="https://www-konga-com-res.cloudinary.com/image/upload/w_auto,f_auto,fl_lossy,dpr_auto,q_auto/v1595215707/contentservice/3.jpg_rk7D1qGeP.jpg" alt=""/>
-                  </div>
-                </div>
-              </div>
-              <div className="col-6 col-lg-2" style={{padding:"10px",border:"1px solid lightgrey",backgroundColor:"white"}}>
-                <div className="row" style={{padding:"0px"}}>
-                  <div className="col-8  d-md-none" style={{}}>
-                    refrigerators
-                  </div>
-                  <div className="col-4 col-md-12">
-                  <img style={{width:"100%",float:"right"}} className="img-thumbnail" src="https://www-konga-com-res.cloudinary.com/image/upload/w_auto,f_auto,fl_lossy,dpr_auto,q_auto/v1595215707/contentservice/3.jpg_rk7D1qGeP.jpg" alt=""/>
-                  </div>
-                </div>
-              </div>
-              <div className="col-6 col-lg-2" style={{padding:"10px",border:"1px solid lightgrey",backgroundColor:"white"}}>
-                <div className="row" style={{padding:"0px"}}>
-                  <div className="col-8  d-md-none" style={{}}>
-                    refrigerators
-                  </div>
-                  <div className="col-4 col-md-12">
-                  <img style={{width:"100%",float:"right"}} className="img-thumbnail" src="https://www-konga-com-res.cloudinary.com/image/upload/w_auto,f_auto,fl_lossy,dpr_auto,q_auto/v1595215707/contentservice/3.jpg_rk7D1qGeP.jpg" alt=""/>
+                  <img style={{width:"100%",float:"right"}} className="img-thumbnail mainImg" src="https://www-konga-com-res.cloudinary.com/image/upload/w_auto,f_auto,fl_lossy,dpr_auto,q_auto/v1595215707/contentservice/3.jpg_rk7D1qGeP.jpg" alt=""/>
                   </div>
                 </div>
               </div>             
@@ -276,80 +278,145 @@ class Subcats extends Component {
                 <span style={{fontWeight:"bold",color: "rgb(0, 119, 179)"}}>POPULAR CATEGORY</span>  
                 </p> 
                 </div>
-              <div className="col-6 col-lg-2" style={{padding:"10px",border:"1px solid lightgrey",backgroundColor:"white"}}>
+              <div className="col-6 col-md-3 col-lg-2" style={{padding:"10px",border:"1px solid lightgrey",backgroundColor:"white"}}>
                 <div className="row">
-                  <div className="col-8  d-md-none" style={{}}>
-                    Dispensers
+                  <div className="col-6  d-md-none" style={{}}>
+                   <small style={{fontWeight:"bold"}}> Refrigerators <br/><small>Lg, Hisense, Syinix, Thermocool, midea etc</small></small>                  
                   </div>
-                  <div className="col-4 col-md-12">
+                  <div className="col-6 col-md-12">
                   <img style={{width:"100%",float:"right"}} className="img-thumbnail" src="https://www-konga-com-res.cloudinary.com/image/upload/w_auto,f_auto,fl_lossy,dpr_auto,q_auto/v1595215707/contentservice/3.jpg_rk7D1qGeP.jpg" alt=""/>
                   </div>
                 </div>
               </div>
-              <div className="col-6 col-lg-2" style={{padding:"10px",border:"1px solid lightgrey",backgroundColor:"white"}}>
+              <div className="col-6 col-md-3 col-lg-2" style={{padding:"10px",border:"1px solid lightgrey",backgroundColor:"white"}}>
                 <div className="row" style={{padding:"0px"}}>
-                  <div className="col-8  d-md-none" style={{}}>
-                    refrigerators
+                  <div className="col-6  d-md-none" style={{}}>
+                  <small style={{fontWeight:"bold"}}> Generators <br/><small>sumec, elepaq, tigmax, tiger freezer,Lutian etc</small></small>
                   </div>
-                  <div className="col-4 col-md-12">
+                  <div className="col-6 col-md-12">
                   <img style={{width:"100%",float:"right"}} className="img-thumbnail" src="https://www-konga-com-res.cloudinary.com/image/upload/w_auto,f_auto,fl_lossy,dpr_auto,q_auto/v1595215707/contentservice/3.jpg_rk7D1qGeP.jpg" alt=""/>
                   </div>
                 </div>
               </div>
-              <div className="col-6 col-lg-2" style={{padding:"10px",border:"1px solid lightgrey",backgroundColor:"white"}}>
+              <div className="col-6 col-md-3 col-lg-2" style={{padding:"10px",border:"1px solid lightgrey",backgroundColor:"white"}}>
                 <div className="row" style={{padding:"0px"}}>
-                  <div className="col-8  d-md-none" style={{}}>
-                    refrigerators
+                  <div className="col-6  d-md-none" style={{}}>
+                  <small style={{fontWeight:"bold"}}> A/C <br/><small>Lg, Hisense, Midea, Nexus etc</small></small>
                   </div>
-                  <div className="col-4 col-md-12">
+                  <div className="col-6 col-md-12">
                   <img style={{width:"100%",float:"right"}} className="img-thumbnail" src="https://www-konga-com-res.cloudinary.com/image/upload/w_auto,f_auto,fl_lossy,dpr_auto,q_auto/v1595215707/contentservice/3.jpg_rk7D1qGeP.jpg" alt=""/>
                   </div>
                 </div>
               </div>
-              <div className="col-6 col-lg-2" style={{padding:"10px",border:"1px solid lightgrey",backgroundColor:"white"}}>
+              <div className="col-6 col-md-3 col-lg-2" style={{padding:"10px",border:"1px solid lightgrey",backgroundColor:"white"}}>
                 <div className="row" style={{padding:"0px"}}>
-                  <div className="col-8  d-md-none" style={{}}>
-                    refrigerators
+                  <div className="col-6  d-md-none" style={{}}>
+                  <small style={{fontWeight:"bold"}}> Cookers <br/><small>Table Top, Standing,Electric and Gas cookers</small></small>
                   </div>
-                  <div className="col-4 col-md-12">
+                  <div className="col-6 col-md-12">
                   <img style={{width:"100%",float:"right"}} className="img-thumbnail" src="https://www-konga-com-res.cloudinary.com/image/upload/w_auto,f_auto,fl_lossy,dpr_auto,q_auto/v1595215707/contentservice/3.jpg_rk7D1qGeP.jpg" alt=""/>
                   </div>
                 </div>
               </div>
-              <div className="col-6 col-lg-2" style={{padding:"10px",border:"1px solid lightgrey",backgroundColor:"white"}}>
+              <div className="col-6 col-md-3 col-lg-2" style={{padding:"10px",border:"1px solid lightgrey",backgroundColor:"white"}}>
                 <div className="row" style={{padding:"0px"}}>
-                  <div className="col-8  d-md-none" style={{}}>
-                    refrigerators
+                  <div className="col-6  d-md-none" style={{}}>
+                  <small style={{fontWeight:"bold"}}> Fan <br/><small>Ox, Orl, Binatone, Fanafrik, Century, Panasonic etc</small></small>
                   </div>
-                  <div className="col-4 col-md-12">
+                  <div className="col-6 col-md-12">
                   <img style={{width:"100%",float:"right"}} className="img-thumbnail" src="https://www-konga-com-res.cloudinary.com/image/upload/w_auto,f_auto,fl_lossy,dpr_auto,q_auto/v1595215707/contentservice/3.jpg_rk7D1qGeP.jpg" alt=""/>
                   </div>
                 </div>
               </div>
-              <div className="col-6 col-lg-2" style={{padding:"10px",border:"1px solid lightgrey",backgroundColor:"white"}}>
+              <div className="col-6 col-md-3 col-lg-2" style={{padding:"10px",border:"1px solid lightgrey",backgroundColor:"white"}}>
                 <div className="row" style={{padding:"0px"}}>
-                  <div className="col-8  d-md-none" style={{}}>
-                    refrigerators
+                  <div className="col-6  d-md-none" style={{}}>
+                  <small style={{fontWeight:"bold"}}> Television <br/><small>Smart, Android, Plasma etc</small></small>
                   </div>
-                  <div className="col-4 col-md-12">
+                  <div className="col-6 col-md-12">
                   <img style={{width:"100%",float:"right"}} className="img-thumbnail" src="https://www-konga-com-res.cloudinary.com/image/upload/w_auto,f_auto,fl_lossy,dpr_auto,q_auto/v1595215707/contentservice/3.jpg_rk7D1qGeP.jpg" alt=""/>
                   </div>
                 </div>
-              </div>             
-             
+              </div>  
+              <div className="col-6 col-md-3 col-lg-2" style={{padding:"10px",border:"1px solid lightgrey",backgroundColor:"white"}}>
+                <div className="row" style={{padding:"0px"}}>
+                  <div className="col-6  d-md-none" style={{}}>
+                  <small style={{fontWeight:"bold"}}> Television <br/><small>Smart, Android, Plasma etc</small></small>
+                  </div>
+                  <div className="col-6 col-md-12">
+                  <img style={{width:"100%",float:"right"}} className="img-thumbnail" src="https://www-konga-com-res.cloudinary.com/image/upload/w_auto,f_auto,fl_lossy,dpr_auto,q_auto/v1595215707/contentservice/3.jpg_rk7D1qGeP.jpg" alt=""/>
+                  </div>
+                </div>
+              </div>    
+              <div className="col-6 col-md-3 col-lg-2" style={{padding:"10px",border:"1px solid lightgrey",backgroundColor:"white"}}>
+                <div className="row" style={{padding:"0px"}}>
+                  <div className="col-6  d-md-none" style={{}}>
+                  <small style={{fontWeight:"bold"}}> Television <br/><small>Smart, Android, Plasma etc</small></small>
+                  </div>
+                  <div className="col-6 col-md-12">
+                  <img style={{width:"100%",float:"right"}} className="img-thumbnail" src="https://www-konga-com-res.cloudinary.com/image/upload/w_auto,f_auto,fl_lossy,dpr_auto,q_auto/v1595215707/contentservice/3.jpg_rk7D1qGeP.jpg" alt=""/>
+                  </div>
+                </div>
+              </div>    
+              <div className="col-6 col-md-3 col-lg-2" style={{padding:"10px",border:"1px solid lightgrey",backgroundColor:"white"}}>
+                <div className="row" style={{padding:"0px"}}>
+                  <div className="col-6  d-md-none" style={{}}>
+                  <small style={{fontWeight:"bold"}}> Television <br/><small>Smart, Android, Plasma etc</small></small>
+                  </div>
+                  <div className="col-6 col-md-12">
+                  <img style={{width:"100%",float:"right"}} className="img-thumbnail" src="https://www-konga-com-res.cloudinary.com/image/upload/w_auto,f_auto,fl_lossy,dpr_auto,q_auto/v1595215707/contentservice/3.jpg_rk7D1qGeP.jpg" alt=""/>
+                  </div>
+                </div>
+              </div>    
+              <div className="col-6 col-md-3 col-lg-2" style={{padding:"10px",border:"1px solid lightgrey",backgroundColor:"white"}}>
+                <div className="row" style={{padding:"0px"}}>
+                  <div className="col-6  d-md-none" style={{}}>
+                  <small style={{fontWeight:"bold"}}> Television <br/><small>Smart, Android, Plasma etc</small></small>
+                  </div>
+                  <div className="col-6 col-md-12">
+                  <img style={{width:"100%",float:"right"}} className="img-thumbnail" src="https://www-konga-com-res.cloudinary.com/image/upload/w_auto,f_auto,fl_lossy,dpr_auto,q_auto/v1595215707/contentservice/3.jpg_rk7D1qGeP.jpg" alt=""/>
+                  </div>
+                </div>
+              </div>    
+              <div className="col-6 col-md-3 col-lg-2" style={{padding:"10px",border:"1px solid lightgrey",backgroundColor:"white"}}>
+                <div className="row" style={{padding:"0px"}}>
+                  <div className="col-6  d-md-none" style={{}}>
+                  <small style={{fontWeight:"bold"}}> Television <br/><small>Smart, Android, Plasma etc</small></small>
+                  </div>
+                  <div className="col-6 col-md-12">
+                  <img style={{width:"100%",float:"right"}} className="img-thumbnail" src="https://www-konga-com-res.cloudinary.com/image/upload/w_auto,f_auto,fl_lossy,dpr_auto,q_auto/v1595215707/contentservice/3.jpg_rk7D1qGeP.jpg" alt=""/>
+                  </div>
+                </div>
+              </div>    
+              <div className="col-6 col-md-3 col-lg-2" style={{padding:"10px",border:"1px solid lightgrey",backgroundColor:"white"}}>
+                <div className="row" style={{padding:"0px"}}>
+                  <div className="col-6  d-md-none" style={{}}>
+                  <small style={{fontWeight:"bold"}}> Television <br/><small>Smart, Android, Plasma etc</small></small>
+                  </div>
+                  <div className="col-6 col-md-12">
+                  <img style={{width:"100%",float:"right"}} className="img-thumbnail" src="https://www-konga-com-res.cloudinary.com/image/upload/w_auto,f_auto,fl_lossy,dpr_auto,q_auto/v1595215707/contentservice/3.jpg_rk7D1qGeP.jpg" alt=""/>
+                  </div>
+                </div>
+              </div>               
               </div>
 
+              {this.props.loading ?     
+          <center style={{position:"absolute", top:"50%",left:"50%"}}>
+            <img src={require(`./images/35.gif`)} />
+          </center>
+        : null}
 
-             <div className="row" style={{padding:"0px"}}>
-             <div style={{width:"100%",padding:"5px"}}>
- <small style={{fontSize:"13px",textTransform:"uppercase"}}>Cooling Appliances <span className="fa fa-arrow-right"></span></small><small style={{float:"right",fontWeight:"bold"}}><a href="" style={{color:"black"}}>see more <span className="fa fa-arrow-right"></span></a></small>
+        
+             <div className="row" style={{padding:"0px",backgroundColor:"white",borderRadius:"10px"}}>
+             <div style={{width:"100%",padding:"5px",backgroundColor:"rgb(241,211,211)",borderRadius:"10px"}}>
+ <small style={{fontSize:"14px",textTransform:"capitalize"}}>Cooling Appliances <span className="fa fa-arrow-right"></span></small><small style={{float:"right",fontWeight:"bold"}}><a href="" style={{color:"black"}}>see more <span className="fa fa-arrow-right"></span></a></small>
                  </div>
                <div className="noscrolling">
                    {this.state.sectionOne.map(section1 => 
                     <div className="col-6 col-md-3 col-lg-2" key={section1.productId}  style={{boxShadow:"2px 2px 3px  lightgrey"}}>
                       <div style={{backgroundColor:"white",width:"110%",padding:"8px"}}>         
 <img src={require( `./images/${Object.values(JSON.parse(section1.img1))[0]}`)} onMouseOver={e => Object.values(JSON.parse(section1.img1))[1] !== undefined ? e.currentTarget.src= require( `./images/${Object.values(JSON.parse(section1.img1))[1]}`) : e.currentTarget.src= require( `./images/${Object.values(JSON.parse(section1.img1))[0]}`)} onMouseLeave={e => e.currentTarget.src= require( `./images/${Object.values(JSON.parse(section1.img1))[0]}`)} style={{padding:"0px"}} className="mainImg" alt=""/> 
-<small><a href="" style={{color:"black",textTransform:"capitalize",whiteSpace:"nowrap",textOverflow:"ellipsis",overflow:"hidden", width:"100%",display:"block"}}>{ section1.details}</a> </small>
+<small><Link to= { `/product/${section1.details}`} style={{color:"black",textTransform:"capitalize",whiteSpace:"nowrap",textOverflow:"ellipsis",overflow:"hidden", width:"100%",display:"block"}}>{ section1.details}</Link> </small>
                    <b>{section1.mainprice}</b> <br/>
                    <small>
                        <div className="outer">
@@ -363,10 +430,10 @@ class Subcats extends Component {
                     )}
                </div>
              </div>
-             
+             <br/>
             
-             <div className="row" style={{padding:"0px"}}>
-             <div style={{width:"100%",padding:"5px"}}>
+             <div className="row" style={{padding:"0px",backgroundColor:"white",borderRadius:"10px"}}>
+             <div style={{width:"100%",padding:"5px",backgroundColor:"orange",borderTopRightRadius:"10px",borderTopLeftRadius:"10px"}}>
 <small style={{fontSize:"13px",textTransform:"uppercase"}}>Power Regulating Appliances <span className="fa fa-arrow-right"></span></small><small style={{float:"right",fontWeight:"bold"}}><a href="" style={{color:"black"}}>see more <span className="fa fa-arrow-right"></span></a></small>
                  </div>
                <div className="noscrolling">
@@ -383,9 +450,10 @@ class Subcats extends Component {
                     )}
                </div>
              </div>
-     
-             <div className="row" style={{padding:"0px"}}>
-             <div style={{width:"100%",padding:"5px"}}>
+        <br/>
+
+             <div className="row" style={{padding:"0px",backgroundColor:"white",borderRadius:"10px"}}>
+             <div style={{width:"100%",padding:"5px",backgroundColor:"lightgrey",borderTopRightRadius:"10px",borderTopLeftRadius:"10px"}}>
 <small style={{fontSize:"13px",textTransform:"uppercase"}}>Kitchen Appliances <span className="fa fa-arrow-right"></span></small><small style={{float:"right",fontWeight:"bold"}}><a href="" style={{color:"black"}}>see more <span className="fa fa-arrow-right"></span></a></small>
                  </div>
                <div className="noscrolling">
@@ -401,10 +469,10 @@ class Subcats extends Component {
                     )}
                </div>
              </div>
+              <br/>
 
-
-             <div className="row" style={{padding:"0px"}}>
-                 <div style={{width:"100%",padding:"5px"}}>
+             <div className="row" style={{padding:"0px",backgroundColor:"white",borderRadius:"10px"}}>
+                 <div style={{width:"100%",padding:"5px",backgroundColor:"pink",borderTopRightRadius:"10px",borderTopLeftRadius:"10px"}}>
 <small style={{fontSize:"13px",textTransform:"uppercase"}}>Cooling Appliances <span className="fa fa-arrow-right"></span></small><small style={{float:"right",fontWeight:"bold"}}><a href="" style={{color:"black"}}>see more <span className="fa fa-arrow-right"></span></a></small>
                  </div>
                <div className="noscrolling">

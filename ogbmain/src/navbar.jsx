@@ -7,6 +7,7 @@ import {connect} from 'react-redux';
 import {withRouter} from "react-router-dom"
 import {compose} from "redux"
 import queryString from "query-string"
+import "./main.css"
 import {Link} from "react-router-dom"
 import {Dropdown} from 'react-bootstrap'
 
@@ -66,6 +67,117 @@ class Navbar extends Component {
     render() { 
     
         return ( 
+          <div>
+             <div className="row dodo" style={{width:"100%",height:"30px",backgroundColor:"rgb(0, 119, 179)"}}>
+
+            </div>
+          <div className="dodo" style={{backgroundColor:"rgb(0, 119, 179)"}} style={{width:"100%"}}>
+          <div className="container" style={{height:"100%",width:"100%"}}>
+            <div className="row" style={{backgroundColor:"white"}}>
+               <div className="col-5">
+               <center style={{padding:"15px 0px 0px 20px"}}>
+                    <form action="/search" method="get" onSubmit={this.submit} className="row">
+                      <div className="col-10">
+                       <input type="text" className="form-control navInput"  value={this.state.inputval} name="search" onChange={this.change2} placeholder="Search products , brand and categories here..."/>
+                      </div>
+                      <div className="col-2">
+                       <button type="submit" className="btn" style={{backgroundColor:"rgb(0, 119, 179)",float:"right",color:"white",boxShadow:"1px 2px 2px grey"}}><small>SEARCH</small></button>
+                      </div>                
+                   </form>  
+                  </center>
+               </div>
+               <div className="col-2">
+               <img  src={require("./images/fruget.jpg")} style={{width:"100%",height:"100%",padding:"5px"}} alt=""/>
+               </div>
+               <div className="col-5">
+                 <div className="row">
+                    <div className="col-4">
+                    <center style={{padding:"15px 0px 0px 20px"}}>
+                    <Dropdown>
+                       <Dropdown.Toggle style={{border:"none",backgroundColor:"white"}}>            
+                            <span className="text-muted">Account <span className="far fa-user ml-1"> <i className="fas fa-chevron-down ml-1"></i></span></span>              
+                       </Dropdown.Toggle> 
+                       <Dropdown.Menu>
+                        <Dropdown.Item ><Link to={encodeURI(`/profile/1996,${localStorage.getItem("id")},fruget0829?user$login&#172`)}><span className="far fa-user"></span> <small> My Profile</small></Link></Dropdown.Item>
+                        <Dropdown.Item ><Link to="/customer/login"><span className="fa fa-sign-in-alt" ></span> <small> Login</small></Link></Dropdown.Item>
+                        <Dropdown.Item><Link to="/customer/register"><span className="fa fa-user-plus"> </span> <small> Register</small></Link></Dropdown.Item>
+                         <Dropdown.Item><Link to={`/saved-items/199666229jshs9,${localStorage.getItem("id")},fruget0829?user$login&#172`}><i class="fas fa-cloud-download-alt"></i> <small> Saved Items</small></Link>
+                         </Dropdown.Item>        
+                         </Dropdown.Menu>     
+                        </Dropdown>
+                      </center>  
+                    </div>
+                    <div className="col-3">
+                    <center style={{padding:"15px 0px 0px 20px"}}>
+                    <span className="text-muted">Services<span className="fa fa-question-circle-o ml-1"> </span></span>
+                    </center>
+                    </div>
+
+                    <div className="col-3">
+                    <center style={{padding:"15px 0px 0px 20px"}}>
+                      <small>Cart</small>
+                    <img src={require("./images/cartIcon.png")} className="ml-1" style={{width:"40%",heigth:"50%"}}/>
+                    </center>
+                    </div>
+                 </div>
+               </div> 
+            </div>
+          </div>
+          <div className="row" style={{width:"100%",height:"30px",backgroundColor:"rgb(0, 119, 179)"}}>
+
+        </div>
+       </div>
+
+
+       <div style={{backgroundColor:"white"}} className="didi" style={{width:"100%"}}>
+          <div className="container" style={{backgroundColor:"white",height:"100%",width:"100%"}}>
+            <div className="row" style={{backgroundColor:"white",margin:"10px 4px 10px 0px"}}>
+               <div className="col-1">
+               <center >
+               <span onClick={this.displaysidenav} className="fa fa-bars" style={{fontSize:"20px"}}></span>
+               </center>
+               </div>
+               <div className="col-3">
+               <img  src={require("./images/fruget.jpg")} className="navImg"  alt=""/>
+               </div>
+               <div className="col-6">
+                
+               </div>
+               <div className="col-1">
+               <center>
+               <span style={{fontSize:"20px"}} className="far fa-user ml-1"></span>
+               </center>
+               </div>
+               <div className="col-1">
+               <center>
+               <span style={{fontSize:"20px"}} className="fa fa-cart-plus ml-1"></span>
+               </center>
+               </div>
+            </div>
+
+            <div className="row">
+              <div className="col-12">
+                 <center>
+                 <form   action="/search" method="get" onSubmit={this.submit}>
+                  <div className="input-group mb-3">
+                 <input type="text" className="form-control form-control-sm" name="search" style={{}} value={this.state.inputval}  onChange={this.change2} placeholder="Search products , brand and categories here..." />
+                <div className="input-group-append">
+               <button className="btn btn-sm" style={{color:"white",backgroundColor:"rgb(0, 119, 179)"}} type="submit"><span className="fa fa-search"></span></button>  
+                </div>
+               </div>
+                </form>
+                 </center>
+                 </div>
+            </div>
+          </div>
+       </div>
+
+
+       </div>
+
+          /*
+         <span className="text-muted">Cart <span className="fa fa-cart-plus ml-1"> </span></span>
+
             <div style={{maxWidth:"100%"}}>
               <div className="row" style={{backgroundColor:"rgb(0, 119, 179)",color:"white",maxWidth:"100%"}}>
                   </div>
@@ -142,8 +254,8 @@ class Navbar extends Component {
                     </div>
                   
               </nav>
-            </div>
-         );
+            </div> */
+         );   
     }
 }
 /*

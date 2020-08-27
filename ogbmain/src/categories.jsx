@@ -36,13 +36,13 @@ class Category extends Component {
     render() {  
         return (
             <CookiesProvider>
-            <div>
+            <div> 
                 <Router>
                  <Provider store={store}>
-       <Navbar/>
+                    <Navbar />
                  <Switch> 
+                 
                  <Route path='/' exact component={Subcats} />
-                     <Route path="/bla" exact component={ModalSideNavbar} />
                      <Route path='/customer/register' exact component={Register}/>
                      <Route path='/customer/login' exact component={Login}/>
                  <Route path='/product/:details' exact   component={Details} />  

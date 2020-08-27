@@ -4,7 +4,10 @@ import axios from 'axios'
 import "./main.css"
 import querystring from "query-string"
 import ReactHtmlParser from "react-html-parser"
+import {Link} from "react-router-dom"
 import Suggestions from "./suggestions"
+import {connect} from "react-redux"
+import {getdetails, addtocart, undisplaymodal} from "./store"
 
 const logo = require("./images/goodmark.ico")
 const logo2 = require("./images/good16.ico")
@@ -29,15 +32,15 @@ class Details extends Component {
         .then(res =>  this.setState({save:res.data}))
         .catch(err => console.warn(err)) 
 
-        axios.get(`http://fruget.herokuapp.com/product/${this.props.match.params.details}`)
+        axios.get(`http://fruget.herokuapp.com/details/product/${this.props.match.params.details}`)
         .then(res => this.setState({product: res.data}))
         .catch(err => console.warn(err))  
       
-        axios.get(`http://fruget.herokuapp.com/similiar/${this.props.match.params.details}`)
+        axios.get(`http://fruget.herokuapp.com/details/similiar/${this.props.match.params.details}`)
         .then(res => this.setState({similiarproducts: res.data}))
         .catch(err => console.warn(err))  
 
-        axios.get(`http://fruget.herokuapp.com/similiarbrand/${this.props.match.params.details}`)
+        axios.get(`http://fruget.herokuapp.com/details/similiarbrand/${this.props.match.params.details}`)
         .then(res => this.setState({similiarproductsbybrand: res.data}))
         .catch(err => console.warn(err))  
         const parsedquery = querystring.parse(this.props.match.location);
@@ -45,16 +48,27 @@ class Details extends Component {
 
         window.addEventListener("click", this.handlemodalclick)
         window.addEventListener("click", this.handlesavemodalclick)
+        window.addEventListener("click", this.handlemodalcartclick)
+
+        this.props.getdetails(this.props.match.params.details)
       }
       save =()=>{
           axios.get(`http://fruget.herokuapp.com/customer/save?details=${this.props.match.params.details}`,{ headers: {"Authorization" : `Bearer ${localStorage.getItem("token")}`} })
           .then(res => this.setState({saveResponse:res.data, displaysavemodal:"block"}))
           .catch(err => console.log(err))
       }
+      addtocart =()=>{
+
+      }
       handlemodalclick =(e) =>{
         //  this.modaldiv.style.display = "none"
         if(e.target == this.modaldiv){
             this.setState({display:"none"})
+        }
+      }
+      handlemodalcartclick =(e) =>{
+        if(e.target == this.cartmodaldiv){
+           this.props.undisplaymodal()
         }
       }
       handlesavemodalclick =(e) =>{
@@ -71,6 +85,12 @@ class Details extends Component {
       }
       undisplaymodal =() =>{
         this.setState({display:"none"})
+     }
+     addtocart=(id)=>{
+        this.props.addtocart(id) 
+       }
+     undisplaycartmodal =() =>{
+      this.props.undisplaycartmodal()
      }
      change =(e) =>{
         this.setState({comment:e.target.value})
@@ -108,7 +128,7 @@ class Details extends Component {
              rating: this.state.chooserating,
              comment: this.state.comment
          }
-        axios.post(`http://fruget.herokuapp.com/${this.props.match.params.details}/rate`, {data: JSON.stringify(data)})
+        axios.post(`http://fruget.herokuapp.com/details/${this.props.match.params.details}/rate`, {data: JSON.stringify(data)})
         .then(res => console.log(res.data))
         .catch(err => console.log(err)) 
 
@@ -121,11 +141,11 @@ class Details extends Component {
 
     }
     render() { 
-        console.log(this.state.save)
+        console.log(this.props)
    return (   
          <div className="container" style={{boxShadow:"2px 1px 3px 3px lightgrey",backgroundColor:"#f5f5f0"}}>
              <Suggestions></Suggestions>
-        {this.state.product.map((products) =>
+        {this.props.productDetails.map((products) =>
        <div key={products.productId}>
            <small style={{textTransform:"capitalize"}}> <a href="">home</a>  / 
              <a href="">{products.subcat1 }</a>  / <a href="">{products.subcat2 }</a>  / <a href="">{products.subcat3 }</a> / <a href="">{products.brand }</a> 
@@ -152,7 +172,7 @@ class Details extends Component {
 
               <img ref={(a)=> this.imgelement = a} src={require (`./images/${JSON.parse(products.img1)[1]}`)} style={{maxWidth:"100%"}} className="img-responsive"></img>
               <h2 style={{float:"right", top:"5%",right:"10%", position: "absolute"}} onClick={this.save}>
-                    <i className="fab fa-gratipay" style={{color:`${this.state.save}`}}></i>
+                    <i className="fab fa-gratipay" style={{color:`${this.props.save}`}}></i>
                 </h2>
             </div>
             <div className="col-12 col-lg-6" style={{width:"100%"}} >
@@ -163,7 +183,7 @@ class Details extends Component {
             <small>Warranty: {products.warranty}</small><br/>
             <small>
                 <h4 style={{float:"right"}}>
-            <small style={{color:"rgb(0, 119, 179)"}}>{this.state.save === "rgb(0, 119, 179)" ? "saved" : null}</small>
+            <small style={{color:"rgb(0, 119, 179)"}}>{this.props.save === "rgb(0, 119, 179)" ? "saved" : null}</small>
                 </h4>
             <div className="outer">
           <div className="inner" style={{width:`${products.percentrating || 0}%`}}>
@@ -186,13 +206,15 @@ class Details extends Component {
               <div key={colors}>
                   <input type="checkbox"></input> <small style={{textTransform:"uppercase"}}> {colors}</small>
               </div>  
-           )  : <p>{products.color}</p>}   
+           )  : <small>{products.color}</small>}   
                 </div>
             </div> 
            
-            <button type="button" className="cartbutton" style={{}}>
+            <button type="button" className="cartbutton" onClick={()=>this.addtocart(products.productId)}>
                 <span className="fa fa-cart-plus" style={{float: "left", color:"white"}}></span>
-            <small style={{fontWeight:"bold",color:"white"}}>ADD TO CART</small></button>
+            <small style={{fontSize:"15px",color:"white"}}>ADD TO CART</small></button>
+
+
             <small><a href=""><span className="fa fa-star-half-alt" style={{color:"orange"}}></span> see our review on this product</a></small><br/>
             <small><a href="">PROMOTIONS</a></small><br/>
             <small>share this product on</small><br/>
@@ -321,7 +343,7 @@ class Details extends Component {
  <div className="savediv"  style={{backgroundColor:"white"}}>
      <center>
             <h5 style={{padding:"50px"}}>{ReactHtmlParser(this.state.saveResponse)}</h5>
-            <br/>
+            
             <div className="row" style={{padding:"10px"}}>  
                     <div className="col-6">  
 <button className="btn btn-danger" onClick={this.undisplaymodal} style={{boxShadow:"2px 3px lightgrey",padding:"8px",color:"white",width:"100%"}} type="button">Cancel</button> 
@@ -333,8 +355,37 @@ class Details extends Component {
      </center>
      </div>
  </div>
+ {this.props.loading ?     
+   
+          <center style={{position:"absolute", top:"50%",left:"50%"}}>
+            <img src={require(`./images/35.gif`)} />
+          </center>
+      
+        : null}
+         <div className="mainmodaldiv" ref={(a) => this.cartmodaldiv =a} id="modaldiv" style={{display:`${this.props.display}`}}>
+         <div className="modaldiv"  style={{backgroundColor:"white",borderRadius:"5px"}}>
+           <p onClick={this.undisplaycartmodal}>x</p>
+             <div className="inner-modal"> 
+               <br/><br/>
+               <center>
+                 <h5 style={{padding:"10px"}}>{ReactHtmlParser(this.props.cartMessage)} </h5>
+               </center>
+               <center>                        
+               <div className="row" style={{padding:"3px"}}>  
+               <div className="col-6">  
+<Link to={`/checkout/1996826ysgy7xhau8hzbhxj,${localStorage.getItem("id")},fruget0829?user$login7sgxujaiiahzjk#172`}><button className="btn btn-success checkout" type="button">CheckOut</button> </Link>
+</div>
+<div className="col-6">
+<button className="btn btn-warning continueshopping" onClick={this.undisplaycartmodal}  type="submit">Continue Shopping</button>
+</div>         
+               </div> 
+             </center> 
+         </div> 
+ 
+     </div>
+ </div> 
      <div className="mainmodaldiv" ref={(a) => this.modaldiv =a} id="modaldiv" style={{display:`${this.state.display}`,zIndex:"1",width:"100%",height:"100%",backgroundColor:"rgba(0,0,0,0.4)"}}>
-         <div className="modaldiv"  style={{backgroundColor:"white",height:"50%",borderRadius:"10px"}}>
+         <div className="ratingmodaldiv"  style={{backgroundColor:"white",borderRadius:"10px"}}>
              <div className="inner-modal">
                      <h4 style={{padding:"10px"}}>Comment</h4>
                      <center>   
@@ -363,7 +414,7 @@ class Details extends Component {
 
      </div>
  </div>
-<div className="row">
+<div className="row" >
 {typeof(JSON.parse(products.officialimg)) === "object" ? Object.values(JSON.parse(products.officialimg)).map(officialimgs => 
   <div className="col-6">
     <img src={require(`./images/${officialimgs}`)} style={{width:"100%"}} className="img-responsive"/>
@@ -371,10 +422,11 @@ class Details extends Component {
   ) : null}
 </div>
          <br/>
-<div className="row">
+<div className="row" style={{margin:"2px"}}>
             <div className="col-12" style={{border: "1px solid lightgrey", borderRadius:"5px",backgroundColor:"white",padding:"10px"}}>
 <small style={{fontSize:"20px"}}>Customer Reviews</small><button style={{float:"right",display:`${localStorage.getItem("id") ? "block" : "none"}`}} onClick={this.displaymodal}><a href="#modaldiv">Rate</a></button><br/>
              <hr/>
+            
              <div className="row">
              <div className="col-4">
                  <p style={{padding:"0px",margin:"0px"}}>RATING ({products.numOfRating || 0} ) </p>
@@ -410,11 +462,11 @@ class Details extends Component {
 <small style={{fontSize:"15px",textTransform:"uppercase"}}>Similiar Products You May Like </small><small style={{float:"right",fontWeight:"bold"}}><a href="" style={{color:"black"}}>see more <span className="fa fa-arrow-right"></span></a></small>
                  </div>
                <div className="noscrolling">
-                   {this.state.similiarproducts.map(section3 => 
+                   {this.props.similiarDetails.map(section3 => 
                     <div className="col-6  col-md-3 col-lg-2" key={section3.productId}  >
                         <div style={{backgroundColor:"white",width:"115%",padding:"8px"}}>
                         <div style={{height:"100%"}}>
-                       <img src={require( `./images/${section3.mainimg}`)} style={{maxWidth:"100%", padding:"0px"}} alt=""/> 
+                       <img src={require( `./images/${section3.mainimg}`)} className="mainImg" alt=""/> 
                        </div>
 <small><a href="" style={{color:"black",textTransform:"capitalize"}}>{section3.details.length > 30 ? section3.details.slice(0,30)+ "..." : section3.details +"-"+ section3.model +"-"+ section3.color}</a> </small><br/>
                    <b>{section3.mainprice}</b> <br/>
@@ -437,10 +489,10 @@ class Details extends Component {
 <small style={{fontSize:"15px",textTransform:"uppercase"}}>Other Products From This Brand </small><small style={{float:"right",fontWeight:"bold"}}><a href="" style={{color:"black"}}>see more <span className="fa fa-arrow-right"></span></a></small>
                  </div>
                <div className="noscrolling">
-                   {this.state.similiarproductsbybrand.map(section3 => 
+                   {this.props.similiarBrandDetails.map(section3 => 
                     <div className="col-6  col-md-3 col-lg-2" key={section3.productId}  >
                         <div style={{backgroundColor:"white",width:"115%",padding:"8px"}}>
-                       <img src={require( `./images/${section3.mainimg}`)} style={{maxWidth:"100%", padding:"0px"}} alt=""/> 
+                       <img src={require( `./images/${section3.mainimg}`)} className="mainImg" alt=""/> 
 <small><a href="" style={{color:"black",textTransform:"capitalize"}}>{section3.details.length > 30 ? section3.details.slice(0,30)+ "..." : section3.details +"-"+ section3.model +"-"+ section3.color}</a> </small><br/>
                    <b>{section3.mainprice}</b> <br/>
                    <small>
@@ -502,5 +554,23 @@ class Details extends Component {
          );
     }
 }
- 
-export default Details;
+ const mapStateToProps =(store)=>{
+ return{
+    display:store.display,
+     save:store.save,
+     productDetails:store.productDetails,
+    similiarDetails:store.similiarDetails,
+    similiarBrandDetails:store.similiarBrandDetails,
+    loading:store.loading,
+    cartMessage:store.cartMessage
+ }
+ }
+ const mapDispatchToProps =(dispatch)=>{
+     return{
+         getdetails:(data)=>dispatch(getdetails(data)),
+         undisplaycartmodal:()=>dispatch(undisplaymodal()),
+         addtocart: (data)=>dispatch(addtocart(data))
+     }
+ }
+
+export default connect(mapStateToProps,mapDispatchToProps)(Details);

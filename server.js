@@ -15,23 +15,23 @@ const path = require("path")
 const app = express();  
 const options = {
     host: 'us-cdbr-east-02.cleardb.com',
-    user: 'b9b001ef539d5b',
+    user: 'b9b001ef539d5b',       
     password: '8b36306e',  
     database: 'heroku_ea5621dea112dad'
    }  
 
 const conn = mysql.createPool(options)
-
+   
     console.log('mysql connected successfully')
-
+   
 const sessionStore= new MySQLStore(options);
 app.use(cookieParser())
-app.use(session({
+app.use(session({ 
     key: 'session_cookie_name',
     secret: 'otosh',
-    store: sessionStore,
-    resave: false,
-    saveUninitialized: false,
+    store: sessionStore,       
+    resave: false,      
+    saveUninitialized: false,   
     checkExpirationInterval: 900000,
     // The maximum age of a valid session; milliseconds
     expiration: 200000, 
@@ -42,7 +42,7 @@ app.use(bodyParser.json())
  app.use('/customer',Rcustomer);
  app.use('/search',Rsearch);
  app.use('/products',Rproducts); 
- app.use("/details",Rdetails)
+ app.use("/details",Rdetails)  
 app.get('/suggestions/suggestion',(req,res)=>{
     conn.query('SELECT brand,subcat1,subcat2,subcat3,mainimg,details FROM product',(err,files)=>{
         if (err) throw err;

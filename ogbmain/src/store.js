@@ -28,7 +28,11 @@ const initialState ={
     mainbgcolor:"white",
     modalsidenavbarwidth:"0%",
     modalsidenavbardisplay:"none",
-    modalsidenavbarwidthmargin:"0%"
+    modalsidenavbarwidthmargin:"0%",
+    save:"",
+    productDetails:[],
+    similiarDetails:[],
+    similiarBrandDetails:[]
 }
 const reducer= (state = initialState, action)=>{
     if(action.type === 'loading'){
@@ -123,20 +127,36 @@ const reducer= (state = initialState, action)=>{
         return state;
       }
       else if(action.type === 'allsubcategories'){
-        state = {...state, status:'allsubcategories', loading:false, allsubcategories: action.payload}
+        state = {...state, status:'allsubcategories', loading:false, allcategories: action.payload}
         return state;
       }
       else if(action.type === 'showmodalsidenavbar'){
-        state = {...state, status:'showmodalsidenavbar', mainbgcolor: "rgba(242,242,242,0.7)",modalsidenavbarwidth:"80%",modalsidenavbarwidthmargin:"0%",modalsidenavbardisplay:"block"}
+        state = {...state, status:'showmodalsidenavbar', mainbgcolor: "rgba(242,242,242,0.7)",modalsidenavbarwidth:"95%",modalsidenavbarwidthmargin:"0%",modalsidenavbardisplay:"block"}
         return state;
       }
       else if(action.type === 'unshowmodalsidenavbar'){
         state = {...state, status:'unshowmodalsidenavbar',mainbgcolor: "white",modalsidenavbarwidth:"0%", modalsidenavbarwidthmargin:"0%",modalsidenavbardisplay:"none"}
         return state;
       }
+      else if(action.type === 'checkifsaved'){
+        state = {...state, status:'checkingifsaved',save:action.payload}
+        return state;
+      }
+      else if(action.type === 'detailsloaded'){
+        state = {...state, status:'detailsloaded',productDetails:action.payload,loading:true}
+        return state;
+      }
+      else if(action.type === 'similiarproducts'){
+        state = {...state, status:'similiarproductsloaded',similiarDetails:action.payload}
+        return state;
+      }
+      else if(action.type === 'similiarproductsbybrand'){   
+        state = {...state, status:'similiarbrandsloaded', similiarBrandDetails: action.payload}
+        return state;
+      }
       else if(action.type === 'suggestionloaded'){
         const suggestions = action.payload;
-        
+         
         var filteredSuggestions =[];
        const inputval = action.input;
         for(var i=0; i<suggestions.length; i++){
@@ -194,7 +214,28 @@ export const searcher =(data)=>{
 
   }
 }
+export const getdetails =(data)=>{
+ return(dispatch)=>{
+   dispatch({type:"loading"})
+  axios.get(`http://fruget.herokuapp.com/customer/check/save?details=${data}`,{ headers: {"Authorization" : `Bearer ${localStorage.getItem("token")}`} })
+  .then(res =>  dispatch({type:"checkifsaved",payload:res.data}))
+  .catch(err => dispatch({type:"err",payload:err})) 
 
+  axios.get(`http://fruget.herokuapp.com/details/product/${data}`)
+  .then(res => dispatch({type:"detailsloaded",payload: res.data}))
+  .catch(err => dispatch({type:"err",payload:err}))  
+
+  axios.get(`http://fruget.herokuapp.com/details/similiar/${data}`)
+  .then(res => dispatch({type:"similiarproducts",payload: res.data}))
+  .catch(err => dispatch({type:"err",payload:err}))  
+
+  axios.get(`http://fruget.herokuapp.com/details/similiarbrand/${data}`)
+  .then(res => dispatch({type:"similiarproductsbybrand",payload: res.data}))
+  .catch(err => dispatch({type:"err",payload:err}))  
+  
+
+ }
+}
 export const submitsearcher =(data)=>{
   return (dispatch)=>{
      dispatch({type: 'submitsearched'})
