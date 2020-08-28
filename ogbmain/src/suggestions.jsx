@@ -12,7 +12,7 @@ class Suggestions extends Component {
             <div>
                 <div>
                     <center>
-<div style={{display:`${this.props.inputval.length > 0 ? "block" : "none"}`,width:"100%",borderRadius:"10px",position:"absolute",backgroundColor:"white",top:"-20px",padding:"15px", zIndex:"2"}}>
+<div style={{display:`${this.props.inputval.length > 0 ? "block" : "none"}`}} className="suggestion">
 <ul style={{listStyleType:"none", textAlign:"left"}}>
          <p style={{color:"lightgrey",fontSize:"12px",borderBottom:"1px solid lightgrey",width:"100%"}}>BRANDS</p>
 { this.props.showSuggestions === true && this.props.inputval.length > 0 && this.props.filteredSuggestions.length > 0 ?

@@ -34,23 +34,24 @@ class SearchApp extends Component {
       price:"",
       highestprice:"",
       lowestprice:"",
-      viewrow:"col-6 col-md-4 col-lg-3",
+      viewrow:"col-6 col-md-4 col-lg-3 rowclass",
       viewcol:"",
       viewcolTwo:"",
       displayviewbrand:"block",
       viewborder:"",
       griddetails:"block",
       listdetails:"none",
-      listpadding:5
+      listpadding:5,
+      listmargin:""
      }
   }
   componentDidMount =()=>{
   const parsedQuery = queryString.parse(this.props.location.search)
-  if(parsedQuery.view === "grid"){
-    this.setState({viewrow:"col-6 col-md-4 col-lg-3", viewcolOne:"",viewcolTwo:"",griddetails:"block",listdetails:"none"})
+  if(parsedQuery.view === "grid" || !parsedQuery.view){
+    this.setState({viewrow:"col-6 col-md-4 col-lg-3 rowclass", viewcolOne:"",viewcolTwo:"",griddetails:"block",listdetails:"none"})
     }
     else if(parsedQuery.view === "list"){
-      this.setState({viewrow:"col-12 row", viewcolOne:"col-5",viewcolTwo:"col-7",listpadding: "30px 10px",displayviewbrand:"none",viewborder:"10px",listdetails:"block",griddetails:"none"})
+      this.setState({viewrow:"col-12 row rowclasslist",listmargin:"2px 0px", viewcolOne:"col-5",viewcolTwo:"col-7",listpadding: "30px 10px",displayviewbrand:"none",viewborder:"10px",listdetails:"block",griddetails:"none"})
     }
  let data={
   search: parsedQuery.search,
@@ -177,22 +178,21 @@ handleChange=(e)=>{
             </center>
           </div>
             </div>
-            <hr/>
-        <div className='row' >
+          
+        <div className='row'>
         <div className="d-none d-lg-block col-lg-3 stick" style={{backgroundColor:"rgba(242, 242, 242,0.4)"}}>
           <SearchSideNavbar category={this.props.match.params.category}/>
         </div>
-          <div className='col-12 col-lg-9'>
-    <p>{this.props.searcher}</p>
+          <div className='col-12 col-lg-9' style={{backgroundColor:"#f5f5f0"}}>
           <div className='row'> 
         {this.props.searchedproducts.map((product) =>          
-           <div className={`${this.state.viewrow}`}   key={product.productId} > 
+           <div className={`${this.state.viewrow}`}   key={product.productId} style={{margin:`${this.state.listmargin}`,boxShadow:"2px 1px 2px lightgrey",backgroundColor:"white"}}> 
                 <div className={`${this.state.viewcolOne}`} >
            <img className="mainImg img-responsive" src={require (`./images/${product.mainimg}`)} style={{maxWidth:"100%"}} ></img>
            </div>
            <div className={`${this.state.viewcolTwo}`} >
         <small style={{float:"left",textTransform:"capitalize",display:`${this.state.displayviewbrand}`}}>{product.brand} <br/></small>
-           <div className="detaildiv">
+           <div className="detaildiv" style={{lineHeight:"16px"}}>
              
             <div  className="details">
             <Link to ={`/product/${product.details}`} style={{color:'black',display:`${this.state.griddetails}`}}>
@@ -204,17 +204,18 @@ handleChange=(e)=>{
         </div>
         <small style={{fontWeight:"bold",fontSize:"14px"}}>{product.mainprice}</small> <br/>
        <div><small class="text-muted" style={{textDecoration:"line-through",fontSize:"12px"}}>{product.discount ? product.mainprice : null}</small><b className="badge" style={{fontSize:"12px",fontWeight:"bolder",color:"rgba(0, 119, 179)",backgroundColor:"rgba(0, 119, 179,0.1)",float:"right"}}>{product.discount ? `-${product.discount}%` : null}</b></div> 
-       {product.numOfRating > 0 ?
+       {product.numOfRating !== 0 ?
          <div className="outer">     
           <div className="inner" style={{width:`${product.percentrating || 0}%`}}>   
  
           </div> 
           <small style={{fontSize:"12px"}}>({product.numOfRating || 0}) </small></div> : null }
+          <div><img src={require(`./images/fruget.jpg`)} className="imgSymbol" style={{float:"right"}}></img></div>
          </div>
          <br/>
         <center   style={{display:`${window.innerWidth >= 600 ? this.state.viewaddtocartbutton : `none`}`,width:`${this.state.viewcartbtnwidth}`}}>
         <br/>
-        <button type="button" className="btn addtocartbtn" onClick={()=>this.addtocart(product.productId)} >
+        <button style={{display:"none"}} type="button" className="btn addtocartbtn" onClick={()=>this.addtocart(product.productId)} >
          <span>ADD TO CART</span></button><br/>
         </center><br/>
         </div>
@@ -239,35 +240,15 @@ handleChange=(e)=>{
              </Pagination>
              </center>
             
-             <div className="didi" style={{position:"fixed",left:"0px",bottom:"0px",backgroundColor:"white",boxShadow:"2px 3px 3px 3px light",width:"100%",border:"3px solid grey"}}>
+             <div className="didi bg-dark filterdiv">
                <div className="row">
-                 <div className="col-2" style={{padding:"5px 10px",borderRight:"1px solid lightgrey"}}>
-                 <div style={{padding:"10px"}} style={{padding:"0px 10px",borderRight:"1px solid lightgrey"}}>
-              <i class="fa fa-th"  style={{color:`${this.state.parsedQuery.view === "grid"  ? "rgb(0, 119, 179)" : "black"}`}} style={{color:  "black"}} onClick={this.grid}></i>
-              </div>
-                 </div>
-                 <div className="col-2" style={{padding:"5px 10px",borderRight:"1px solid lightgrey"}}>
-                   <center>
-                <div style={{padding:"10px"}} style={{padding:"0px 10px",borderRight:"1px solid lightgrey"}}>
-              <i class="fa fa-grip-vertical"  style={{color:`${this.state.parsedQuery.view === "view"  ? "rgb(0, 119, 179)" : "black"}`}} onClick={this.list}></i>
-              </div>
-              </center>
-                 </div>
-                 <div className="col-4" style={{color:"rgb(0, 119, 179)",textTransform:"capitalize",paddingTop:"5px"}}>
-                  <small>{this.state.parsedQuery.search}</small>
-                 </div>
                  <div className="col-4">
                  <center>
             <div style={{display:"flex",flexWrap:"nowrap"}}>
-              <div style={{marginTop:"8px"}}>
-                <small >
-                Sort: 
-                </small>
-              </div>
               <div>
               <Dropdown>
-  <Dropdown.Toggle style={{backgroundColor:"white", border:"none",fontWeight:"bolder",color:"rgb(0, 119, 179)"}} id="dropdown-basic">
-   <small style={{fontWeight:"bolder",color:"rgb(0, 119, 179)",textTransform:"capitalize"}}> {this.state.parsedQuery.sort || "popularity"}</small>
+  <Dropdown.Toggle className="bg-dark" id="filterdiv-dropdown">
+   <small className="bg-dark"> {this.state.parsedQuery.sort || "popularity"}</small>
   </Dropdown.Toggle>
 
   <Dropdown.Menu>
@@ -280,8 +261,27 @@ handleChange=(e)=>{
 </Dropdown>
               </div>
             </div>
-            </center>
-                 
+            </center>               
+                 </div>
+                 <div className="col-2 fiterdiv-col" style={{borderLeft:"1px solid lightgrey"}}>
+                   <center>    
+              <button type="button" className="btn btn-link filter-btn" onClick={this.grid} style={{color:`${this.state.parsedQuery.view === "grid"  ? "white" : "rgb(0, 119, 179)"}`}}>
+              <i class="fa fa-th" ></i>
+                  </button>
+                  </center>
+                 </div>
+                 <div className="col-2 fiterdiv-col"  style={{borderLeft:"1px solid lightgrey",borderRight:"1px solid lightgrey"}}>
+                   <center>
+              <button type="button" className="btn btn-link filter-btn" onClick={this.list} style={{color:`${this.state.parsedQuery.view === "list"  ? "white" : "rgb(0, 119, 179)"}`}}>
+              <i class="fa fa-grip-vertical" ></i>
+                  </button>
+                   </center>
+                 </div>
+                 <div className="col-4">               
+                  <button type="button" className="btn btn-link filter-btn" onClick={this.displayfilter} >
+                    Filter 
+                  </button>
+               
                  </div>
                </div>
              </div>

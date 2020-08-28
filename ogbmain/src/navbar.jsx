@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css'
 import {getfilteredSuggestions} from "./store"
 import axios from 'axios';
-import {searcher, submitsearcher,showmodalsidenavbar, unshowmodalsidenavbar} from './store'
+import {searcher, submitsearcher,showmodalsidenavbar, unshowmodalsidenavbar,setAppDisplay} from './store'
 import {connect} from 'react-redux';
 import {withRouter} from "react-router-dom"
 import {compose} from "redux"
@@ -20,7 +20,8 @@ class Navbar extends Component {
           filteredSuggestions:[],
           suggestions:[],
           searcheddata: [],
-          cart:[]
+          cart:[],
+          inputbtnclass:"fa fa-search"
          }
     }
     componentDidMount = () =>{
@@ -34,7 +35,7 @@ class Navbar extends Component {
     }
    
     change2 = (e)=>{
-      this.setState({inputval:e.target.value})
+      this.setState({inputval:e.target.value,inputbtnclass:"fa fa-times"})
       const parsedQuery = queryString.parse(this.props.location.search)
       this.props.searcher(e.target.value)
          
@@ -43,26 +44,17 @@ class Navbar extends Component {
      
       const url = window.location.href;
       const uri = url.split("?")[0]
-      window.location.assign(uri)
+   //   window.location.assign(uri)
      }
     }
     focus =(e) =>{
-   //   this.setState({inputval:e.target.value})
-  //    const parsedQuery = queryString.parse(this.props.location.search)
-      this.props.searcher(e.target.value)
-        
-     this.props.getfilteredSuggestions(e.target.value)
-/*
-     if(e.target.value.length === 0){
-     
-      const url = window.location.href;
-      const uri = url.split("?")[0]
-      window.location.assign(uri)
-     }
-     */
+       this.props.setAppDisplay()
     } 
     displaysidenav =()=>{
     this.props.showmodalsidenavbar()
+    }
+    clearinput=()=>{
+      this.setState({inputval:""})
     }
     render() { 
     
@@ -129,18 +121,18 @@ class Navbar extends Component {
        </div>
 
 
-       <div style={{backgroundColor:"white"}} className="didi" style={{width:"100%"}}>
+       <div style={{backgroundColor:"white"}} className="didi" style={{width:"100%",position:"sticky", top:"0"}}>
           <div className="container" style={{backgroundColor:"white",height:"100%",width:"100%"}}>
-            <div className="row" style={{backgroundColor:"white",margin:"10px 4px 10px 0px"}}>
+<div className="row" style={{display:`${this.props.appDisplay}`,backgroundColor:"white",zIndex:"2",margin:"10px 4px 5px 0px"}}>
                <div className="col-1">
                <center >
                <span onClick={this.displaysidenav} className="fa fa-bars" style={{fontSize:"20px"}}></span>
                </center>
                </div>
-               <div className="col-3">
+               <div className="col-4">
                <img  src={require("./images/fruget.jpg")} className="navImg"  alt=""/>
                </div>
-               <div className="col-6">
+               <div className="col-5">
                 
                </div>
                <div className="col-1">
@@ -160,9 +152,9 @@ class Navbar extends Component {
                  <center>
                  <form   action="/search" method="get" onSubmit={this.submit}>
                   <div className="input-group mb-3">
-                 <input type="text" className="form-control form-control-sm" name="search" style={{}} value={this.state.inputval}  onChange={this.change2} placeholder="Search products , brand and categories here..." />
+                 <input type="text" onFocus={this.focus} className="form-control" name="search" style={{borderRight:"none"}} value={this.state.inputval}  onChange={this.change2} placeholder="Search products , brand etc" />
                 <div className="input-group-append">
-               <button className="btn btn-sm" style={{color:"white",backgroundColor:"rgb(0, 119, 179)"}} type="submit"><span className="fa fa-search"></span></button>  
+               <button className="btn " style={{color:"grey",border:"1px solid lightgrey",borderLeft:"none"}} type="submit"><span onClick={this.clearinput} className={`${this.state.inputbtnclass}`}></span></button>  
                 </div>
                </div>
                 </form>
@@ -316,7 +308,8 @@ const mapStateToProps =(store)=>{
      suggestions: store.suggestions,
      showSuggestions: store.showSuggestions,
      inputval: store.inputval,
-     searchedproducts:store.searchedproducts
+     searchedproducts:store.searchedproducts,
+     appDisplay:store.appDisplay
    }
 }
 const mapDispatchToProps =(dispatch)=>{
@@ -325,7 +318,8 @@ const mapDispatchToProps =(dispatch)=>{
    searcher: (data)=> dispatch(searcher(data)),
    getfilteredSuggestions: (data) => dispatch(getfilteredSuggestions(data)),
    showmodalsidenavbar:()=>dispatch(showmodalsidenavbar()),
-   unshowmodalsidenavbar:()=>dispatch(unshowmodalsidenavbar())
+   unshowmodalsidenavbar:()=>dispatch(unshowmodalsidenavbar()),
+   setAppDisplay:()=>dispatch(setAppDisplay())
  }
 }
 export default compose(withRouter, connect(mapStateToProps,mapDispatchToProps))(Navbar);

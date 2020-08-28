@@ -35,7 +35,7 @@ class App extends Component {
       price:"",
       highestprice:"",
       lowestprice:"",
-      viewrow:"col-6 col-md-4 col-lg-3",
+      viewrow:"col-6 col-md-4 col-lg-3 rowclass",
       viewcol:"",
       viewcoldetails:"",
       loading:true,
@@ -46,7 +46,8 @@ class App extends Component {
       viewbgcolor:"white",
       griddetails: "block",
       listdetails:"none",
-      frugetshow:""
+      frugetshow:"",
+      listmargin:""
      }
   }
   componentWillMount =()=>{
@@ -54,11 +55,11 @@ class App extends Component {
     if(window.innerWidth <= 800){
       this.setState({displayviewbrand:"none"})
     }
-    if(parsedQuery.view === "grid"){
-    this.setState({viewrow:"col-6 col-md-4 col-lg-3", viewcol:""})
+    if(parsedQuery.view === "grid" || !parsedQuery.view){
+    this.setState({viewrow:"col-6 col-md-4 col-lg-3 rowclass", viewcol:""})
     }
     else if(parsedQuery.view === "list"){
-      this.setState({viewrow:"col-12 row", viewcol:"col-5",viewcoldetails:"col-7",viewborder:"10px",frugetshow:"right",viewcartbtnwidth:"40%",viewbgcolor:"lightgrey",displayviewbrand:"none",griddetails:"none",listdetails:"block"})
+      this.setState({viewrow:"col-12 row rowclasslist", viewcol:"col-5",listmargin:"2px 0px",viewcoldetails:"col-7",viewborder:"10px",frugetshow:"right",viewcartbtnwidth:"40%",viewbgcolor:"lightgrey",displayviewbrand:"none",griddetails:"none",listdetails:"block"})
       if(window.innerWidth <= 600){ 
         this.setState({viewaddtocartbutton:"none"})
       }
@@ -179,15 +180,16 @@ displaycartbtn =(e)=>{
       ) 
     }else{  */
     return (   
-           <div>
+            <div>
+             <div style={{display:`${this.props.inputval.length > 0 ? "block" : "none"}`,zIndex:"2",width:"100%",height:"100%",position:"absolute"}} className="indexer"> 
+             <Suggestions></Suggestions>       
+             </div>
+           <div style={{display:`${this.props.appDisplay}`}}>
              <div style={{display:`${this.props.mainbgcolor==="white" ? "none" : "block"}`,backgroundColor:"rgba(242,242,242,0.5)",width:"100%",height:"200%",position:"absolute",top:"0px",zIndex:"2"}}>
                x
              <div className="sidenavbar" style={{zIndex:"1",display:`${this.props.modalsidenavbardisplay}`,position:"absolute",top:"0px",width:`${this.props.modalsidenavbarwidth}`}}>
               <ModalSideNavbar/>            
              </div>
-             </div>
-             <div style={{display:`${this.props.inputval.length > 0 ? "block" : "none"}`,zIndex:"2",width:"100%",height:"100%",position:"absolute"}} className="indexer"> 
-             <Suggestions></Suggestions>       
              </div>
           <div className="container main">
           {this.props.loading ?     
@@ -256,8 +258,7 @@ displaycartbtn =(e)=>{
           </div>
             </center>
           </div>
-        <hr/>
-            
+            <br/>
             
         <div className='row' >
         <div className={this.state.sidenavbarclass} >
@@ -275,7 +276,7 @@ displaycartbtn =(e)=>{
         
 
          
-          <div className={this.state.appclass} >
+          <div className={this.state.appclass} style={{backgroundColor: "#f5f5f0"}}>
      
           <div className="mainmodaldiv" ref={(a) => this.modaldiv =a} id="modaldiv" style={{display:`${this.props.display}`}}>
          <div className="modaldiv"  style={{backgroundColor:"white",borderRadius:"5px"}}>
@@ -301,13 +302,15 @@ displaycartbtn =(e)=>{
  </div> 
           <div className='row'>      
            {this.props.products.map((product) =>          
-           <div className={`${this.state.viewrow}`}    key={product.productId} >         
-          <div className={`${this.state.viewcol}`} >
-            <img className="mainImg img-responsive" src={require (`./images/${product.mainimg || 'emptyimg.jpg'}`)} style={{maxWidth:"100%"}}></img>
+           <div className={`${this.state.viewrow}`} style={{backgroundColor:"white",margin:`${this.state.listmargin}`}}  key={product.productId} >        
+          <div className={`${this.state.viewcol}`}>
+            <center>
+            <img className="mainImg img-responsive" src={require (`./images/${product.mainimg || 'emptyimg.jpg'}`)} ></img>
+            </center>
           </div>
-          <div className={`${this.state.viewcoldetails}`} style={{marginRight:"0px",paddingRight:"0px"}}> 
+          <div className={`${this.state.viewcoldetails}`}> 
 <small style={{float:"left",textTransform:"capitalize",display:`${this.state.displayviewbrand}`}}>{product.brand} <br/></small>
-           <div className="detaildiv"> 
+           <div className="detaildiv" style={{lineHeight:"16px"}}> 
             <div  className="details"> 
     <Link to ={`/product/${product.details}`} style={{color:'black',display:`${this.state.griddetails}`}}>
      <small style={{display:"inline-block",fontSize:"12px"}}>{product.details.length > 40 ? product.details.slice(0,40)+ "..." : product.details +"-"+ product.model +"-"+ product.color}</small>  
@@ -324,7 +327,7 @@ displaycartbtn =(e)=>{
  
           </div> 
           <small style={{fontSize:"12px"}}>({product.numOfRating || 0}) </small></div> : null }
-          <div style={{float:"right"}}><img src={require(`./images/fruget.jpg`)} style={{height:"20px",width:"40%",float:"right"}}></img></div>
+          <div><img src={require(`./images/fruget.jpg`)} className="imgSymbol" style={{float:"right"}}></img></div>
          </div>
          
         <br/>
@@ -335,7 +338,6 @@ displaycartbtn =(e)=>{
         </center><br/>
         </div>
            </div> 
-           
          )}
          
              </div>
@@ -403,7 +405,7 @@ displaycartbtn =(e)=>{
          </div>
         </div>
       </div>
-     
+      </div>
       </div> 
      );
   }
@@ -424,7 +426,8 @@ displaycartbtn =(e)=>{
        loading:store.loading,
        mainbgcolor:store.mainbgcolor,
        modalsidenavbarwidth: store.modalsidenavbarwidth,
-       modalsidenavbardisplay: store.modalsidenavbardisplay
+       modalsidenavbardisplay: store.modalsidenavbardisplay,
+       appDisplay:store.appDisplay
      }
  }
  const mapDispatchToProps =(dispatch)=>{

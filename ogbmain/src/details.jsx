@@ -132,7 +132,7 @@ class Details extends Component {
         .then(res => console.log(res.data))
         .catch(err => console.log(err)) 
 
-        this.setState({comment:"Thank you for reviewing"})
+        this.setState({comment:"Thank you for reviewing"}) 
      }
      changesrc =(src, e)=>{
     this.imgelement.src = src;    
@@ -143,6 +143,7 @@ class Details extends Component {
     render() { 
         console.log(this.props)
    return (   
+       <div className="detailcontainer">
          <div className="container" style={{boxShadow:"2px 1px 3px 3px lightgrey",backgroundColor:"#f5f5f0"}}>
              <Suggestions></Suggestions>
         {this.props.productDetails.map((products) =>
@@ -159,9 +160,9 @@ class Details extends Component {
                
            </center>
            <br/>
-        <div className="row" style={{width:"100%"}}> 
-            <div className="col-12 col-lg-6">
-
+        <div className="row" style={{padding:"0px 10px"}}> 
+            <div className="col-12 col-lg-6"  >
+            <center>
             <div style={{display:"flex",flexWrap:"wrap",justifyContent:"space-between",width:"10%", position:"absolute"}}>
             {Object.values(JSON.parse(products.img1)).map(img =>
             <div key={img} style={{border:"1px solid grey"}}>           
@@ -169,13 +170,14 @@ class Details extends Component {
             </div> 
           )} 
           </div>
-
-              <img ref={(a)=> this.imgelement = a} src={require (`./images/${JSON.parse(products.img1)[1]}`)} style={{maxWidth:"100%"}} className="img-responsive"></img>
+         
+              <img ref={(a)=> this.imgelement = a} src={require (`./images/${JSON.parse(products.img1)[1]}`)} style={{width:"100%"}} className="img-responsive"></img>
               <h2 style={{float:"right", top:"5%",right:"10%", position: "absolute"}} onClick={this.save}>
                     <i className="fab fa-gratipay" style={{color:`${this.props.save}`}}></i>
                 </h2>
+                </center>
             </div>
-            <div className="col-12 col-lg-6" style={{width:"100%"}} >
+            <div className="col-12 col-lg-6 detailmarginal" style={{width:"100%",backgroundColor:"white"}} >
             
            <p style={{textTransform:"uppercase"}}>{products.details} -{products.model} -{products.color}</p>
             <small>Brand : {products.brand}</small><br/>
@@ -221,12 +223,13 @@ class Details extends Component {
             </div>
             </div>   
             <br/>
-            <div className="row showcase" style={{position:"sticky",top:"0px",left:"0px",backgroundColor:"white",zIndex:"2",color:"rgb(0, 119, 179)",padding:"10px"}}>
+            <div className="row showcase text-muted" style={{position:"sticky",top:"0px",left:"0px",backgroundColor:"white",padding:"0px",zIndex:"2",margin:"5px 2px"}}>
               <div className="col-12">
                  <b style={{textTransform:"uppercase"}}>{products.details} -{products.model} -{products.color}</b><br/>
                 <b style={{color:"orange"}}>{products.mainprice}</b><b style={{float:"right"}}>{- products.discount}</b><br/>
               </div>
             </div>
+            <div style={{backgroundColor:"white"}}>
                <center>
                    <h3 style={{textTransform:"uppercase", textAlign:"center"}}>{products.model}</h3>
          <p style={{width:"100%",textTransform:"capitalize"}}>{ReactHtmlParser(products.entrytext)}</p>
@@ -253,13 +256,13 @@ class Details extends Component {
          </div>
         </div>
         </center> 
-
+     </div>
             <br/>
             <div className="row">
-                <div className="col-12 col-lg-6">
-                    <p style={{border: "1px solid lightgrey", padding:"10px",margin:"0px"}}>Key Features :</p>
+                <div className="col-12 col-lg-6" >
+                    <p style={{border: "1px solid lightgrey", padding:"10px",margin:"0px",backgroundColor:"white"}}>Key Features :</p>
                 {products.features !== null ? JSON.parse(products.features).split(',').map(feature =>
-                <div style={{border: "1px solid lightgrey", padding:"2px",margin:"0px"}}>
+                <div style={{border: "1px solid lightgrey", padding:"2px",margin:"0px",backgroundColor:"white"}}>
                 <small>
             <ul key={feature} style={{listStyleImage: `url(${logo})`}}>
                 <li style={{textTransform: "capitalize"}}>{ReactHtmlParser(feature)}</li>
@@ -269,7 +272,7 @@ class Details extends Component {
                 ) : "N/A"}
                 </div>
             {JSON.parse(products.img1)[2] !== undefined ? 
-           <div className="col-12 col-lg-6">
+           <div className="col-12 col-lg-6 detailmarginal">
               <img src={require (`./images/${JSON.parse(products.img1)[2]}`)} style={{width:"100%"}} className="img-responsive" alt=""/>
            </div> : 
            <div className="col-12 col-lg-6" style={{display:"flex",flexWrap:"wrap",width:"100%"}}>
@@ -283,7 +286,7 @@ class Details extends Component {
            } 
             </div>
          <br/>
-         <center>
+         <center style={{backgroundColor:"white",padding:"5px"}}>
          <h3>ABOUT THE PRODUCT</h3>
          <small style={{textTransform:"capitalize"}}>
          {ReactHtmlParser(products.productdescription)}
@@ -309,7 +312,7 @@ class Details extends Component {
             </div>
            <br/>
 
-            <center>
+            <center style={{backgroundColor:"white",padding:"5px"}}>
            <h3>ABOUT THE BRAND</h3>
          <small style={{textTransform:"capitalize"}}>
          {ReactHtmlParser(products.branddescription)}
@@ -317,11 +320,11 @@ class Details extends Component {
          </center>
          <br/>
            <div className="row">
-                <div className="col-12 col-lg-6">
-                    <p style={{border: "1px solid lightgrey", padding:"10px",margin:"0px"}}>Key specifications :</p>
-                    <div style={{border: "0.5px solid lightgrey", padding:"10px", margin:"0px"}}>
+                <div className="col-12 col-lg-6" >
+                    <p style={{border: "1px solid lightgrey", padding:"10px",margin:"0px",backgroundColor:"white"}}>Key specifications :</p>
+                    <div style={{border: "0.5px solid lightgrey", padding:"10px", margin:"0px",backgroundColor:"white"}}>
                         <small>
-                             <b>Brand : {products.brand}</b><br/>
+                             <b>Brand : {products.brand}</b><hr/>
                 <b>Model : {products.model}</b><br/>
                 <b>Colour : {products.color}</b><br/>
                 <b>Colours Available : {JSON.parse(products.coloursavail) || products.color}</b><br/>
@@ -335,7 +338,7 @@ class Details extends Component {
                     </div>               
                 </div>
             {(JSON.parse(products.img1)[4]) !== undefined ? 
-           <div className="col-12 col-lg-6">
+           <div className="col-12 col-lg-6 detailmarginal" >
               <img src={require (`./images/${JSON.parse(products.img1)[4]}`)} style={{width:"100%"}} className="img-responsive" alt=""/>
            </div> : null} 
             </div>
@@ -424,21 +427,21 @@ class Details extends Component {
          <br/>
 <div className="row" style={{margin:"2px"}}>
             <div className="col-12" style={{border: "1px solid lightgrey", borderRadius:"5px",backgroundColor:"white",padding:"10px"}}>
-<small style={{fontSize:"20px"}}>Customer Reviews</small><button style={{float:"right",display:`${localStorage.getItem("id") ? "block" : "none"}`}} onClick={this.displaymodal}><a href="#modaldiv">Rate</a></button><br/>
+<small style={{fontSize:"15px"}}>Customer Reviews</small><button style={{float:"right",display:`${localStorage.getItem("id") ? "block" : "none"}`}} onClick={this.displaymodal}><a href="#modaldiv">Rate</a></button><br/>
              <hr/>
             
              <div className="row">
-             <div className="col-4">
-                 <p style={{padding:"0px",margin:"0px"}}>RATING ({products.numOfRating || 0} ) </p>
-            <h1>{(products.percentrating/20).toFixed(2)} </h1>
+             <div className="col-3">
+                 <small style={{padding:"0px",margin:"0px"}}>RATING ({products.numOfRating || 0} ) </small>
+            <h3>{(products.percentrating/20).toFixed(2)} </h3>
           <div className="outer">
           <div className="inner" style={{width:`${products.percentrating || 0}%`}}>
              </div>
             </div>
 
              </div>
-             <div className="col-8">
-             <p style={{padding:"0px",margin:"0px"}}>REVIEWS/ COMMENTS ({products.numOfRating || 0} ) </p>
+             <div className="col-9">
+             <small style={{padding:"0px",margin:"0px"}}>REVIEWS/ COMMENTS ({products.numOfRating || 0} ) </small>
              {Object.keys(JSON.parse(products.productrating)).map((key)=> 
                <div>                 
                     <p style={{padding:"0px"}}><span className="fa fa-comment-dots"></span> {JSON.parse(products.comments)[key]}</p>
@@ -457,26 +460,19 @@ class Details extends Component {
             </div>
         </div>  
 <br/>
-<div className="row" style={{padding:"0px"}}>
+<div className="row" style={{padding:"10px",backgroundColor:"white"}}>
              <div style={{width:"100%",padding:"5px"}}>
-<small style={{fontSize:"15px",textTransform:"uppercase"}}>Similiar Products You May Like </small><small style={{float:"right",fontWeight:"bold"}}><a href="" style={{color:"black"}}>see more <span className="fa fa-arrow-right"></span></a></small>
+<div style={{fontSize:"15px",textTransform:"uppercase"}}>Similiar Products You May Like <small style={{float:"right",fontWeight:"bold"}}><a href="" style={{color:"black",marginRight:"30px"}}><span className="fa fa-chevron-right"></span></a></small></div>
                  </div>
                <div className="noscrolling">
                    {this.props.similiarDetails.map(section3 => 
                     <div className="col-6  col-md-3 col-lg-2" key={section3.productId}  >
-                        <div style={{backgroundColor:"white",width:"115%",padding:"8px"}}>
+                        <div style={{backgroundColor:"white",width:"115%",padding:"8px",boxShadow:"2px 1px 2px lightgrey"}}>
                         <div style={{height:"100%"}}>
                        <img src={require( `./images/${section3.mainimg}`)} className="mainImg" alt=""/> 
                        </div>
-<small><a href="" style={{color:"black",textTransform:"capitalize"}}>{section3.details.length > 30 ? section3.details.slice(0,30)+ "..." : section3.details +"-"+ section3.model +"-"+ section3.color}</a> </small><br/>
+                       <small><Link to= { `/product/${section3.details}`} style={{color:"black",textTransform:"capitalize",whiteSpace:"nowrap",textOverflow:"ellipsis",overflow:"hidden", width:"100%",display:"block"}}>{ section3.details}</Link> </small>
                    <b>{section3.mainprice}</b> <br/>
-                   <small>
-                       <div className="outer">
-                           <div className="inner" style={{width:`${section3.percentrating}%`}}>
-
-                           </div>
-                   </div><small style={{fontSize:"12px"}}>({section3.numOfRating})</small>
-                   </small>
                    </div>
                     </div>
                     )}
@@ -484,24 +480,17 @@ class Details extends Component {
              </div>
 
              <br/>
-<div className="row" style={{padding:"0px"}}>
+<div className="row" style={{padding:"0px",backgroundColor:"white"}}>
              <div style={{width:"100%",padding:"5px"}}>
-<small style={{fontSize:"15px",textTransform:"uppercase"}}>Other Products From This Brand </small><small style={{float:"right",fontWeight:"bold"}}><a href="" style={{color:"black"}}>see more <span className="fa fa-arrow-right"></span></a></small>
+<small style={{fontSize:"15px",textTransform:"uppercase"}}>Other Products From This Brand </small><small style={{float:"right",fontWeight:"bold"}}><a href="" style={{color:"black",marginRight:"30px"}}><span className="fa fa-chevron-right"></span></a></small>
                  </div>
                <div className="noscrolling">
                    {this.props.similiarBrandDetails.map(section3 => 
                     <div className="col-6  col-md-3 col-lg-2" key={section3.productId}  >
                         <div style={{backgroundColor:"white",width:"115%",padding:"8px"}}>
                        <img src={require( `./images/${section3.mainimg}`)} className="mainImg" alt=""/> 
-<small><a href="" style={{color:"black",textTransform:"capitalize"}}>{section3.details.length > 30 ? section3.details.slice(0,30)+ "..." : section3.details +"-"+ section3.model +"-"+ section3.color}</a> </small><br/>
-                   <b>{section3.mainprice}</b> <br/>
-                   <small>
-                       <div className="outer">
-                           <div className="inner" style={{width:`${section3.percentrating}%`}}>
-
-                           </div>
-                   </div> <small style={{fontSize:"12px"}}>({section3.numOfRating})</small>
-                   </small>
+                       <small><Link to= { `/product/${section3.details}`} style={{color:"black",textTransform:"capitalize",whiteSpace:"nowrap",textOverflow:"ellipsis",overflow:"hidden", width:"100%",display:"block"}}>{ section3.details}</Link> </small>
+                   <b>{section3.mainprice}</b> <br/>               
                    </div>
                     </div>
                     )}
@@ -550,7 +539,8 @@ class Details extends Component {
              </div> 
             </div>
            </div>)}
-           </div>          
+           </div>   
+           </div>       
          );
     }
 }

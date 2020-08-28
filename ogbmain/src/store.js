@@ -32,7 +32,8 @@ const initialState ={
     save:"",
     productDetails:[],
     similiarDetails:[],
-    similiarBrandDetails:[]
+    similiarBrandDetails:[],
+    appDisplay:""
 }
 const reducer= (state = initialState, action)=>{
     if(action.type === 'loading'){
@@ -143,7 +144,7 @@ const reducer= (state = initialState, action)=>{
         return state;
       }
       else if(action.type === 'detailsloaded'){
-        state = {...state, status:'detailsloaded',productDetails:action.payload,loading:true}
+        state = {...state, status:'detailsloaded',productDetails:action.payload,loading:false}
         return state;
       }
       else if(action.type === 'similiarproducts'){
@@ -152,6 +153,10 @@ const reducer= (state = initialState, action)=>{
       }
       else if(action.type === 'similiarproductsbybrand'){   
         state = {...state, status:'similiarbrandsloaded', similiarBrandDetails: action.payload}
+        return state;
+      }
+      else if(action.type === 'undisplayApp'){   
+        state = {...state, status:'undisplayApp', appDisplay: "none"}
         return state;
       }
       else if(action.type === 'suggestionloaded'){
@@ -189,6 +194,11 @@ export const setLoadingtoTrue =()=>{
   return (dispatch)=>{
      dispatch ({type:"setLoadingtoTrue"})
   }
+}
+export const setAppDisplay=()=>{
+  return(
+    {type:"undisplayApp"}
+  )
 }
 export const searcher =(data)=>{
   return (dispatch)=>{

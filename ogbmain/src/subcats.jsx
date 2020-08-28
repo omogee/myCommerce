@@ -69,7 +69,11 @@ class Subcats extends Component {
         )
       }
         return (
-          <div>
+           <div>
+          <div style={{display:`${this.props.inputval.length > 0 ? "block" : "none"}`,zIndex:"2",width:"100%",height:"100%",position:"absolute"}} className="indexer"> 
+          <Suggestions></Suggestions>       
+          </div>
+          <div style={{display:`${this.props.appDisplay}`}}>
              <div style={{display:`${this.props.mainbgcolor==="white" ? "none" : "block"}`,backgroundColor:"rgba(242,242,242,0.5)",width:"100%",height:"200%",position:"absolute",top:"0px",zIndex:"2"}}>
                x
              <div className="sidenavbar" style={{zIndex:"1",display:`${this.props.modalsidenavbardisplay}`,position:"absolute",top:"0px",width:`${this.props.modalsidenavbarwidth}`}}>
@@ -166,7 +170,7 @@ class Subcats extends Component {
                 <div className="col-3 d-none  d-lg-block" style={{width:"100%", padding:"0px"}}>
                   <div style={{backgroundColor:"white",padding:"12px"}}>
    <span style={{color:"rgb(255, 133, 51)",padding:"8px",borderRadius:"20px",border:"2px solid black"}} className="fa fa-shopping-cart"></span>
-   <small style={{padding:"7px"}}>Sell On Efrika</small><br/><br/>
+   <small style={{padding:"7px"}}>Sell On Fruget</small><br/><br/>
    <span style={{color:"rgb(255, 133, 51)",padding:"8px",borderRadius:"20px",border:"2px solid #e60000"}} className="fa fa-wrench"></span>
    <small style={{padding:"7px"}}>Visit Service Centre</small><br/><br/>
    <span style={{color:"rgb(255, 133, 51)",padding:"8px",borderRadius:"20px",border:"2px solid #e60000"}} className="fa fa-backward"></span>
@@ -178,8 +182,7 @@ class Subcats extends Component {
                   </div>
                 </div>
               </div>
-              <br/>
-              <div className="row" >
+              <div className="row" style={{backgroundColor:"white",margin:"5px 2px"}}>
                 <div className="col-4 col-md-2">
                  <img src={require("./images/htc-logo.jpg")} style={{width:"100%",marginBottom:"5px"}} alt=""/>
                 </div>
@@ -200,7 +203,8 @@ class Subcats extends Component {
                  <img src={require("./images/midealogo.jpg")} style={{width:"100%",marginBottom:"5px"}} alt=""/>
                 </div>
               </div>
-              <br/>
+
+
               <div className="row" style={{padding:"10px"}}>
               <div className="col-12" style={{backgroundColor: "rgb(0, 119, 179)",color:"rgb(64, 64, 64)", borderTopRadius: "4px"}}>
               <p>
@@ -267,10 +271,9 @@ class Subcats extends Component {
                   <img style={{width:"100%",float:"right"}} className="img-thumbnail mainImg" src="https://www-konga-com-res.cloudinary.com/image/upload/w_auto,f_auto,fl_lossy,dpr_auto,q_auto/v1595215707/contentservice/3.jpg_rk7D1qGeP.jpg" alt=""/>
                   </div>
                 </div>
-              </div>             
-             
+              </div>                          
               </div>
-              <br/>
+
 
               <div className="row" style={{padding:"10px"}}>
               <div className="col-12" style={{backgroundColor: "white",color:"grey", borderTopRadius: "4px"}}>
@@ -407,38 +410,30 @@ class Subcats extends Component {
         : null}
 
         
-             <div className="row" style={{padding:"0px",backgroundColor:"white",borderRadius:"10px"}}>
-             <div style={{width:"100%",padding:"5px",backgroundColor:"rgb(241,211,211)",borderRadius:"10px"}}>
- <small style={{fontSize:"14px",textTransform:"capitalize"}}>Cooling Appliances <span className="fa fa-arrow-right"></span></small><small style={{float:"right",fontWeight:"bold"}}><a href="" style={{color:"black"}}>see more <span className="fa fa-arrow-right"></span></a></small>
+             <div className="row mb-1" style={{padding:"0px",backgroundColor:"white"}}>
+             <div style={{width:"100%",padding:"5px"}}>
+ <small style={{fontSize:"14px",textTransform:"capitalize"}}>Cooling Appliances </small><small style={{float:"right",fontWeight:"bold"}}><a href="" style={{color:"black",marginRight:"30px"}}><span className="fa fa-chevron-right"></span> </a></small>
                  </div>
                <div className="noscrolling">
                    {this.state.sectionOne.map(section1 => 
-                    <div className="col-6 col-md-3 col-lg-2" key={section1.productId}  style={{boxShadow:"2px 2px 3px  lightgrey"}}>
+                    <div className="col-5 col-md-3 col-lg-2" key={section1.productId}  style={{boxShadow:"2px 2px 3px  lightgrey"}}>
                       <div style={{backgroundColor:"white",width:"110%",padding:"8px"}}>         
 <img src={require( `./images/${Object.values(JSON.parse(section1.img1))[0]}`)} onMouseOver={e => Object.values(JSON.parse(section1.img1))[1] !== undefined ? e.currentTarget.src= require( `./images/${Object.values(JSON.parse(section1.img1))[1]}`) : e.currentTarget.src= require( `./images/${Object.values(JSON.parse(section1.img1))[0]}`)} onMouseLeave={e => e.currentTarget.src= require( `./images/${Object.values(JSON.parse(section1.img1))[0]}`)} style={{padding:"0px"}} className="mainImg" alt=""/> 
 <small><Link to= { `/product/${section1.details}`} style={{color:"black",textTransform:"capitalize",whiteSpace:"nowrap",textOverflow:"ellipsis",overflow:"hidden", width:"100%",display:"block"}}>{ section1.details}</Link> </small>
                    <b>{section1.mainprice}</b> <br/>
-                   <small>
-                       <div className="outer">
-                           <div className="inner">
-
-                           </div>
-                       </div> (1)
-                   </small>
                     </div>
                     </div>
                     )}
                </div>
              </div>
-             <br/>
             
-             <div className="row" style={{padding:"0px",backgroundColor:"white",borderRadius:"10px"}}>
-             <div style={{width:"100%",padding:"5px",backgroundColor:"orange",borderTopRightRadius:"10px",borderTopLeftRadius:"10px"}}>
-<small style={{fontSize:"13px",textTransform:"uppercase"}}>Power Regulating Appliances <span className="fa fa-arrow-right"></span></small><small style={{float:"right",fontWeight:"bold"}}><a href="" style={{color:"black"}}>see more <span className="fa fa-arrow-right"></span></a></small>
+             <div className="row mb-1" style={{padding:"0px",backgroundColor:"white"}}>
+             <div style={{width:"100%",padding:"5px"}}>
+<small style={{fontSize:"13px",textTransform:"uppercase"}}>Power Regulating Appliances </small><small style={{float:"right",fontWeight:"bold"}}><a href="" style={{color:"black",marginRight:"30px"}}><span className="fa fa-chevron-right"></span> </a></small>
                  </div>
                <div className="noscrolling">
                    {this.state.sectionTwo.map(section2 => 
-                    <div className="col-6  col-md-3 col-lg-2" key={section2.productId} style={{boxShadow:"2px 2px 3px  lightgrey"}}>
+                    <div className="col-5  col-md-3 col-lg-2" key={section2.productId} style={{boxShadow:"2px 2px 3px  lightgrey"}}>
                       <div style={{backgroundColor:"white",minWidth:"110%",padding:"8px"}}>
 <img src={require( `./images/${Object.values(JSON.parse(section2.img1))[0]}`)} onMouseOver={e => Object.values(JSON.parse(section2.img1))[1] !== undefined ? e.currentTarget.src= require( `./images/${Object.values(JSON.parse(section2.img1))[1]}`) : e.currentTarget.src= require( `./images/${Object.values(JSON.parse(section2.img1))[0]}`)} onMouseLeave={e => e.currentTarget.src= require( `./images/${Object.values(JSON.parse(section2.img1))[0]}`)} style={{padding:"0px"}} className="mainImg" alt=""/> 
 
@@ -450,15 +445,14 @@ class Subcats extends Component {
                     )}
                </div>
              </div>
-        <br/>
 
-             <div className="row" style={{padding:"0px",backgroundColor:"white",borderRadius:"10px"}}>
-             <div style={{width:"100%",padding:"5px",backgroundColor:"lightgrey",borderTopRightRadius:"10px",borderTopLeftRadius:"10px"}}>
-<small style={{fontSize:"13px",textTransform:"uppercase"}}>Kitchen Appliances <span className="fa fa-arrow-right"></span></small><small style={{float:"right",fontWeight:"bold"}}><a href="" style={{color:"black"}}>see more <span className="fa fa-arrow-right"></span></a></small>
+             <div className="row mb-1" style={{padding:"0px",backgroundColor:"white"}}>
+             <div style={{width:"100%",padding:"5px"}}>
+<small style={{fontSize:"13px",textTransform:"uppercase"}}>Kitchen Appliances </small><small style={{float:"right",fontWeight:"bold"}}><a href="" style={{color:"black",marginRight:"30px"}}><span className="fa fa-chevron-right"></span> </a></small>
                  </div>
                <div className="noscrolling">
                    {this.state.sectionThree.map(section3 => 
-                    <div className="col-6  col-md-3 col-lg-2" key={section3.productId}  style={{boxShadow:"2px 2px 3px  lightgrey"}}>
+                    <div className="col-5 col-md-3 col-lg-2" key={section3.productId}  style={{boxShadow:"2px 2px 3px  lightgrey"}}>
                       <div style={{backgroundColor:"white",width:"110%",padding:"8px"}}>
 <img src={require( `./images/${Object.values(JSON.parse(section3.img1))[0]}`)} onMouseOver={e => Object.values(JSON.parse(section3.img1))[1] !== undefined ? e.currentTarget.src= require( `./images/${Object.values(JSON.parse(section3.img1))[1]}`) : e.currentTarget.src= require( `./images/${Object.values(JSON.parse(section3.img1))[0]}`)} onMouseLeave={e => e.currentTarget.src= require( `./images/${Object.values(JSON.parse(section3.img1))[0]}`)} style={{padding:"0px"}} className="mainImg" alt=""/> 
 <small><a href="" style={{color:"black",textTransform:"capitalize",whiteSpace:"nowrap",textOverflow:"ellipsis",overflow:"hidden", width:"100%",display:"block"}}>{ section3.details}</a> </small>
@@ -469,15 +463,14 @@ class Subcats extends Component {
                     )}
                </div>
              </div>
-              <br/>
 
-             <div className="row" style={{padding:"0px",backgroundColor:"white",borderRadius:"10px"}}>
-                 <div style={{width:"100%",padding:"5px",backgroundColor:"pink",borderTopRightRadius:"10px",borderTopLeftRadius:"10px"}}>
-<small style={{fontSize:"13px",textTransform:"uppercase"}}>Cooling Appliances <span className="fa fa-arrow-right"></span></small><small style={{float:"right",fontWeight:"bold"}}><a href="" style={{color:"black"}}>see more <span className="fa fa-arrow-right"></span></a></small>
+             <div className="row mb-1" style={{padding:"0px",backgroundColor:"white"}}>
+                 <div style={{width:"100%",padding:"5px"}}>
+<small style={{fontSize:"13px",textTransform:"uppercase"}}>Cooling Appliances </small><small style={{float:"right",fontWeight:"bold"}}><a href="" style={{color:"black",marginRight:"30px"}}><span className="fa fa-chevron-right"></span> </a></small>
                  </div>
                <div className="noscrolling">
                    {this.state.sectionFour.map(section4 => 
-                    <div className="col-6  col-md-3 col-lg-2" key={section4.productId} style={{boxShadow:"2px 2px 3px  lightgrey"}}>
+                    <div className="col-5 col-md-3 col-lg-2" key={section4.productId} style={{boxShadow:"2px 2px 3px  lightgrey"}}>
                       <div style={{backgroundColor:"white",width:"110%",padding:"8px"}}>
 <img src={require( `./images/${Object.values(JSON.parse(section4.img1))[0]}`)} onMouseOver={e => Object.values(JSON.parse(section4.img1))[1] !== undefined ? e.currentTarget.src= require( `./images/${Object.values(JSON.parse(section4.img1))[1]}`) : e.currentTarget.src= require( `./images/${Object.values(JSON.parse(section4.img1))[0]}`)} onMouseLeave={e => e.currentTarget.src= require( `./images/${Object.values(JSON.parse(section4.img1))[0]}`)} style={{padding:"0px"}} className="mainImg" alt=""/> 
 
@@ -489,6 +482,7 @@ class Subcats extends Component {
                     )}
                </div>
              </div>
+            </div>
             </div>
             </div>
             </div>
@@ -507,7 +501,8 @@ const mapStateToProps =(store)=>{
      loading:store.loading,
      mainbgcolor:store.mainbgcolor,
      modalsidenavbarwidth: store.modalsidenavbarwidth,
-     modalsidenavbardisplay: store.modalsidenavbardisplay
+     modalsidenavbardisplay: store.modalsidenavbardisplay,
+     appDisplay:store.appDisplay
    }
 }
 const mapDispatchToProps =(dispatch)=>{

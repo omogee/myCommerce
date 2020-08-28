@@ -60,19 +60,18 @@ class CheckOut extends Component {
                            </div>
                            <div className="col-2">
                            <center>
-                           <small style={{textTransform:"uppercase",fontSize:"15px",fontWeight:"bold"}}>Sub Total</small>
+                           <small style={{textTransform:"uppercase",fontSize:"14px",fontWeight:"bold"}}>Sub Total</small>
                            </center>
                            </div>
                               </div>
-                              <div >
+                              <div style={{margin:"0px",padding:"0px"}}>
                               {this.state.cart.map(carts=>
-                              <div style={{}}>
-                        <div  className="row" key={carts.id} style={{borderBottom:"1px solid lightgrey",width:"100%",backgroundColor:"white",borderRadius:"10px"}} >
+                        <div  className="row" key={carts.id} style={{borderRadius:"10px",borderBottom:"1px solid lightgrey",width:"100%",backgroundColor:"white",margin:"0px",padding:"0px"}} >
                             <div className="col-4 col-md-1">
                                <img src={require(`./images/${carts.mainimg}`)} style={{width:"100%",padding:"5px"}} alt=""/>
                             </div>
                            <div className="col-8 col-md-5" >
-                               <small className="text-muted" style={{textTransform:"capitalize",fontSize:"15px",fontWeight:"bold"}}>{carts.details}</small><br/>
+                               <small className="text-muted" style={{textTransform:"capitalize",fontSize:"14px",margin:"auto"}}>{carts.details}</small><br/>
                                <div className="row" style={{padding:"25px 0px 0px 0px"}}>
                                  <div className="col-6 text-danger" >
                                      <center>
@@ -107,8 +106,6 @@ class CheckOut extends Component {
                            </div>
         
                               </div>
-                             
-                            </div> 
                         )} 
                      </div>
                      <br/>

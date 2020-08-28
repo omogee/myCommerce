@@ -36,37 +36,30 @@ class ModalSideNavbar extends Component {
                 <div className="col-1">
                   <a href="javascript:void(0)" className="closebtn" onClick={this.undisplaysidenav} style={{color:"black",textDecoration:"none",fontSize:"25px"}}>x</a>
                   </div>
-              <div style={{zIndex:"1000000"}} className="col-3">
-     <img src={require("./images/fruget.jpg")} className="img-responsive" style={{width:"50%",display:"none"}}/>
-  </div>
-  <div className="col-5"></div>
-<div className="col-3">
-<a href="/shop/shopping-cart"><button type="button" className="btn btn-link" style={{color: "black",fontWeight: "bolder",position:"relative"}}>
-                                        <span className="badge badge-danger" style={{top:"2px",position:"absolute",right:"5px"}}>0</span>
-                                        <b><span className="fa fa-cart-plus" style={{fontSize:"black"}} ></span></b>
-                                        <p className="hidden-sm hidden-xs">Cart</p>
-                                </button></a>
-
-</div>
-</div>         
-<p>Users :</p>
+              <div style={{zIndex:"1000000"}} className="col-4">
+          <img src={require("./images/fruget.jpg")} className="mt-2" style={{width:"100%",height:"80%"}}/>
+         </div>
+       <div className="col-7"></div>
+       </div>  
+       <hr/>       
+   <p>Account</p>
 <div className="row" style={{padding:"0px 10px"}}>
 <div className="col-6">
-<button className="btn btn-link" onClick={()=> window.location.assign("/customer/login")} style={{border: "1px solid grey",textDecoration:"none",borderRadius:"3px",width: "100%",color:"black",padding:"2px"}}>
+<button className="btn" onClick={()=> window.location.assign("/customer/login")} style={{backgroundColor:"orange",textDecoration:"none",borderRadius:"3px",width: "100%",color:"grey",padding:"2px"}}>
    <span className="far fa-user"></span> Login</button>
 </div>
 
  <div className="col-6">
-<button className="btn btn-link" onClick={()=> window.location.assign("/customer/register")}  style={{border:"1px solid grey",textDecoration:"none",borderRadius:"3px",width:"100%",padding:"2px",color:"black"}}> <span className="fa fa-heart"></span> Register</button>
+<button className="btn btn-link" onClick={()=> window.location.assign("/customer/register")}  style={{backgroundColor:"orange",border:"1px solid grey",textDecoration:"none",borderRadius:"3px",width:"100%",padding:"2px",color:"grey"}}> <span className="fa fa-heart"></span> Register</button>
 </div>
 </div> <br/>
 <div  className="row" style={{padding:"0px 10px"}}>
  <div className="col-6">
-<button className="btn btn-link" onClick={()=> window.location.assign("/customer/login")}  style={{border: "1px solid grey",borderRadius:"3px",textDecoration:"none",width: "100%",color:"black",padding:"2px"}}> <span className="fa fa-map-marker"></span> Track Order  ID</button>
+<button className="btn btn-link" onClick={()=> window.location.assign("/customer/login")}  style={{backgroundColor:"orange",borderRadius:"3px",textDecoration:"none",width: "100%",color:"grey",padding:"2px"}}> <span className="fa fa-map-marker"></span> Track Order  ID</button>
 </div>
 
  <div className="col-6">
-<button className="btn btn-link" onClick={()=> window.location.assign("/customer/savedItems")}  style={{border:"1px solid grey",borderRadius:"3px",textDecoration:"none",width:"100%",padding:"2px",color:"black"}}> <span className="fa fa-heart"></span> Saved Items</button>
+<button className="btn btn-link" onClick={()=> window.location.assign("/customer/savedItems")}  style={{backgroundColor:"orange",border:"1px solid grey",borderRadius:"3px",textDecoration:"none",width:"100%",padding:"2px",color:"grey"}}> <span className="fa fa-heart"></span> Saved Items</button>
 </div>
 
 </div>
@@ -77,7 +70,7 @@ class ModalSideNavbar extends Component {
  <p style={{backgroundColor:"black", color:"white",padding:"10px",display:`${this.state.subcategorydisplay}`}}>
   {this.state.currentcategory}
    <i style={{float:"right"}} className="fas fa-chevron-down ml-1"></i>
- </p></a>
+ </p></a> 
  <div style={{paddingLeft:"30px"}} className="row">
    <div className="col-12">
     {this.props.allcategory.length > 0 ? this.props.allcategory.map((categories) =>
