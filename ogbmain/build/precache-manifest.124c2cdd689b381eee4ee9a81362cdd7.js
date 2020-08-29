@@ -1,27 +1,27 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "c904a52d14b6de2b712183bd33ea0d7e",
+    "revision": "b021d00dc0c7da9db6b609670d017e31",
     "url": "/index.html"
   },
   {
-    "revision": "b88f0c8ab659a2a0ac8a",
+    "revision": "94da39230f1fdfc17c5b",
     "url": "/static/css/2.1d143842.chunk.css"
   },
   {
-    "revision": "b4d8cee9f69a03470fda",
-    "url": "/static/css/main.2ae1246f.chunk.css"
+    "revision": "5cbb70c0de8e06661698",
+    "url": "/static/css/main.5c2778fb.chunk.css"
   },
   {
-    "revision": "b88f0c8ab659a2a0ac8a",
-    "url": "/static/js/2.b8c2f4a8.chunk.js"
+    "revision": "94da39230f1fdfc17c5b",
+    "url": "/static/js/2.3eec568a.chunk.js"
   },
   {
     "revision": "217f038bbfd95eda289ef5578706dcdb",
-    "url": "/static/js/2.b8c2f4a8.chunk.js.LICENSE.txt"
+    "url": "/static/js/2.3eec568a.chunk.js.LICENSE.txt"
   },
   {
-    "revision": "b4d8cee9f69a03470fda",
-    "url": "/static/js/main.f17f2bbd.chunk.js"
+    "revision": "5cbb70c0de8e06661698",
+    "url": "/static/js/main.c2ddca89.chunk.js"
   },
   {
     "revision": "39baf61820c897cb3ee7",
@@ -78,6 +78,10 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
     "revision": "ec11b2f25a2c9d7bab810852e965d875",
     "url": "/static/media/2speed.ec11b2f2.jpg"
+  },
+  {
+    "revision": "cc507cd5cd4aaded22b75cec10e2f381",
+    "url": "/static/media/35.cc507cd5.gif"
   },
   {
     "revision": "b1481a6160d7d5904bce668b95055a75",
@@ -628,8 +632,8 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/static/media/bin-1000w.59829a88.jpg"
   },
   {
-    "revision": "61516564b1ce2f1fec7464e074c06c8a",
-    "url": "/static/media/bin-2000w.61516564.jpg"
+    "revision": "b49a43a7c8ec7474b564badbb436a4ad",
+    "url": "/static/media/bin-2000w.b49a43a7.jpg"
   },
   {
     "revision": "a37327898379358b0ca586096adcbe77",
@@ -672,8 +676,8 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/static/media/binatoneM-MWO-2520.97b984bd.jpg"
   },
   {
-    "revision": "e16df91a691013de4d227239b872580a",
-    "url": "/static/media/binatoneM-TTO-5800.e16df91a.jpg"
+    "revision": "96004781823c70fcda17eef51306117f",
+    "url": "/static/media/binatoneM-TTO-5800.96004781.jpg"
   },
   {
     "revision": "3de848dc7f135c102dbfc08c52b7dd9e",
@@ -796,8 +800,8 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/static/media/binble-BLG-595MK2.bc0fd22a.jpg"
   },
   {
-    "revision": "ff2a366ff050f13f698960860b2824f7",
-    "url": "/static/media/binble-BLG-600S(MK2)-2.ff2a366f.jpg"
+    "revision": "17835bc7fa86d8ebaa848216d1905827",
+    "url": "/static/media/binble-BLG-600S(MK2)-2.17835bc7.jpg"
   },
   {
     "revision": "d98b71ae332efd7af50101881c49e4f0",
@@ -968,6 +972,10 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/static/media/bruhmlogo.22b56738.png"
   },
   {
+    "revision": "65b2029ff2d711f4e7a066f147742b80",
+    "url": "/static/media/cartIcon2.65b2029f.png"
+  },
+  {
     "revision": "c2aa2590ef6f7a343ce0ab21a03a4e65",
     "url": "/static/media/cent-1000-blue.c2aa2590.jpg"
   },
@@ -1120,8 +1128,8 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/static/media/centuryM-11L-2.32f623c7.jpg"
   },
   {
-    "revision": "79fc55afb60c545601af3b41ef6e0102",
-    "url": "/static/media/centuryM-11L.79fc55af.jpg"
+    "revision": "e7000a8a35130deb3c470c853a6613ba",
+    "url": "/static/media/centuryM-11L.e7000a8a.jpg"
   },
   {
     "revision": "c104cdbe9e8cda068494759a20bcfe30",
@@ -1364,8 +1372,12 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/static/media/freshbalancer.fc3879f0.jpg"
   },
   {
-    "revision": "efbcf6cad8a4d1fb214198a5711f87e5",
-    "url": "/static/media/fruget.efbcf6ca.jpg"
+    "revision": "d6e6cf521df5b3ade1d0f479f75b0076",
+    "url": "/static/media/fruget.d6e6cf52.jpg"
+  },
+  {
+    "revision": "86a09e3524bf98dc8719d2996902b899",
+    "url": "/static/media/fruget2.86a09e35.jpg"
   },
   {
     "revision": "eee8b57fc37931830f04a2af08a26972",
@@ -1422,6 +1434,10 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
     "revision": "2a10aab6adc1b6dde4fc33d464e7484c",
     "url": "/static/media/hisense-N2176F-hd.2a10aab6.gif"
+  },
+  {
+    "revision": "bd809e4df9f376b2a80b555b1ad16510",
+    "url": "/static/media/hisense-N2176F-hd.bd809e4d.jpg"
   },
   {
     "revision": "30dba46aa69231318320e56480c80b57",
@@ -1632,12 +1648,12 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/static/media/hisense514L.47245381.gif"
   },
   {
-    "revision": "5b108b69df4eb93c0eb48208b682166a",
-    "url": "/static/media/hisense535L-2.5b108b69.jpg"
-  },
-  {
     "revision": "620621261a3802e08e063cc3ecfd7f8a",
     "url": "/static/media/hisense535L-2.62062126.gif"
+  },
+  {
+    "revision": "7aba4cd166e2279bd05470302cdd5b41",
+    "url": "/static/media/hisense535L-2.7aba4cd1.jpg"
   },
   {
     "revision": "32bb54de0a084b0f8a945a8009ccf9e9",
@@ -1808,16 +1824,16 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/static/media/hisenseMicro36L.6e5a5920.jpg"
   },
   {
-    "revision": "6fdbb92b4d7b0c4927a7d5d8536ffde2",
-    "url": "/static/media/hisenseWM-WM1014V-2.6fdbb92b.jpg"
-  },
-  {
     "revision": "110559ccbb1393726b03f55cea21e40e",
     "url": "/static/media/hisenseWM-WM1014V-3.110559cc.jpg"
   },
   {
     "revision": "ebd2a7570885f89fc778284cdc399003",
     "url": "/static/media/hisenseWM-WM1014V.ebd2a757.jpg"
+  },
+  {
+    "revision": "b59b70bd62c89cb136cfb5d2a7bd5b8a",
+    "url": "/static/media/hisenseWM-WM1014v-2.b59b70bd.jpg"
   },
   {
     "revision": "b3903acdd108f123f30b6eaa16011565",
