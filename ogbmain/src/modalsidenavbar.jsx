@@ -45,21 +45,21 @@ class ModalSideNavbar extends Component {
    <p>Account</p>
 <div className="row" style={{padding:"0px 10px"}}>
 <div className="col-6">
-<button className="btn" onClick={()=> window.location.assign("/customer/login")} style={{backgroundColor:"orange",textDecoration:"none",borderRadius:"3px",width: "100%",color:"grey",padding:"2px"}}>
+<button className="btn" onClick={()=> window.location.assign("/customer/login")} style={{backgroundColor:"orange",textDecoration:"none",borderRadius:"3px",width: "100%",color:"white",padding:"2px"}}>
    <span className="far fa-user"></span> Login</button>
 </div>
 
  <div className="col-6">
-<button className="btn btn-link" onClick={()=> window.location.assign("/customer/register")}  style={{backgroundColor:"orange",border:"1px solid grey",textDecoration:"none",borderRadius:"3px",width:"100%",padding:"2px",color:"grey"}}> <span className="fa fa-heart"></span> Register</button>
+<button className="btn btn-link" onClick={()=> window.location.assign("/customer/register")}  style={{backgroundColor:"orange",textDecoration:"none",borderRadius:"3px",width:"100%",padding:"2px",color:"white"}}> <span className="fa fa-heart"></span> Register</button>
 </div>
 </div> <br/>
 <div  className="row" style={{padding:"0px 10px"}}>
  <div className="col-6">
-<button className="btn btn-link" onClick={()=> window.location.assign("/customer/login")}  style={{backgroundColor:"orange",borderRadius:"3px",textDecoration:"none",width: "100%",color:"grey",padding:"2px"}}> <span className="fa fa-map-marker"></span> Track Order  ID</button>
+<button className="btn btn-link" onClick={()=> window.location.assign("/customer/login")}  style={{backgroundColor:"orange",borderRadius:"3px",textDecoration:"none",width: "100%",color:"white",padding:"2px"}}> <span className="fa fa-map-marker"></span> Track Order  ID</button>
 </div>
 
  <div className="col-6">
-<button className="btn btn-link" onClick={()=> window.location.assign("/customer/savedItems")}  style={{backgroundColor:"orange",border:"1px solid grey",borderRadius:"3px",textDecoration:"none",width:"100%",padding:"2px",color:"grey"}}> <span className="fa fa-heart"></span> Saved Items</button>
+<button className="btn btn-link" onClick={()=> window.location.assign("/customer/savedItems")}  style={{backgroundColor:"orange",borderRadius:"3px",textDecoration:"none",width:"100%",padding:"2px",color:"white"}}> <span className="fa fa-heart"></span> Saved Items</button>
 </div>
 
 </div>

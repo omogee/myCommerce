@@ -215,15 +215,15 @@ class Subcats extends Component {
                    <small className="text-muted"  style={{fontSize:"10px"}}> With as low as N 5500 you can order an all plastic a/c fan from  fruget with warranty of 6 months</small>
                   </div>
                   <div className="col-4 col-md-12">
-                  <img style={{width:"100%",float:"right"}} className="img-thumbnail mainImg" src="https://www-konga-com-res.cloudinary.com/image/upload/w_auto,f_auto,fl_lossy,dpr_auto,q_auto/v1595215707/contentservice/3.jpg_rk7D1qGeP.jpg" alt=""/>
+                  <img style={{width:"100%",float:"right"}} className="img-thumbnail mainImg" src={require("./images/bia-bask.jpg")} alt=""/>
                   </div>
                 </div>
               </div>
               <div className="col-12 col-md-2" style={{padding:"10px",border:"1px solid lightgrey",backgroundColor:"white"}}>
                 <div className="row" style={{padding:"0px"}}>
                   <div className="col-8  d-md-none" style={{}}>
-                    <p>Bianco Basket Standing Fan</p>
-                   <small className="text-muted"  style={{fontSize:"10px"}}> With as low as N 5500 you can order an all plastic a/c fan from  fruget with warranty of 6 months</small>
+                    <p>Get a set of TV, wall hanger and power regulator</p>
+                   <small className="text-muted"  style={{fontSize:"10px"}}></small>
                   </div>
                   <div className="col-4 col-md-12">
                   <img style={{width:"100%",float:"right"}} className="img-thumbnail mainImg" src="https://www-konga-com-res.cloudinary.com/image/upload/w_auto,f_auto,fl_lossy,dpr_auto,q_auto/v1595215707/contentservice/3.jpg_rk7D1qGeP.jpg" alt=""/>
@@ -289,7 +289,7 @@ class Subcats extends Component {
                    <small style={{fontWeight:"bold"}}> Refrigerators <br/><small>Lg, Hisense, Syinix, Thermocool, midea etc</small></small>                  
                   </div>
                   <div className="col-12 col-md-6 col-lg-12">
-                  <img style={{width:"100%",float:"right"}} className="img-thumbnail" src="https://www-konga-com-res.cloudinary.com/image/upload/w_auto,f_auto,fl_lossy,dpr_auto,q_auto/v1595215707/contentservice/3.jpg_rk7D1qGeP.jpg" alt=""/>
+                  <img style={{width:"100%",float:"right"}} className="img-thumbnail" src={require ('./images/hisense535L-2.jpg')} alt=""/>
                   </div>
                 </div>
               </div>
@@ -299,7 +299,7 @@ class Subcats extends Component {
                   <small style={{fontWeight:"bold"}}> Generators <br/><small>sumec, elepaq, tigmax, tiger freezer,Lutian etc</small></small>
                   </div>
                   <div className="col-12 col-md-6 col-lg-12">
-                  <img style={{width:"100%",float:"right"}} className="img-thumbnail" src="https://www-konga-com-res.cloudinary.com/image/upload/w_auto,f_auto,fl_lossy,dpr_auto,q_auto/v1595215707/contentservice/3.jpg_rk7D1qGeP.jpg" alt=""/>
+                  <img style={{width:"100%",float:"right"}} className="img-thumbnail" src={require ("./images/hisenseWM-WM1014v-2.jpg")} alt=""/>
                   </div>
                 </div>
               </div>
@@ -309,7 +309,7 @@ class Subcats extends Component {
                   <small style={{fontWeight:"bold"}}> A/C <br/><small>Lg, Hisense, Midea, Nexus etc</small></small>
                   </div>
                   <div className="col-12 col-md-6 col-lg-12">
-                  <img style={{width:"100%",float:"right"}} className="img-thumbnail" src="https://www-konga-com-res.cloudinary.com/image/upload/w_auto,f_auto,fl_lossy,dpr_auto,q_auto/v1595215707/contentservice/3.jpg_rk7D1qGeP.jpg" alt=""/>
+                  <img style={{width:"100%",float:"right"}} className="img-thumbnail" src={require ("./images/hisenseWM-WM1014v-2.jpg")} alt=""/>
                   </div>
                 </div>
               </div>
@@ -319,7 +319,7 @@ class Subcats extends Component {
                   <small style={{fontWeight:"bold"}}> Cookers <br/><small>Table Top, Standing,Electric and Gas cookers</small></small>
                   </div>
                   <div className="col-12 col-md-6 col-lg-12">
-                  <img style={{width:"100%",float:"right"}} className="img-thumbnail" src="https://www-konga-com-res.cloudinary.com/image/upload/w_auto,f_auto,fl_lossy,dpr_auto,q_auto/v1595215707/contentservice/3.jpg_rk7D1qGeP.jpg" alt=""/>
+                  <img style={{width:"100%",float:"right"}} className="img-thumbnail" src={require ("./images/hisenseWM-WM1014v-2.jpg")} alt=""/>
                   </div>
                 </div>
               </div>
@@ -329,7 +329,7 @@ class Subcats extends Component {
                   <small style={{fontWeight:"bold"}}> Fan <br/><small>Ox, Orl, Binatone, Fanafrik, Century, Panasonic etc</small></small>
                   </div>
                   <div className="col-12 col-md-6 col-lg-12">
-                  <img style={{width:"100%",float:"right"}} className="img-thumbnail" src="https://www-konga-com-res.cloudinary.com/image/upload/w_auto,f_auto,fl_lossy,dpr_auto,q_auto/v1595215707/contentservice/3.jpg_rk7D1qGeP.jpg" alt=""/>
+                  <img style={{width:"100%",float:"right"}} className="img-thumbnail" src={require ("./images/B-ES-1800-(2).jpg")} alt=""/>
                   </div>
                 </div>
               </div>
@@ -339,17 +339,37 @@ class Subcats extends Component {
                   <small style={{fontWeight:"bold"}}> Television <br/><small>Smart, Android, Plasma etc</small></small>
                   </div>
                   <div className="col-12 col-md-6 col-lg-12">
-                  <img style={{width:"100%",float:"right"}} className="img-thumbnail" src="https://www-konga-com-res.cloudinary.com/image/upload/w_auto,f_auto,fl_lossy,dpr_auto,q_auto/v1595215707/contentservice/3.jpg_rk7D1qGeP.jpg" alt=""/>
+                  <img style={{width:"100%",float:"right"}} className="img-thumbnail" src={require ("./images/hisense-N2176F-hd.jpg")} alt=""/>
                   </div>
                 </div>
               </div>  
               <div className="col-4 col-md-3 col-lg-2" style={{padding:"10px",border:"1px solid lightgrey",backgroundColor:"white"}}>
                 <div className="row" style={{padding:"0px"}}>
                   <div className="d-none d-md-block col-md-6  d-lg-none" style={{}}>
-                  <small style={{fontWeight:"bold"}}> Television <br/><small>Smart, Android, Plasma etc</small></small>
+                  <small style={{fontWeight:"bold"}}> Microwave <br/><small>automatic, Manual, wash&spin etc</small></small>
                   </div>
                   <div className="col-12 col-md-6 col-lg-12">
-                  <img style={{width:"100%",float:"right"}} className="img-thumbnail" src="https://www-konga-com-res.cloudinary.com/image/upload/w_auto,f_auto,fl_lossy,dpr_auto,q_auto/v1595215707/contentservice/3.jpg_rk7D1qGeP.jpg" alt=""/>
+                  <img style={{width:"100%",float:"right"}} className="img-thumbnail" src={require ("./images/hisenseWM-WM1014v-2.jpg")} alt=""/>
+                  </div>
+                </div>
+              </div>    
+              <div className="col-4 col-md-3 col-lg-2" style={{padding:"10px",border:"1px solid lightgrey",backgroundColor:"white"}}>
+                <div className="row" style={{padding:"0px"}}>
+                  <div className="d-none d-md-block col-md-6  d-lg-none" style={{}}>
+                  <small style={{fontWeight:"bold"}}> Power & Inverters <br/><small>Stabilizers, Ups, Inverters etc</small></small>
+                  </div>
+                  <div className="col-12 col-md-6 col-lg-12">
+                  <img style={{width:"100%",float:"right"}} className="img-thumbnail" src={require ("./images/bin-2000w.jpg")} alt=""/>
+                  </div>
+                </div>
+              </div>    
+              <div className="col-4 col-md-3 col-lg-2" style={{padding:"10px",border:"1px solid lightgrey",backgroundColor:"white"}}>
+                <div className="row" style={{padding:"0px"}}>
+                  <div className="d-none d-md-block col-md-6  d-lg-none" style={{}}>
+                  <small style={{fontWeight:"bold"}}> Blender <br/><small>Smart, Android, Plasma etc</small></small>
+                  </div>
+                  <div className="col-12 col-md-6 col-lg-12">
+                  <img style={{width:"100%",float:"right"}} className="img-thumbnail" src={require ("./images/hisenseWM-WM1014v-2.jpg")} alt=""/>
                   </div>
                 </div>
               </div>    
@@ -359,7 +379,7 @@ class Subcats extends Component {
                   <small style={{fontWeight:"bold"}}> Television <br/><small>Smart, Android, Plasma etc</small></small>
                   </div>
                   <div className="col-12 col-md-6 col-lg-12">
-                  <img style={{width:"100%",float:"right"}} className="img-thumbnail" src="https://www-konga-com-res.cloudinary.com/image/upload/w_auto,f_auto,fl_lossy,dpr_auto,q_auto/v1595215707/contentservice/3.jpg_rk7D1qGeP.jpg" alt=""/>
+                  <img style={{width:"100%",float:"right"}} className="img-thumbnail" src={require ("./images/hisenseWM-WM1014v-2.jpg")} alt=""/>
                   </div>
                 </div>
               </div>    
@@ -369,7 +389,7 @@ class Subcats extends Component {
                   <small style={{fontWeight:"bold"}}> Television <br/><small>Smart, Android, Plasma etc</small></small>
                   </div>
                   <div className="col-12 col-md-6 col-lg-12">
-                  <img style={{width:"100%",float:"right"}} className="img-thumbnail" src="https://www-konga-com-res.cloudinary.com/image/upload/w_auto,f_auto,fl_lossy,dpr_auto,q_auto/v1595215707/contentservice/3.jpg_rk7D1qGeP.jpg" alt=""/>
+                  <img style={{width:"100%",float:"right"}} className="img-thumbnail" src={require ("./images/hisenseWM-WM1014v-2.jpg")} alt=""/>
                   </div>
                 </div>
               </div>    
@@ -379,27 +399,7 @@ class Subcats extends Component {
                   <small style={{fontWeight:"bold"}}> Television <br/><small>Smart, Android, Plasma etc</small></small>
                   </div>
                   <div className="col-12 col-md-6 col-lg-12">
-                  <img style={{width:"100%",float:"right"}} className="img-thumbnail" src="https://www-konga-com-res.cloudinary.com/image/upload/w_auto,f_auto,fl_lossy,dpr_auto,q_auto/v1595215707/contentservice/3.jpg_rk7D1qGeP.jpg" alt=""/>
-                  </div>
-                </div>
-              </div>    
-              <div className="col-4 col-md-3 col-lg-2" style={{padding:"10px",border:"1px solid lightgrey",backgroundColor:"white"}}>
-                <div className="row" style={{padding:"0px"}}>
-                  <div className="d-none d-md-block col-md-6  d-lg-none" style={{}}>
-                  <small style={{fontWeight:"bold"}}> Television <br/><small>Smart, Android, Plasma etc</small></small>
-                  </div>
-                  <div className="col-12 col-md-6 col-lg-12">
-                  <img style={{width:"100%",float:"right"}} className="img-thumbnail" src="https://www-konga-com-res.cloudinary.com/image/upload/w_auto,f_auto,fl_lossy,dpr_auto,q_auto/v1595215707/contentservice/3.jpg_rk7D1qGeP.jpg" alt=""/>
-                  </div>
-                </div>
-              </div>    
-              <div className="col-4 col-md-3 col-lg-2" style={{padding:"10px",border:"1px solid lightgrey",backgroundColor:"white"}}>
-                <div className="row" style={{padding:"0px"}}>
-                  <div className="d-none d-md-block col-md-6  d-lg-none" style={{}}>
-                  <small style={{fontWeight:"bold"}}> Television <br/><small>Smart, Android, Plasma etc</small></small>
-                  </div>
-                  <div className="col-12 col-md-6 col-lg-12">
-                  <img style={{width:"100%",float:"right"}} className="img-thumbnail" src="https://www-konga-com-res.cloudinary.com/image/upload/w_auto,f_auto,fl_lossy,dpr_auto,q_auto/v1595215707/contentservice/3.jpg_rk7D1qGeP.jpg" alt=""/>
+                  <img style={{width:"100%",float:"right"}} className="img-thumbnail" src={require ("./images/hisenseWM-WM1014v-2.jpg")} alt=""/>
                   </div>
                 </div>
               </div>               
