@@ -21,7 +21,10 @@ class Navbar extends Component {
           suggestions:[],
           searcheddata: [],
           cart:[],
-          inputbtnclass:"fa fa-search"
+          inputbtnclass:"fa fa-search",
+          navInputclass:"",
+          navInputbtnclass:"mynavbtn",
+          navInputrow:"col-12"
          }
     }
     componentDidMount = () =>{
@@ -49,6 +52,7 @@ class Navbar extends Component {
     }
     focus =(e) =>{
        this.props.setAppDisplay()
+       this.setState({navInputclass:"onfocus",navInputbtnclass:"onfocusbtn",navInputrow:"col-11"})
     } 
     displaysidenav =()=>{
     this.props.showmodalsidenavbar()
@@ -123,38 +127,41 @@ class Navbar extends Component {
 
        <div style={{backgroundColor:"white"}} className="didi" style={{width:"100%",position:"sticky", top:"0"}}>
           <div className="container" style={{backgroundColor:"white",height:"100%",width:"100%"}}>
-<div className="row" style={{display:`${this.props.appDisplay}`,backgroundColor:"white",zIndex:"2",margin:"10px 4px 5px 0px"}}>
+<div className="row navdivsm" style={{display:`${this.props.appDisplay}`,backgroundColor:"white",zIndex:"2",marginTop:"4px"}}>
                <div className="col-1">
                <center >
-               <span onClick={this.displaysidenav} className="fa fa-bars" style={{fontSize:"20px"}}></span>
+               <span onClick={this.displaysidenav} className="fa fa-bars nav-margin" style={{fontSize:"20px"}}></span>
                </center>
                </div>
                <div className="col-4">
                <img  src={require("./images/fruget.jpg")} className="navImg"  alt=""/>
                </div>
-               <div className="col-5">
-                
+               <div className="col-4">               
                </div>
+               <div className="col-xs-1 d-sm-none"></div>
                <div className="col-1">
                <center>
-               <span style={{fontSize:"20px"}} className="far fa-user ml-1"></span>
+               <span style={{fontSize:"20px"}} className="far fa-user nav-margin"></span>
                </center>
                </div>
                <div className="col-1">
                <center>
-               <span style={{fontSize:"20px"}} className="fa fa-cart-plus ml-1"></span>
+               <span style={{fontSize:"20px"}} className="fa fa-cart-plus nav-margin"></span>
                </center>
-               </div>
+               </div>       
             </div>
 
-            <div className="row">
-              <div className="col-12">
+            <div className="row" style={{}}>
+              <div className="col-1 mt-2" style={{display:`${this.state.navInputrow === "col-11" ? "block" : "none"}`}}>
+              <span className="fa fa-arrow-left"></span>
+              </div>
+              <div className={`${this.state.navInputrow}`}>
                  <center>
                  <form   action="/search" method="get" onSubmit={this.submit}>
                   <div className="input-group mb-3">
-                 <input type="text" onFocus={this.focus} className="form-control" name="search" style={{borderRight:"none"}} value={this.state.inputval}  onChange={this.change2} placeholder="Search products , brand etc" />
+                 <input type="text" onFocus={this.focus} className={`form-control ${this.state.navInputclass}`} name="search" style={{borderRight:"none"}} value={this.state.inputval}  onChange={this.change2} placeholder="Search products , brand etc" />
                 <div className="input-group-append">
-               <button className="btn " style={{color:"grey",border:"1px solid lightgrey",borderLeft:"none"}} type="submit"><span onClick={this.clearinput} className={`${this.state.inputbtnclass}`}></span></button>  
+               <button className={`btn ${this.state.navInputbtnclass}`} type="submit"><span onClick={this.clearinput} className={`${this.state.inputbtnclass}`}></span></button>  
                 </div>
                </div>
                 </form>
@@ -167,7 +174,7 @@ class Navbar extends Component {
 
        </div>
 
-          /*
+          /*     <span style={{fontSize:"20px"}} className="fa fa-cart-plus ml-1"></span>
          <span className="text-muted">Cart <span className="fa fa-cart-plus ml-1"> </span></span>
 
             <div style={{maxWidth:"100%"}}>
@@ -195,6 +202,10 @@ class Navbar extends Component {
  <div className="col-2">
  <button type="submit" className="btn" style={{backgroundColor:"rgb(0, 119, 179)",float:"right",color:"white",boxShadow:"1px 2px 2px grey"}}><small>SEARCH</small></button>
  </div>                
+ 
+found 99 vulnerabilities (98 low, 1 high)
+  run `npm audit fix` to fix them, or `npm audit` for details
+PS C:\Users\user\mainprogram\ogbmain>
                    </form>
                   </center>
                   </div>

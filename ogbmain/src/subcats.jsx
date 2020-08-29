@@ -84,20 +84,17 @@ class Subcats extends Component {
 <div style={{display:`${this.props.inputval.length > 0 ? "block" : "none"}`,zIndex:"2",width:"100%",height:"100%",backgroundColor:"rgba(0,0,0,0.3)",width:"100%", height:"300%",position:"absolute"}} className="indexer"> 
              <Suggestions></Suggestions>       
              </div>
-            <br/>
-            <div className="container" >
-              <div className="row" >
-                
-      <div className="col-12  col-lg-9 caro #f5f5f0" >
-       <Carousel className="caro">
-      <Carousel.Item>
-          
-        <img
-          className="d-block w-100 img-responsive"
-          src={`https://ng.jumia.is/cms/Homepage/2020/WK30/SHOES--_1424x768-min.jpg`}
-          alt="First slide"
-          style={{maxWidth:"100%" , maxHeight:"500px",zIndex:"-1"}}
-        />
+            <div className="container">
+              <div className="row">              
+             <div className="col-12  col-lg-9 caro #f5f5f0 mt-2" >
+             <Carousel className="caro">
+             <Carousel.Item>
+           <img
+             className="d-block w-100 img-responsive"
+             src={`https://ng.jumia.is/cms/Homepage/2020/WK30/SHOES--_1424x768-min.jpg`}
+             alt="First slide"
+             style={{maxWidth:"100%" , maxHeight:"500px",zIndex:"-1"}}
+          />
         <Carousel.Caption style={{position:"absolute",top:"50px",right:"-250px",zIndex:"1", color:"black", fontWeight:"bolder"}}>
             <center>
                 <h1 style={{fontWeight:"bolder", color:"red"}}>First slide label</h1>
@@ -215,7 +212,7 @@ class Subcats extends Component {
                 <div className="row">
                   <div className="col-8  d-md-none" style={{}}>
                    <p>Bianco Basket Standing Fan</p>
-                   <small className="text-muted"> With as low as N 5500 you can order an all plastic a/c fan from  fruget with warranty of 6 months</small>
+                   <small className="text-muted"  style={{fontSize:"10px"}}> With as low as N 5500 you can order an all plastic a/c fan from  fruget with warranty of 6 months</small>
                   </div>
                   <div className="col-4 col-md-12">
                   <img style={{width:"100%",float:"right"}} className="img-thumbnail mainImg" src="https://www-konga-com-res.cloudinary.com/image/upload/w_auto,f_auto,fl_lossy,dpr_auto,q_auto/v1595215707/contentservice/3.jpg_rk7D1qGeP.jpg" alt=""/>
@@ -225,7 +222,8 @@ class Subcats extends Component {
               <div className="col-12 col-md-2" style={{padding:"10px",border:"1px solid lightgrey",backgroundColor:"white"}}>
                 <div className="row" style={{padding:"0px"}}>
                   <div className="col-8  d-md-none" style={{}}>
-                    refrigerators
+                    <p>Bianco Basket Standing Fan</p>
+                   <small className="text-muted"  style={{fontSize:"10px"}}> With as low as N 5500 you can order an all plastic a/c fan from  fruget with warranty of 6 months</small>
                   </div>
                   <div className="col-4 col-md-12">
                   <img style={{width:"100%",float:"right"}} className="img-thumbnail mainImg" src="https://www-konga-com-res.cloudinary.com/image/upload/w_auto,f_auto,fl_lossy,dpr_auto,q_auto/v1595215707/contentservice/3.jpg_rk7D1qGeP.jpg" alt=""/>
@@ -235,7 +233,8 @@ class Subcats extends Component {
               <div className="col-12 col-md-2" style={{padding:"10px",border:"1px solid lightgrey",backgroundColor:"white"}}>
                 <div className="row" style={{padding:"0px"}}>
                   <div className="col-8  d-md-none" >
-                    refrigerators
+                    <p>Bianco Basket Standing Fan</p>
+                   <small className="text-muted"  style={{fontSize:"10px"}}> With as low as N 5500 you can order an all plastic a/c fan from  fruget with warranty of 6 months</small>
                   </div>
                   <div className="col-4 col-md-12">
                   <img style={{width:"100%",float:"right"}} className="img-thumbnail mainImg" src="https://www-konga-com-res.cloudinary.com/image/upload/w_auto,f_auto,fl_lossy,dpr_auto,q_auto/v1595215707/contentservice/3.jpg_rk7D1qGeP.jpg" alt=""/>
@@ -245,7 +244,8 @@ class Subcats extends Component {
               <div className="col-12 col-md-2" style={{padding:"10px",border:"1px solid lightgrey",backgroundColor:"white"}}>
                 <div className="row" style={{padding:"0px"}}>
                   <div className="col-8  d-md-none" >
-                    refrigerators
+                    <p>Bianco Basket Standing Fan</p>
+                   <small className="text-muted"  style={{fontSize:"10px"}}> With as low as N 5500 you can order an all plastic a/c fan from  fruget with warranty of 6 months</small>
                   </div>
                   <div className="col-4 col-md-12">
                   <img style={{width:"100%",float:"right"}} className="img-thumbnail mainImg" src="https://www-konga-com-res.cloudinary.com/image/upload/w_auto,f_auto,fl_lossy,dpr_auto,q_auto/v1595215707/contentservice/3.jpg_rk7D1qGeP.jpg" alt=""/>
@@ -255,7 +255,8 @@ class Subcats extends Component {
               <div className="col-12 col-md-2" style={{padding:"10px",border:"1px solid lightgrey",backgroundColor:"white"}}>
                 <div className="row" style={{padding:"0px"}}>
                   <div className="col-8  d-md-none" >
-                    refrigerators
+                    <p>Bianco Basket Standing Fan</p>
+                   <small className="text-muted"  style={{fontSize:"10px"}}> With as low as N 5500 you can order an all plastic a/c fan from  fruget with warranty of 6 months</small>
                   </div>
                   <div className="col-4 col-md-12">
                   <img style={{width:"100%",float:"right"}} className="img-thumbnail mainImg" src="https://www-konga-com-res.cloudinary.com/image/upload/w_auto,f_auto,fl_lossy,dpr_auto,q_auto/v1595215707/contentservice/3.jpg_rk7D1qGeP.jpg" alt=""/>
@@ -265,7 +266,8 @@ class Subcats extends Component {
               <div className="col-12 col-md-2" style={{padding:"10px",border:"1px solid lightgrey",backgroundColor:"white"}}>
                 <div className="row" style={{padding:"0px"}}>
                   <div className="col-8  d-md-none" style={{}}>
-                    refrigerators
+                    <p>Bianco Basket Standing Fan</p>
+                   <small className="text-muted"  style={{fontSize:"10px"}}> With as low as N 5500 you can order an all plastic a/c fan from  fruget with warranty of 6 months</small>
                   </div>
                   <div className="col-4 col-md-12">
                   <img style={{width:"100%",float:"right"}} className="img-thumbnail mainImg" src="https://www-konga-com-res.cloudinary.com/image/upload/w_auto,f_auto,fl_lossy,dpr_auto,q_auto/v1595215707/contentservice/3.jpg_rk7D1qGeP.jpg" alt=""/>
@@ -281,122 +283,122 @@ class Subcats extends Component {
                 <span style={{fontWeight:"bold",color: "rgb(0, 119, 179)"}}>POPULAR CATEGORY</span>  
                 </p> 
                 </div>
-              <div className="col-6 col-md-3 col-lg-2" style={{padding:"10px",border:"1px solid lightgrey",backgroundColor:"white"}}>
+              <div className="col-4 col-md-3 col-lg-2" style={{padding:"10px",border:"1px solid lightgrey",backgroundColor:"white"}}>
                 <div className="row">
-                  <div className="col-6  d-md-none" style={{}}>
+                  <div className="d-none d-md-block col-md-6  d-lg-none" style={{}}>
                    <small style={{fontWeight:"bold"}}> Refrigerators <br/><small>Lg, Hisense, Syinix, Thermocool, midea etc</small></small>                  
                   </div>
-                  <div className="col-6 col-md-12">
+                  <div className="col-12 col-md-6 col-lg-12">
                   <img style={{width:"100%",float:"right"}} className="img-thumbnail" src="https://www-konga-com-res.cloudinary.com/image/upload/w_auto,f_auto,fl_lossy,dpr_auto,q_auto/v1595215707/contentservice/3.jpg_rk7D1qGeP.jpg" alt=""/>
                   </div>
                 </div>
               </div>
-              <div className="col-6 col-md-3 col-lg-2" style={{padding:"10px",border:"1px solid lightgrey",backgroundColor:"white"}}>
+              <div className="col-4 col-md-3 col-lg-2" style={{padding:"10px",border:"1px solid lightgrey",backgroundColor:"white"}}>
                 <div className="row" style={{padding:"0px"}}>
-                  <div className="col-6  d-md-none" style={{}}>
+                  <div className="d-none d-md-block col-md-6  d-lg-none" style={{}}>
                   <small style={{fontWeight:"bold"}}> Generators <br/><small>sumec, elepaq, tigmax, tiger freezer,Lutian etc</small></small>
                   </div>
-                  <div className="col-6 col-md-12">
+                  <div className="col-12 col-md-6 col-lg-12">
                   <img style={{width:"100%",float:"right"}} className="img-thumbnail" src="https://www-konga-com-res.cloudinary.com/image/upload/w_auto,f_auto,fl_lossy,dpr_auto,q_auto/v1595215707/contentservice/3.jpg_rk7D1qGeP.jpg" alt=""/>
                   </div>
                 </div>
               </div>
-              <div className="col-6 col-md-3 col-lg-2" style={{padding:"10px",border:"1px solid lightgrey",backgroundColor:"white"}}>
+              <div className="col-4 col-md-3 col-lg-2" style={{padding:"10px",border:"1px solid lightgrey",backgroundColor:"white"}}>
                 <div className="row" style={{padding:"0px"}}>
-                  <div className="col-6  d-md-none" style={{}}>
+                  <div className="d-none d-md-block col-md-6  d-lg-none" style={{}}>
                   <small style={{fontWeight:"bold"}}> A/C <br/><small>Lg, Hisense, Midea, Nexus etc</small></small>
                   </div>
-                  <div className="col-6 col-md-12">
+                  <div className="col-12 col-md-6 col-lg-12">
                   <img style={{width:"100%",float:"right"}} className="img-thumbnail" src="https://www-konga-com-res.cloudinary.com/image/upload/w_auto,f_auto,fl_lossy,dpr_auto,q_auto/v1595215707/contentservice/3.jpg_rk7D1qGeP.jpg" alt=""/>
                   </div>
                 </div>
               </div>
-              <div className="col-6 col-md-3 col-lg-2" style={{padding:"10px",border:"1px solid lightgrey",backgroundColor:"white"}}>
+              <div className="col-4 col-md-3 col-lg-2" style={{padding:"10px",border:"1px solid lightgrey",backgroundColor:"white"}}>
                 <div className="row" style={{padding:"0px"}}>
-                  <div className="col-6  d-md-none" style={{}}>
+                  <div className="d-none d-md-block col-md-6  d-lg-none" style={{}}>
                   <small style={{fontWeight:"bold"}}> Cookers <br/><small>Table Top, Standing,Electric and Gas cookers</small></small>
                   </div>
-                  <div className="col-6 col-md-12">
+                  <div className="col-12 col-md-6 col-lg-12">
                   <img style={{width:"100%",float:"right"}} className="img-thumbnail" src="https://www-konga-com-res.cloudinary.com/image/upload/w_auto,f_auto,fl_lossy,dpr_auto,q_auto/v1595215707/contentservice/3.jpg_rk7D1qGeP.jpg" alt=""/>
                   </div>
                 </div>
               </div>
-              <div className="col-6 col-md-3 col-lg-2" style={{padding:"10px",border:"1px solid lightgrey",backgroundColor:"white"}}>
+              <div className="col-4 col-md-3 col-lg-2" style={{padding:"10px",border:"1px solid lightgrey",backgroundColor:"white"}}>
                 <div className="row" style={{padding:"0px"}}>
-                  <div className="col-6  d-md-none" style={{}}>
+                  <div className="d-none d-md-block col-md-6  d-lg-none" style={{}}>
                   <small style={{fontWeight:"bold"}}> Fan <br/><small>Ox, Orl, Binatone, Fanafrik, Century, Panasonic etc</small></small>
                   </div>
-                  <div className="col-6 col-md-12">
+                  <div className="col-12 col-md-6 col-lg-12">
                   <img style={{width:"100%",float:"right"}} className="img-thumbnail" src="https://www-konga-com-res.cloudinary.com/image/upload/w_auto,f_auto,fl_lossy,dpr_auto,q_auto/v1595215707/contentservice/3.jpg_rk7D1qGeP.jpg" alt=""/>
                   </div>
                 </div>
               </div>
-              <div className="col-6 col-md-3 col-lg-2" style={{padding:"10px",border:"1px solid lightgrey",backgroundColor:"white"}}>
+              <div className="col-4 col-md-3 col-lg-2" style={{padding:"10px",border:"1px solid lightgrey",backgroundColor:"white"}}>
                 <div className="row" style={{padding:"0px"}}>
-                  <div className="col-6  d-md-none" style={{}}>
+                  <div className="d-none d-md-block col-md-6  d-lg-none" style={{}}>
                   <small style={{fontWeight:"bold"}}> Television <br/><small>Smart, Android, Plasma etc</small></small>
                   </div>
-                  <div className="col-6 col-md-12">
+                  <div className="col-12 col-md-6 col-lg-12">
                   <img style={{width:"100%",float:"right"}} className="img-thumbnail" src="https://www-konga-com-res.cloudinary.com/image/upload/w_auto,f_auto,fl_lossy,dpr_auto,q_auto/v1595215707/contentservice/3.jpg_rk7D1qGeP.jpg" alt=""/>
                   </div>
                 </div>
               </div>  
-              <div className="col-6 col-md-3 col-lg-2" style={{padding:"10px",border:"1px solid lightgrey",backgroundColor:"white"}}>
+              <div className="col-4 col-md-3 col-lg-2" style={{padding:"10px",border:"1px solid lightgrey",backgroundColor:"white"}}>
                 <div className="row" style={{padding:"0px"}}>
-                  <div className="col-6  d-md-none" style={{}}>
+                  <div className="d-none d-md-block col-md-6  d-lg-none" style={{}}>
                   <small style={{fontWeight:"bold"}}> Television <br/><small>Smart, Android, Plasma etc</small></small>
                   </div>
-                  <div className="col-6 col-md-12">
+                  <div className="col-12 col-md-6 col-lg-12">
                   <img style={{width:"100%",float:"right"}} className="img-thumbnail" src="https://www-konga-com-res.cloudinary.com/image/upload/w_auto,f_auto,fl_lossy,dpr_auto,q_auto/v1595215707/contentservice/3.jpg_rk7D1qGeP.jpg" alt=""/>
                   </div>
                 </div>
               </div>    
-              <div className="col-6 col-md-3 col-lg-2" style={{padding:"10px",border:"1px solid lightgrey",backgroundColor:"white"}}>
+              <div className="col-4 col-md-3 col-lg-2" style={{padding:"10px",border:"1px solid lightgrey",backgroundColor:"white"}}>
                 <div className="row" style={{padding:"0px"}}>
-                  <div className="col-6  d-md-none" style={{}}>
+                  <div className="d-none d-md-block col-md-6  d-lg-none" style={{}}>
                   <small style={{fontWeight:"bold"}}> Television <br/><small>Smart, Android, Plasma etc</small></small>
                   </div>
-                  <div className="col-6 col-md-12">
+                  <div className="col-12 col-md-6 col-lg-12">
                   <img style={{width:"100%",float:"right"}} className="img-thumbnail" src="https://www-konga-com-res.cloudinary.com/image/upload/w_auto,f_auto,fl_lossy,dpr_auto,q_auto/v1595215707/contentservice/3.jpg_rk7D1qGeP.jpg" alt=""/>
                   </div>
                 </div>
               </div>    
-              <div className="col-6 col-md-3 col-lg-2" style={{padding:"10px",border:"1px solid lightgrey",backgroundColor:"white"}}>
+              <div className="col-4 col-md-3 col-lg-2" style={{padding:"10px",border:"1px solid lightgrey",backgroundColor:"white"}}>
                 <div className="row" style={{padding:"0px"}}>
-                  <div className="col-6  d-md-none" style={{}}>
+                  <div className="d-none d-md-block col-md-6  d-lg-none" style={{}}>
                   <small style={{fontWeight:"bold"}}> Television <br/><small>Smart, Android, Plasma etc</small></small>
                   </div>
-                  <div className="col-6 col-md-12">
+                  <div className="col-12 col-md-6 col-lg-12">
                   <img style={{width:"100%",float:"right"}} className="img-thumbnail" src="https://www-konga-com-res.cloudinary.com/image/upload/w_auto,f_auto,fl_lossy,dpr_auto,q_auto/v1595215707/contentservice/3.jpg_rk7D1qGeP.jpg" alt=""/>
                   </div>
                 </div>
               </div>    
-              <div className="col-6 col-md-3 col-lg-2" style={{padding:"10px",border:"1px solid lightgrey",backgroundColor:"white"}}>
+              <div className="col-4 col-md-3 col-lg-2" style={{padding:"10px",border:"1px solid lightgrey",backgroundColor:"white"}}>
                 <div className="row" style={{padding:"0px"}}>
-                  <div className="col-6  d-md-none" style={{}}>
+                  <div className="d-none d-md-block col-md-6  d-lg-none" style={{}}>
                   <small style={{fontWeight:"bold"}}> Television <br/><small>Smart, Android, Plasma etc</small></small>
                   </div>
-                  <div className="col-6 col-md-12">
+                  <div className="col-12 col-md-6 col-lg-12">
                   <img style={{width:"100%",float:"right"}} className="img-thumbnail" src="https://www-konga-com-res.cloudinary.com/image/upload/w_auto,f_auto,fl_lossy,dpr_auto,q_auto/v1595215707/contentservice/3.jpg_rk7D1qGeP.jpg" alt=""/>
                   </div>
                 </div>
               </div>    
-              <div className="col-6 col-md-3 col-lg-2" style={{padding:"10px",border:"1px solid lightgrey",backgroundColor:"white"}}>
+              <div className="col-4 col-md-3 col-lg-2" style={{padding:"10px",border:"1px solid lightgrey",backgroundColor:"white"}}>
                 <div className="row" style={{padding:"0px"}}>
-                  <div className="col-6  d-md-none" style={{}}>
+                  <div className="d-none d-md-block col-md-6  d-lg-none" style={{}}>
                   <small style={{fontWeight:"bold"}}> Television <br/><small>Smart, Android, Plasma etc</small></small>
                   </div>
-                  <div className="col-6 col-md-12">
+                  <div className="col-12 col-md-6 col-lg-12">
                   <img style={{width:"100%",float:"right"}} className="img-thumbnail" src="https://www-konga-com-res.cloudinary.com/image/upload/w_auto,f_auto,fl_lossy,dpr_auto,q_auto/v1595215707/contentservice/3.jpg_rk7D1qGeP.jpg" alt=""/>
                   </div>
                 </div>
               </div>    
-              <div className="col-6 col-md-3 col-lg-2" style={{padding:"10px",border:"1px solid lightgrey",backgroundColor:"white"}}>
+              <div className="col-4 col-md-3 col-lg-2" style={{padding:"10px",border:"1px solid lightgrey",backgroundColor:"white"}}>
                 <div className="row" style={{padding:"0px"}}>
-                  <div className="col-6  d-md-none" style={{}}>
+                  <div className="d-none d-md-block col-md-6  d-lg-none" style={{}}>
                   <small style={{fontWeight:"bold"}}> Television <br/><small>Smart, Android, Plasma etc</small></small>
                   </div>
-                  <div className="col-6 col-md-12">
+                  <div className="col-12 col-md-6 col-lg-12">
                   <img style={{width:"100%",float:"right"}} className="img-thumbnail" src="https://www-konga-com-res.cloudinary.com/image/upload/w_auto,f_auto,fl_lossy,dpr_auto,q_auto/v1595215707/contentservice/3.jpg_rk7D1qGeP.jpg" alt=""/>
                   </div>
                 </div>
