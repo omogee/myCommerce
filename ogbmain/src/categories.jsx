@@ -21,6 +21,8 @@ import Profile from "./profile"
 import SavedItems from "./savedItems"
 import CheckOut from "./checkout"
 import ModalSideNavbar from "./modalsidenavbar"
+import SellerRegister from "./sellerregister"
+import ProductUpload from "./productupload"
 
 class Category extends Component {
     constructor(props) {
@@ -43,6 +45,8 @@ class Category extends Component {
                  <Switch> 
                  
                  <Route path='/' exact component={Subcats} />
+                 <Route path="/sellerregister" exact component={SellerRegister} />
+                 <Route path="/productupload" exact component={ProductUpload} />
                      <Route path='/customer/register' exact component={Register}/>
                      <Route path='/customer/login' exact component={Login}/>
                  <Route path='/product/:details' exact   component={Details} />  

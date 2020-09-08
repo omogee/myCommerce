@@ -5,9 +5,9 @@ const {check,validationResult}= require('express-validator')
 const bcryptjs = require("bcrypt")
 const cookieParser= require('cookie-parser')
 const csrf = require('csurf');
-const { JsonWebTokenError } = require('jsonwebtoken')
+const { JsonWebTokenError } = require('jsonwebtoken') 
 const router = express.Router()
-
+ 
  const csrfProtection= csrf({cookie:true, value : (req) => (req.cookies.csrfToken)});
   //router.use(csrfProtection);
  // router.use(csrfProtection)
@@ -70,6 +70,9 @@ router.post("/submit/register", (req,res)=>{
     const email = data.email;
     const gender = data.gender;
     const password = data.password;
+    const state = data.state;
+    const lga = data.lga;
+console.log(data.password)
     var regex = /^[A-Za-z0-9 ]+$/
     var regex2 = /^[0-9]+$/
     var regex3 = /(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}/
@@ -88,7 +91,7 @@ router.post("/submit/register", (req,res)=>{
         if (err) throw err;
         bcryptjs.hash(password, salt, (err,hash)=>{
             if (err) throw err;
-            conn.query("INSERT INTO users (firstname, lastname,contact, email,gender,hash,navigation) VALUES (?,?,?,?,?,?,?)",[firstname,lastname,contact,email,gender,hash,navigation], (err,file)=>{
+            conn.query("INSERT INTO users (firstname, lastname,contact, email,gender,hash,state,lga,navigation) VALUES (?,?,?,?,?,?,?,?,?)",[firstname,lastname,contact,email,gender,hash,state,lga,navigation], (err,file)=>{
                 if (err) throw err;
                 const register={
                    message:"registration recieved successfully",
@@ -105,7 +108,60 @@ else{
 })
 }    
 })
- 
+
+router.post("/submit/sellerregister", (req,res)=>{
+    const data = JSON.parse(req.body.data)
+    let navigation = data.navigation;   
+    const firstname = data.firstname;
+    const lastname = data.lastname;
+    const businesscontact = data.businesscontact;
+    const email = data.email;
+    const gender = data.gender;
+    const password = data.password;
+    const address = data.address;
+    const state = data.state;
+    const lga = data.lga;
+    const bustop = data.bustop;
+    const businessname = data.businessname;
+    const aboutbusiness = data.aboutbusiness; 
+    const fullname = firstname+" "+lastname;
+
+    
+    var regex = /^[A-Za-z0-9 ]+$/
+    var regex2 = /^[0-9]+$/
+    var regex3 = /(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}/
+    var isvalidfirstname = firstname.match(regex)
+    var isvalidlastname = lastname.match(regex)
+    var isvalidcontact =businesscontact.match(regex2)
+    var isvalidpass = password.match(regex3)
+ if(!isvalidfirstname || !isvalidlastname || !isvalidcontact || !isvalidpass){
+    res.json("data is invalid").status(401)
+ }else{  
+     conn.query("SELECT * FROM sellers WHERE email =? ",[email],(err,file)=>{
+        if (err) throw err;
+        if(file.length=== 0){ 
+     navigation =JSON.stringify(navigation) 
+    bcryptjs.genSalt(10, (err,salt)=>{
+        if (err) throw err;
+        bcryptjs.hash(password, salt, (err,hash)=>{
+            if (err) throw err;
+            conn.query("INSERT INTO sellers (fullname, businessname,email, contact,aboutbusiness,gender,address,state,lga,bustop,password) VALUES (?,?,?,?,?,?,?,?,?,?,?)",[fullname,businessname,email,businesscontact,aboutbusiness,gender,address,state,lga,bustop,hash], (err,file)=>{
+                if (err) throw err;
+                const register={
+                   message:"registration recieved successfully",
+                   register: true
+                }
+                res.send(register)
+            })
+        })
+      })
+}
+else{
+    res.send("This email is already registered as a seller on fruget")
+}
+})
+}    
+}) 
 router.get("/add-to-cart",verifyToken,(req,res)=>{ 
     const id = req.query.id;
     const user = req.user
@@ -235,15 +291,16 @@ router.get("/save",verifyToken, (req,res)=>{
 }) 
 router.get("/check/save",verifyToken,(req,res)=>{
     const details = req.query.details;
+    console.log(details)
     const user = req.user;
-  console.log(user)
-   let userIdentity = user.user["userId"]
+  console.log(user) 
+   let userIdentity = user.user["userId"] 
     conn.query("SELECT productId from product WHERE details = ?", [details], (err,productId)=>{
         if(err) throw err;
     conn.query("SELECT savedItem from users WHERE userid = ?",[71], (err,savedItems)=>{ 
         if (err) throw err;
        if(!savedItems){
-           res.send("orange") 
+           res.send("orange")  
        }else{              
         let savedItem = savedItems[0].savedItem;
         savedItem = JSON.parse(savedItem); 
@@ -319,7 +376,7 @@ router.get("/userprofile/:id",(req,res)=>{
         }
     })
 })
-function verifyToken(req,res,next){
+ function verifyToken(req,res,next){
     const bearerHead = req.headers["authorization"]
     const bearer = bearerHead && bearerHead.split(" ")[1];
     if (bearer === null) res.status(403).json("you are not authorized to access this page");

@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import {Link, Redirect} from 'react-router-dom'
 import 'bootstrap/dist/css/bootstrap.min.css'
 // import {test, undisplaymodal} from './store'
-import {getProducts,getsidenav,checkfilter,addtocart,undisplaymodal} from './store'
+import {getProducts,getdetails,getsidenav,checkfilter,addtocart,undisplaymodal,setLoadingtoTrue} from './store'
 import {compose} from 'redux'
 import {connect} from 'react-redux'
 // import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -81,8 +81,9 @@ if(!checker){
           min:parsedQuery.min !== undefined ? parsedQuery.min : this.state.lowestprice,
           max:parsedQuery.max !== undefined ? parsedQuery.max : this.state.highestprice
         }
+        if(this.props.products.length === 0){
    this.props.getProducts(data)
-
+        }
      }
       else{ 
       const data ={
@@ -161,24 +162,32 @@ handlemodalclick =(e) =>{
 displaycartbtn =(e)=>{
   e.currentTarget.button.style.display ="block";
 }
+openDetails=(data)=>{
+ // console.log(e.currentTarget.textContent)
+ this.props.getdetails(data)
+ // this.props.setLoadingtoTrue()
+}  
   render() { 
-   console.log("products",this.state.productss)
-   
     let active = parseInt(this.props.currentPage) || 1;
     var PageNumbers = [];
     for (var i=1; i<=this.props.totalPages; i++){
        PageNumbers.push(i)
     }
+    console.log(this.props.loading)
+    if(this.props.productDetails.length > 0){
+      return <Redirect to={`/product/${this.props.currentDetailcategory}`} />
+    }
+    console.log(window.innerHeight)
   /*  console.log(Object.keys(this.state.parsedQuery).toString())
     if(this.props.products.length === 0){
       return(
         <div style={{width:"100%", height:"100%"}}>
           <center style={{position:"absolute", top:"50%",left:"50%"}}>
-            <img src={require(`./images/35.gif`)} />
+            <img src={require(`./images/35.gif`)} /> 
           </center>
         </div>
       ) 
-    }else{  */
+    }else{  */ 
     return (   
             <div>
              <div style={{display:`${this.props.inputval.length > 0 ? "block" : "none"}`,zIndex:"2",width:"100%",height:"100%",position:"absolute"}} className="indexer"> 
@@ -188,14 +197,17 @@ displaycartbtn =(e)=>{
              <div style={{display:`${this.props.mainbgcolor==="white" ? "none" : "block"}`,backgroundColor:"rgba(242,242,242,0.5)",width:"100%",height:"200%",position:"absolute",top:"0px",zIndex:"2"}}>
                x
              <div className="sidenavbar" style={{zIndex:"1",display:`${this.props.modalsidenavbardisplay}`,position:"absolute",top:"0px",width:`${this.props.modalsidenavbarwidth}`}}>
-              <ModalSideNavbar/>            
+                          
              </div>
              </div>
-          <div className="container main">
+            
+          <div className="container main" style={{position:`${this.props.loading ? "fixed" : ""}`}}>
           {this.props.loading ?     
-          <center style={{position:"absolute", top:"50%",left:"50%"}}>
+          <div style={{position:"absolute", top:"0%",left:"0%",zIndex:"2",backgroundColor:"lightgrey",width:"100%",height:`100%`,opacity:"0.2"}}>
+            <center style={{position:"absolute", top:"10%",left:"50%"}}>
             <img src={require(`./images/35.gif`)} />
-          </center>
+            </center>
+          </div>
         : null}
           <div className="row dodo" style={{backgroundColor:"white"}}>
               <div className="col-9" >
@@ -309,27 +321,28 @@ displaycartbtn =(e)=>{
             </center>
           </div>
           <div className={`${this.state.viewcoldetails}`}> 
-<small style={{float:"left",textTransform:"capitalize",display:`${this.state.displayviewbrand}`}}>{product.brand} <br/></small>
+<small style={{float:"left",textTransform:"capitalize",display:`${this.state.displayviewbrand}`}}>{product.brand}<br/></small>
            <div className="detaildiv" style={{lineHeight:"16px"}}> 
             <div  className="details"> 
-    <Link to ={`/product/${product.details}`} style={{color:'black',display:`${this.state.griddetails}`}}>
-     <small style={{display:"inline-block",fontSize:"12px"}}>{product.details.length > 40 ? product.details.slice(0,40)+ "..." : product.details +"-"+ product.model +"-"+ product.color}</small>  
-       </Link>
-       <Link to ={`/product/${product.details}`} style={{color:'black',display:`${this.state.listdetails}`}}>
-     <small style={{display:"inline-block",fontSize:"12px"}}>{product.details.length > 50 ? product.details.slice(0,50)+ "..." : product.details +"-"+ product.model +"-"+ product.color}</small>  
-       </Link>
+   
+     <small onClick={()=>this.openDetails(product.details)} style={{display:`${this.state.griddetails}`,fontSize:"12px"}}>{product.details.length > 40 ? product.details.slice(0,40)+ "..." : product.details +"-"+ product.model +"-"+ product.color}</small>  
+      
+
+     <small onClick={()=>this.openDetails(product.details)} style={{display:`${this.state.listdetails}`,fontSize:"12px"}}>{product.details.length > 50 ? product.details.slice(0,50)+ "..." : product.details +"-"+ product.model +"-"+ product.color}</small>  
+
         </div> 
         <small style={{fontWeight:"bold",fontSize:"14px"}}>{product.mainprice}</small> <br/>
        <div><small class="text-muted" style={{textDecoration:"line-through",fontSize:"12px"}}>{product.discount ? product.mainprice : null}</small><b className="badge" style={{fontSize:"12px",fontWeight:"bolder",color:"rgba(0, 119, 179)",backgroundColor:"rgba(0, 119, 179,0.1)",float:"right"}}>{product.discount ? `-${product.discount}%` : null}</b></div> 
        {product.numOfRating > 0 ?
+       <div>
          <div className="outer">     
-          <div className="inner" style={{width:`${product.percentrating || 0}%`}}>   
- 
+          <div className="inner" style={{width:`${product.percentrating}%`}}>   
+
           </div> 
-          <small style={{fontSize:"12px"}}>({product.numOfRating || 0}) </small></div> : null }
+          </div>  <small style={{fontSize:"12px"}}>({product.numOfRating || 0}) </small></div> : null }
+          <small className="text-muted" style={{letterSpacing:"-1px",textTransform:"capitalize",fontSize:"10px"}}><b style={{color:"orange"}}>{product.store}</b> @ <span className="fa fa-map-marker-alt"></span>{product.lga}</small>
           <div><img src={require(`./images/fruget.jpg`)} className="imgSymbol" style={{float:"right"}}></img></div>
          </div>
-         
         <br/>
         <center   style={{display:`${window.innerWidth >= 600 ? this.state.viewaddtocartbutton : `none`}`,width:`${this.state.viewcartbtnwidth}`}}>
         <br/>
@@ -427,7 +440,9 @@ displaycartbtn =(e)=>{
        mainbgcolor:store.mainbgcolor,
        modalsidenavbarwidth: store.modalsidenavbarwidth,
        modalsidenavbardisplay: store.modalsidenavbardisplay,
-       appDisplay:store.appDisplay
+       appDisplay:store.appDisplay,
+       productDetails:store.productDetails,
+       currentDetailcategory:store.currentDetailcategory
      }
  }
  const mapDispatchToProps =(dispatch)=>{
@@ -437,7 +452,9 @@ displaycartbtn =(e)=>{
      getsidenav: (data) => dispatch(getsidenav(data)),
     checkfilter: (data) => dispatch(checkfilter(data)),
     addtocart: (data) => dispatch(addtocart(data)),
-    undisplaymodal:()=> dispatch(undisplaymodal())
+    undisplaymodal:()=> dispatch(undisplaymodal()),
+    getdetails:(data)=>dispatch(getdetails(data)),
+    setLoadingtoTrue:()=>dispatch(setLoadingtoTrue())
    }
  }
  export default compose(withCookies, connect(mapStateToProps, mapDispatchToProps))(App);

@@ -26,24 +26,24 @@ const conn = mysql.createPool(options)
    
 const sessionStore= new MySQLStore(options);
 app.use(cookieParser())
-app.use(session({ 
-    key: 'session_cookie_name',
-    secret: 'otosh',
+app.use(session({  
+    key: 'session_cookie_name',  
+    secret: 'otosh', 
     store: sessionStore,       
-    resave: false,      
-    saveUninitialized: false,   
-    checkExpirationInterval: 900000,
+    resave: false,       
+    saveUninitialized: false,    
+    checkExpirationInterval: 900000, 
     // The maximum age of a valid session; milliseconds
     expiration: 200000, 
-}));
-app.use(bodyParser.urlencoded({extended: true}))
-app.use(bodyParser.json())  
+})); 
+app.use(bodyParser.urlencoded({extended: true}))  
+app.use(bodyParser.json())   
 
- app.use('/customer',Rcustomer);
+ app.use('/customer',Rcustomer);  
  app.use('/search',Rsearch);
  app.use('/products',Rproducts); 
  app.use("/details",Rdetails)  
-app.get('/suggestions/suggestion',(req,res)=>{
+app.get('/suggestions/suggestion',(req,res)=>{ 
     conn.query('SELECT brand,subcat1,subcat2,subcat3,mainimg,details FROM product',(err,files)=>{
         if (err) throw err;
         res.send(files)  

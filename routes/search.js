@@ -58,9 +58,10 @@ const router = express.Router()
     conn.query("SELECT *,CONCAT('₦', FORMAT(sellingprice, 0)) AS mainprice FROM product INNER JOIN product_rating using (productId) WHERE (brand IN ("+brands+") OR size IN ("+sizes+") OR color IN ("+colors+")) AND details LIKE '%"+search+"%' AND (sellingprice >= '"+min+"' AND sellingprice <= '"+max+"') ORDER BY "+sorter+" "+setting+" LIMIT ? OFFSET ?",[numPerPage, skips],(err,files)=>{
         if (err) throw err;
         files.map(file => { 
-            file["authur"] = "Eze Ogbonnaya"
-            if(files.productrating){      
-                const prating =JSON.parse(files.productrating); 
+    file["authur"] = "Eze... Ogbonnaya..."
+            if(file.productrating){      
+                file["authur"] = "Eze... Ogbonnaya..."
+                const prating =JSON.parse(file.productrating); 
                 const mainrating =[];
                 for (var i=0; i<Object.values(prating).length; i++){
                  mainrating.push(parseInt(Object.values(prating)[i][0]))
@@ -68,15 +69,15 @@ const router = express.Router()
                    const reducer = (a,b) => (a+b)
                    const prating2 =mainrating.map(pratings => pratings*20)
                //    console.log( Object.values(prating2).reduce(reducer)/Object.keys(prating).length)
-                   files["numOfRating"] = Object.keys(prating).length
+                   file["numOfRating"] = Object.keys(prating).length
                    if(Object.values(prating).length > 0){
-                       files["percentrating"] = Object.values(prating2).reduce(reducer)/Object.keys(prating).length
+                       file["percentrating"] = Object.values(prating2).reduce(reducer)/Object.keys(prating).length
                    }
                   else{
-                     files["percentrating"] = 0
+                     file["percentrating"] = 0
                   }
                      }
-          
+
         })
         console.log("fetching")
         res.json({files,numPages,currentPage,numOfRows})
@@ -119,32 +120,37 @@ var numPerPage =20;
 conn.query("SELECT *,CONCAT('₦', FORMAT(sellingprice, 0)) AS mainprice FROM product INNER JOIN product_rating using (productId) WHERE details LIKE '%"+search+"%' AND sellingprice >= '"+min+"' AND sellingprice <= '"+max+"' ORDER BY "+sorter+" "+setting+" LIMIT ? OFFSET ?",[numPerPage, skips],(err,files)=>{
     if (err) throw err;
     files.map(file => { 
-        file["authur"] = "Eze Ogbonnaya"
-        if(files.productrating){      
-            const prating =JSON.parse(files.productrating);
-            const mainrating =[];
-            for (var i=0; i<Object.values(prating).length; i++){
+        file["authur"] = "Eze... Ogbonnaya..."
+        console.log("prating",file.productrating)
+        if(file.productrating){      
+            file["authur"] = "....Eze... Ogbonnaya..."
+           
+          const prating =JSON.parse(file.productrating)
+            const mainrating =[]; 
+             for (var i=0; i<Object.values(prating).length; i++){
              mainrating.push(parseInt(Object.values(prating)[i][0]))
-          }
-               const reducer = (a,b) => (a+b)
-               const prating2 =mainrating.map(pratings => pratings*20)
-           //    console.log( Object.values(prating2).reduce(reducer)/Object.keys(prating).length)
-               files["numOfRating"] = Object.keys(prating).length
+          } 
+              const reducer = (a,b) => (a+b)
+                const prating2 =mainrating.map(pratings => pratings*20)
+            //    console.log( Object.values(prating2).reduce(reducer)/Object.keys(prating).length)
+              file["numOfRating"] = Object.keys(prating).length
                if(Object.values(prating).length > 0){
-                   files["percentrating"] = Object.values(prating2).reduce(reducer)/Object.keys(prating).length
-               }
-              else{
-                 files["percentrating"] = 0
-              }
-                 }
-      
-    })
+                file["percentrating"] = Object.values(prating2).reduce(reducer)/Object.keys(prating).length
+               } 
+           else{
+                 file["percentrating"] = 0
+              }   
+             }    
+          // <Link to ={`/product/${product.details}`} style={{color:'black',display:`${this.state.griddetails}`}}>
+          //         <Link to ={`/product/${product.details}`} style={{color:'black',display:`${this.state.listdetails}`}}>
+     //<ModalSideNavbar/> put back in app.js
+        }) 
     console.log("fetching only search")
     res.json({files,numPages,currentPage,numOfRows})
 }) 
-})
-}
-})
+})  
+}   
+})    
 router.post('/search', (req,res)=>{
      const search = JSON.parse(req.body.data);
 conn.query("SELECT COUNT(*) AS numOfRows from product WHERE details LIKE '%"+search+"%'", (err, nofile)=>{
@@ -159,10 +165,11 @@ conn.query("SELECT COUNT(*) AS numOfRows from product WHERE details LIKE '%"+sea
     console.log(numOfRows)
     conn.query("SELECT *,CONCAT('₦', FORMAT(sellingprice, 0)) AS mainprice FROM product INNER JOIN product_rating using (productId) WHERE details LIKE '%"+search+"%' LIMIT ? OFFSET ?",[numPerPage, skips],(err,files)=>{
         if (err) throw err;
-        files.map(file => { 
-            file["authur"] = "Eze Ogbonnaya"
-            if(files.productrating){      
-                const prating =JSON.parse(files.productrating);
+        files.map(file => {   
+            file["authurrr"] = "Eze..... Ogbonnaya"
+            if(file.productrating){      
+                file["authur"] = "Eze Okereke"
+                const prating =JSON.parse(file.productrating);
                 const mainrating =[];
                 for (var i=0; i<Object.values(prating).length; i++){
                  mainrating.push(parseInt(Object.values(prating)[i][0]))
@@ -170,12 +177,12 @@ conn.query("SELECT COUNT(*) AS numOfRows from product WHERE details LIKE '%"+sea
                    const reducer = (a,b) => (a+b)
                    const prating2 =mainrating.map(pratings => pratings*20)
                //    console.log( Object.values(prating2).reduce(reducer)/Object.keys(prating).length)
-                   files["numOfRating"] = Object.keys(prating).length
+                   file["numOfRating"] = Object.keys(prating).length
                    if(Object.values(prating).length > 0){
-                       files["percentrating"] = Object.values(prating2).reduce(reducer)/Object.keys(prating).length
+                       file["percentrating"] = Object.values(prating2).reduce(reducer)/Object.keys(prating).length
                    }
                   else{
-                     files["percentrating"] = 0
+                     file["percentrating"] = 0
                   }
                      }
           

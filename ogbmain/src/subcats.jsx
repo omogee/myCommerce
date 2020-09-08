@@ -68,23 +68,22 @@ class Subcats extends Component {
           <div>Hi, I am still loading</div>
         )
       }
+      //<div style={{display:`${this.props.mainbgcolor==="white" ? "none" : "block"}`,backgroundColor:"rgba(242,242,242,0.5)",width:"100%",height:"200%",position:"absolute",top:"0px",zIndex:"2"}}>
+   //   x</div>
         return (
            <div>
           <div style={{display:`${this.props.inputval.length > 0 ? "block" : "none"}`,zIndex:"2",width:"100%",height:"100%",position:"absolute"}} className="indexer"> 
           <Suggestions></Suggestions>       
           </div>
-          <div style={{display:`${this.props.appDisplay}`}}>
-             <div style={{display:`${this.props.mainbgcolor==="white" ? "none" : "block"}`,backgroundColor:"rgba(242,242,242,0.5)",width:"100%",height:"200%",position:"absolute",top:"0px",zIndex:"2"}}>
-               x
+          <div style={{display:`${this.props.appDisplay}`}}>            
              <div className="sidenavbar" style={{zIndex:"1",display:`${this.props.modalsidenavbardisplay}`,position:"absolute",top:"0px",width:`${this.props.modalsidenavbarwidth}`}}>
               <ModalSideNavbar/>            
-             </div>
-             </div>
+             </div>           
         <div style={{backgroundColor: "#f5f5f0"}}>   
 <div style={{display:`${this.props.inputval.length > 0 ? "block" : "none"}`,zIndex:"2",width:"100%",height:"100%",backgroundColor:"rgba(0,0,0,0.3)",width:"100%", height:"300%",position:"absolute"}} className="indexer"> 
              <Suggestions></Suggestions>       
              </div>
-            <div className="container">
+            <div className="container" style={{position:`${this.props.mainbgcolor==="white" ? "" : "fixed"}`}}>
               <div className="row">              
              <div className="col-12  col-lg-9 caro #f5f5f0 mt-2" >
              <Carousel className="caro">

@@ -199,17 +199,20 @@ handleChange=(e)=>{
      <small style={{display:"inline-block",fontSize:"13px"}}>{product.details.length > 40 ? product.details.slice(0,40)+ "..." : product.details +"-"+ product.model +"-"+ product.color}</small>  
        </Link>
        <Link to ={`/product/${product.details}`} style={{color:'black',display:`${this.state.listdetails}`}}>
-     <small style={{display:"inline-block",fontSize:"13px"}}>{product.details +"-"+ product.model +"-"+ product.color}</small>  
+     <small style={{display:"inline-block",fontSize:"13px"}}>{product.details.length > 60 ? product.details.slice(0,60)+ "..." : product.details +"-"+ product.model +"-"+ product.color}</small>  
        </Link>
         </div>
         <small style={{fontWeight:"bold",fontSize:"14px"}}>{product.mainprice}</small> <br/>
-       <div><small class="text-muted" style={{textDecoration:"line-through",fontSize:"12px"}}>{product.discount ? product.mainprice : null}</small><b className="badge" style={{fontSize:"12px",fontWeight:"bolder",color:"rgba(0, 119, 179)",backgroundColor:"rgba(0, 119, 179,0.1)",float:"right"}}>{product.discount ? `-${product.discount}%` : null}</b></div> 
-       {product.numOfRating !== 0 ?
+       <div><small class="text-muted" style={{textDecoration:"line-through",fontSize:"12px"}}>{product.discount ? product.mainprice : null}</small><b className="badge" style={{fontSize:"12px",fontWeight:"bolder",color:"rgba(0, 119, 179)",backgroundColor:"rgba(0, 119, 179,0.1)",float:"right"}}>{product.discount ? `-${product.discount}%` : null}</b></div>
+       {product.numOfRating > 0 ?
+       <div>
          <div className="outer">     
-          <div className="inner" style={{width:`${product.percentrating || 0}%`}}>   
- 
+          <div className="inner" style={{width:`${product.percentrating}%`}}>   
+  
           </div> 
-          <small style={{fontSize:"12px"}}>({product.numOfRating || 0}) </small></div> : null }
+          </div>
+          <small style={{fontSize:"12px"}}>({product.numOfRating || 0}) </small></div> : null }<br/>
+       <small className="text-muted" style={{letterSpacing:"-1px",textTransform:"capitalize"}}><b style={{color:"orange"}}>{product.store}</b> @ <span className="fa fa-map-marker-alt"></span>{product.lga}</small>
           <div><img src={require(`./images/fruget.jpg`)} className="imgSymbol" style={{float:"right"}}></img></div>
          </div>
          <br/>

@@ -1,33 +1,35 @@
 var express = require('express')
 var conn = require("./connection")
+// middlewares = require("middlewares");
+var verifyToken = require("./validateuser");
 
 const router = express.Router()
-
- router.get('/:category', (req,res)=>{
+ router.get('/:category',verifyToken,(req,res)=>{
+     console.log(req.user)
     const cat = req.params.category;
     const pagee = req.query.page || 1;
     const sort = req.query.sort;
     const currentPage = parseInt(pagee)
     const numPerPage = 20;
-    var skip = (pagee-1)*20;
-    switch (sort){
-        case "low-high":
-            sorter = "sellingprice"
+    var skip = (pagee-1)*20; 
+    switch (sort){   
+        case "low-high": 
+            sorter = "sellingprice"  
             setting= "ASC"
-            break;
+            break;  
             case "high-low":
             sorter = "sellingprice"
-            setting= "DESC"
-            break;
+            setting= "DESC"  
+            break;   
             case "cust-rating":
             sorter = "customerRating"
-            setting= "ASC"
-            break;
-            case "warranty":
-            sorter = "warranty"
-            setting= "ASC"
-            break;
-            default:
+            setting= "ASC" 
+            break; 
+            case "warranty":  
+            sorter = "warranty" 
+            setting= "ASC"  
+            break; 
+            default: 
             sorter = "rating"
             setting="ASC"
             break;
@@ -42,8 +44,8 @@ console.log(sorter,numOfRows, max, min)
 //(sellingprice >= "'+min+'" AND sellingprice <= "'+max+'") AND 
 conn.query('SELECT *,  CONCAT("₦", FORMAT(sellingprice, 0)) AS mainprice FROM product INNER JOIN product_rating using (productId) WHERE (`subcat1` = "'+cat+'" OR subcat2 = "'+cat+'" OR subcat3 = "'+cat+'") ORDER BY '+sorter+' '+setting+' LIMIT ? OFFSET ?',[numPerPage,skip],(err,file)=>{
         if (err) throw err;
-        file.map(files => { 
-            files["authur"] = "Eze Ogbonnaya"   
+        file.map(files => {  
+            files["authur"] = "Eze... Ogbonnaya"   
             if(files.productrating){      
                 const prating =JSON.parse(files.productrating);
                 const mainrating =[]; 
@@ -56,10 +58,10 @@ conn.query('SELECT *,  CONCAT("₦", FORMAT(sellingprice, 0)) AS mainprice FROM 
                    files["numOfRating"] = Object.keys(prating).length
                    if(Object.values(prating).length > 0){
                        files["percentrating"] = Object.values(prating2).reduce(reducer)/Object.keys(prating).length
-                   }
+                   }    
                   else{
                      files["percentrating"] = 0
-                  }
+                  } 
                      }     
         }) 
         res.json({file,numPages,currentPage,numOfRows})
@@ -153,7 +155,7 @@ router.get('/distinct/subcats', (req,res)=>{
   router.get('/section/three', (req,res)=>{
      conn.query("SELECT *,  CONCAT('₦', FORMAT(sellingprice, 0)) AS mainprice FROM product where subcat1='blender' LIMIT 12",(err,files)=>{
          if (err) throw err;
-         res.send(files)
+         res.send(files) 
      })
   })
   router.get('/section/four', (req,res)=>{
@@ -161,9 +163,9 @@ router.get('/distinct/subcats', (req,res)=>{
          if (err) throw err;
          res.send(files)
      })
-  })
- 
- 
+  })  
+       
+  
   //Category colour,brand,size
  router.get('/:category/color', (req,res)=>{
      const cat = req.params.category;
@@ -212,6 +214,20 @@ router.get('/distinct/subcats', (req,res)=>{
     })
    })
 })
+router.get('/productupload/:category/subcat2', (req,res)=>{
+    const cat = req.params.category;
+   conn.query('SELECT DISTINCT subcat2 FROM product  WHERE `subcat1` = "'+cat+'" ',(err,subcat2)=>{
+        if (err) throw err;
+        res.send(subcat2)
+    })
+   })
+   router.get('/productupload/:category/subcat3', (req,res)=>{
+    const cat = req.params.category;
+   conn.query('SELECT DISTINCT subcat3 FROM product  WHERE `subcat1` = "'+cat+'" ',(err,subcat3)=>{
+        if (err) throw err;
+        res.send(subcat3)
+    })
+   })
 router.get('/product/:details', (req,res)=>{
     const details = req.params.details;
    conn.query("SELECT *, `colors-avail` as coloursavail,CONCAT('₦', FORMAT(sellingprice, 0)) mainprice, CONCAT('₦', FORMAT(initialprice, 0)) initialcost  FROM product INNER JOIN product_rating using (productId) WHERE details = ?",[details],(err,file)=>{
@@ -247,4 +263,5 @@ router.get("/products/allcategories", (req,res)=>{
         res.send(file)
     })
 })
+
  module.exports = router;

@@ -60,6 +60,14 @@ class Navbar extends Component {
     clearinput=()=>{
       this.setState({inputval:""})
     }
+    submit=(e)=>{
+   /* e.preventDefault();
+    let currentUrlParams = new URLSearchParams(window.location.search);
+    currentUrlParams.set('search', e.target.value);
+    window.location.assign(window.location.pathname +"?"+ currentUrlParams.toString());
+  */
+ console.log(e.target.value) 
+  }
     render() { 
     
         return ( 

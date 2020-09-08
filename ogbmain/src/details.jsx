@@ -49,8 +49,9 @@ class Details extends Component {
         window.addEventListener("click", this.handlemodalclick)
         window.addEventListener("click", this.handlesavemodalclick)
         window.addEventListener("click", this.handlemodalcartclick)
-
-        this.props.getdetails(this.props.match.params.details)
+if(this.props.productDetails.length === 0){
+    this.props.getdetails(this.props.match.params.details)
+}
       }
       save =()=>{
           axios.get(`http://fruget.herokuapp.com/customer/save?details=${this.props.match.params.details}`,{ headers: {"Authorization" : `Bearer ${localStorage.getItem("token")}`} })
@@ -143,8 +144,8 @@ class Details extends Component {
     render() { 
         console.log(this.props)
    return (   
-       <div className="detailcontainer">
-         <div className="container" style={{boxShadow:"2px 1px 3px 3px lightgrey",backgroundColor:"#f5f5f0"}}>
+       <div className="">
+         <div className="container" style={{backgroundColor:"#f5f5f0"}}>
              <Suggestions></Suggestions>
         {this.props.productDetails.map((products) =>
        <div key={products.productId}>
@@ -161,18 +162,22 @@ class Details extends Component {
            </center>
            <br/>
         <div className="row" style={{padding:"0px 10px"}}> 
-            <div className="col-12 col-lg-6"  >
+            <div className="col-12 col-lg-6 imgshowcase">
             <center>
-            <div style={{display:"flex",flexWrap:"wrap",justifyContent:"space-between",width:"10%", position:"absolute"}}>
+            <div className="bigdeviceimgshowcaseflex" >
             {Object.values(JSON.parse(products.img1)).map(img =>
             <div key={img} style={{border:"1px solid grey"}}>           
                <img  onClick={() => this.changesrc(require(`./images/${img}`))} src={require(`./images/${img}`)} className="img-responsive" style={{padding:"0px",maxWidth:"100%"}}></img>
             </div> 
           )} 
           </div>
-         
-              <img ref={(a)=> this.imgelement = a} src={require (`./images/${JSON.parse(products.img1)[1]}`)} style={{width:"100%"}} className="img-responsive"></img>
-              <h2 style={{float:"right", top:"5%",right:"10%", position: "absolute"}} onClick={this.save}>
+         <div className="smalldeviceimgshowcase">
+         {Object.values(JSON.parse(products.img1)).map(img =>                  
+        <img   src={require(`./images/${img}`)} className="img-responsive" style={{borderRadius:"10px",margin:"4px",width:`${Object.values(JSON.parse(products.img1)).length === 1 ? "100%" : "80%"}`}}></img>
+          )} 
+              </div>
+<img ref={(a)=> this.imgelement = a} src={require (`./images/${JSON.parse(products.img1)[1]}`)} style={{width:"100%"}} className="bigdeviceimgshowcase img-responsive"></img>
+              <h2 style={{float:"right",top:"5%",right:"25%", position: "absolute"}} onClick={this.save}>
                     <i className="fab fa-gratipay" style={{color:`${this.props.save}`}}></i>
                 </h2>
                 </center>
@@ -180,7 +185,10 @@ class Details extends Component {
             <div className="col-12 col-lg-6 detailmarginal" style={{width:"100%",backgroundColor:"white"}} >
             
            <p style={{textTransform:"uppercase"}}>{products.details} -{products.model} -{products.color}</p>
-            <small>Brand : {products.brand}</small><br/>
+         <small>Brand : {products.brand} | similiar products from {products.brand}</small><br/>
+            <div style={{float:"right",fontSize:"20px"}} onClick={this.save}>
+                    <i className="fab fa-gratipay" style={{color:`${this.props.save}`}}></i>
+                </div>
             <small>SKU code : 20202908{products.productId}</small><br/>
             <small>Warranty: {products.warranty}</small><br/>
             <small>
@@ -223,16 +231,16 @@ class Details extends Component {
             </div>
             </div>   
             <br/>
-            <div className="row showcase text-muted" style={{position:"sticky",top:"0px",left:"0px",backgroundColor:"white",padding:"0px",zIndex:"2",margin:"5px 2px"}}>
+            <div className="row showcase text-muted" style={{position:"sticky",top:"0px",left:"0px",backgroundColor:"white",padding:"10px",zIndex:"2",margin:"5px 2px"}}>
               <div className="col-12">
                  <b style={{textTransform:"uppercase"}}>{products.details} -{products.model} -{products.color}</b><br/>
                 <b style={{color:"orange"}}>{products.mainprice}</b><b style={{float:"right"}}>{- products.discount}</b><br/>
               </div>
             </div>
-            <div style={{backgroundColor:"white"}}>
+            <div style={{backgroundColor:"white",padding:"10px"}}>
                <center>
-                   <h3 style={{textTransform:"uppercase", textAlign:"center"}}>{products.model}</h3>
-         <p style={{width:"100%",textTransform:"capitalize"}}>{ReactHtmlParser(products.entrytext)}</p>
+                   <p style={{textTransform:"uppercase", textAlign:"center"}}>{products.model}</p>
+         <small style={{width:"100%",textTransform:"capitalize"}}>{ReactHtmlParser(products.entrytext)}</small>
          <br/>
          
              {products.brand === "lg" ? <small style={{color:"grey"}}>
@@ -429,7 +437,7 @@ class Details extends Component {
             <div className="col-12" style={{border: "1px solid lightgrey", borderRadius:"5px",backgroundColor:"white",padding:"10px"}}>
 <small style={{fontSize:"15px"}}>Customer Reviews</small><button style={{float:"right",display:`${localStorage.getItem("id") ? "block" : "none"}`}} onClick={this.displaymodal}><a href="#modaldiv">Rate</a></button><br/>
              <hr/>
-            
+            {products.numOfRating > 0 ?
              <div className="row">
              <div className="col-3">
                  <small style={{padding:"0px",margin:"0px"}}>RATING ({products.numOfRating || 0} ) </small>
@@ -443,8 +451,8 @@ class Details extends Component {
              <div className="col-9">
              <small style={{padding:"0px",margin:"0px"}}>REVIEWS/ COMMENTS ({products.numOfRating || 0} ) </small>
              {Object.keys(JSON.parse(products.productrating)).map((key)=> 
-               <div>                 
-                    <p style={{padding:"0px"}}><span className="fa fa-comment-dots"></span> {JSON.parse(products.comments)[key]}</p>
+               <div style={{lineHeight:"14px",fontSize:"12px"}}>                 
+                    <small style={{padding:"0px"}}><span className="fa fa-comment-alt text-muted"></span><small style={{fontSize:"14px",fontWeight:"bold"}}> {JSON.parse(products.comments)[key]}</small></small><br/>
                     <small>by {key} </small> <br/>
              <small>{JSON.parse(products.productrating)[key].split(",")[1]}</small>
                 <div className="outer" style={{float:"right"}}>
@@ -457,6 +465,10 @@ class Details extends Component {
              )}
              </div>
              </div>
+    : <center> 
+      <span style={{fontSize:"40px"}} className="text-muted far fa-comments"></span>
+      <p>No Reviews Yet</p>
+      </center>}
             </div>
         </div>  
 <br/>
@@ -466,7 +478,7 @@ class Details extends Component {
                  </div>
                <div className="noscrolling">
                    {this.props.similiarDetails.map(section3 => 
-                    <div className="col-6  col-md-3 col-lg-2" key={section3.productId}  >
+                    <div className="col-5  col-md-3 col-lg-2" key={section3.productId}  >
                         <div style={{backgroundColor:"white",width:"115%",padding:"8px",boxShadow:"2px 1px 2px lightgrey"}}>
                         <div style={{height:"100%"}}>
                        <img src={require( `./images/${section3.mainimg}`)} className="mainImg" alt=""/> 
@@ -486,8 +498,8 @@ class Details extends Component {
                  </div>
                <div className="noscrolling">
                    {this.props.similiarBrandDetails.map(section3 => 
-                    <div className="col-6  col-md-3 col-lg-2" key={section3.productId}  >
-                        <div style={{backgroundColor:"white",width:"115%",padding:"8px"}}>
+                    <div className="col-5  col-md-3 col-lg-2" key={section3.productId}  >
+                        <div style={{backgroundColor:"white",width:"115%",padding:"8px",boxShadow:"2px 1px 2px lightgrey"}}>
                        <img src={require( `./images/${section3.mainimg}`)} className="mainImg" alt=""/> 
                        <small><Link to= { `/product/${section3.details}`} style={{color:"black",textTransform:"capitalize",whiteSpace:"nowrap",textOverflow:"ellipsis",overflow:"hidden", width:"100%",display:"block"}}>{ section3.details}</Link> </small>
                    <b>{section3.mainprice}</b> <br/>               

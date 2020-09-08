@@ -1,5 +1,6 @@
 import React, { Component, isValidElement } from 'react';
  import "./main.css"
+ import {states} from "./state"
 import axios from 'axios';
 const initialState={
           firstname:"",
@@ -22,17 +23,30 @@ class Register extends Component {
           emailerr:"",
           contact:"",
           contacterr:"",
-          gender:"",
+          gender:"male",
           gendererr:"",
           password:"",
           passworderr:"",
+          address:"",
+          addresserr:"",
+          state: null,
+          stateerr:"",
+          lgaerr:"",
+          lga:null,
           navigation:[]
         }
     }
-    /* conn.query("INSERT INTO users (firstname, lastname,contact, email,gender,hash) VALUES (?)",[firstname,lastname,contact,email,gender,hash], (err,file)=>{
-                if (err) throw err;
-                res.send("data added successfully")
-                */
+    componentDidMount=()=>{
+     states.map(state =>{
+      if(state.state.name === "Abia State"){
+        state.state.locals.map(local =>{
+          console.log(local.name)
+        })
+      }
+     })
+    }
+
+  }
     validation =()=>{
       var regex = /^[A-Za-z0-9 ]+$/
     var regex2 = /^[0-9]+$/
@@ -48,23 +62,31 @@ class Register extends Component {
       return false;
     }
       if(!isvalidemail){
-        this.setState({emailerr:"please enter a valid email address"})
+        this.setState({emailerr:"please enter a valid email address",password:""})
         return false;
       }
       if(!isvalidfirstname){
-        this.setState({firstnameerr:"please enter your first name correctly"})
+        this.setState({firstnameerr:"please enter your first name correctly",password:""})
         return false;
       }
       if(!isvalidlastname){
-        this.setState({lastnameerr:"please enter your last name correctly"})
+        this.setState({lastnameerr:"please enter your last name correctly",password:""})
         return false;
       }
       if(!isvalidpass){
-        this.setState({passworderr:"Enter phone number correctly"})
+        this.setState({passworderr:"Enter phone number correctly",password:""})
         return false;
       }
       if(this.state.gender=== ""){
-        this.setState({gendererr:"kindly select your gender"})
+        this.setState({gendererr:"kindly select your gender",password:""})
+        return false;
+      }
+      if(this.state.state=== null || this.state.state === ""){
+        this.setState({stateerr:"kindly select your state of residence",password:""})
+        return false;
+      }
+      if(this.state.lga=== null || this.state.lga === ""){
+        this.setState({lgaerr:"kindly select your lga of residence",password:""})
         return false;
       }
       return true
@@ -81,7 +103,15 @@ class Register extends Component {
        product:navigator.product,      
      };
 const data ={
-  navigation:navigation,firstname:this.state.firstname,lastname:this.state.lastname,email:this.state.email,contact:this.state.contact,gender:this.state.gender,password:this.state.password}
+  navigation:navigation,
+  firstname:this.state.firstname,
+  lastname:this.state.lastname,
+  email:this.state.email,
+  contact:this.state.contact,
+  gender:this.state.gender,
+  password:this.state.password,
+  state:this.state.state,
+   lga: this.state.lga}
 axios.post("http://fruget.herokuapp.com/customer/submit/register", {data:JSON.stringify(data)})
 .then(res => { 
   if(res.data.register){
@@ -130,9 +160,8 @@ axios.post("http://fruget.herokuapp.com/customer/submit/register", {data:JSON.st
    })
 
  }
-
     render() { 
-      console.log(this.state.gender)
+      console.log(this.state.state, this.state.lga)
         return ( 
            <div>
                 <div className="container register">
@@ -145,49 +174,71 @@ axios.post("http://fruget.herokuapp.com/customer/submit/register", {data:JSON.st
                     <div className="row">
                     <div className="col-sm-12 col-md-6"> 
                     <div style={{padding:"10px"}}>
-                      <label for="fname" >First Name </label>
-	<input type="text" id="fname" name="firstname" placeholder=""  pattern="[A-Za-z]+" value={this.state.firstname} onChange={this.change} className="form-control " style={{width:"100%"}}/>
+                      <label for="fname" >First Name <span style={{color:"red",fontSize:"20px"}}>*</span></label>
+	<input type="text" id="fname" name="firstname" required  pattern="[A-Za-z]+" value={this.state.firstname} onChange={this.change} className="form-control " style={{width:"100%"}}/>
         <small><small style={{color:"red"}}>{this.state.firstnameerr}</small></small>
                     </div>
                     <div style={{padding:"10px"}}>
-                      <label for="lname" >Last Name </label>
- <input type="text" id="lname" name="lastname" placeholder=""  pattern="[A-Za-z]+" value={this.state.lastname} onChange={this.change} className="form-control " style={{width:"100%"}}/>
+                      <label for="lname" >Last Name <span style={{color:"red",fontSize:"20px"}}>*</span></label>
+ <input type="text" id="lname" name="lastname" required  pattern="[A-Za-z]+" value={this.state.lastname} onChange={this.change} className="form-control " style={{width:"100%"}}/>
  <small><small style={{color:"red"}}>{this.state.lastnameerr}</small></small>
                     </div>                   
                     </div>
 
                     <div className="col-sm-12 col-md-6">
                     <div style={{padding:"10px"}}>
-                      <label for="contact" >Phone number </label>
-<input type="text" id="contact" name="contact" placeholder="" pattern="[0-9]{,11}$" value={this.state.contact} onChange={this.change} className="form-control " style={{width:"100%"}}/>
+                      <label for="contact" >Phone number <span style={{color:"red",fontSize:"20px"}}>*</span></label>
+<input type="text" id="contact" name="contact" required pattern="[0-9]{,11}$" value={this.state.contact} onChange={this.change} className="form-control " style={{width:"100%"}}/>
 <small><small style={{color:"red"}}>{this.state.contacterr}</small></small>
                     </div> 
                     <div style={{padding:"10px"}}>
-                      <label for="email" >Email </label>
- <input type="text" id="email" name="email" placeholder="" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" value={this.state.email} onChange={this.change} className="form-control " style={{width:"100%"}}/>
+                      <label for="email" >Email <span style={{color:"red",fontSize:"20px"}}>*</span></label>
+ <input type="text" id="email" name="email" required pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" value={this.state.email} onChange={this.change} className="form-control " style={{width:"100%"}}/>
  <small><small style={{color:"red"}}>{this.state.emailerr}</small></small>
                     </div>
                     </div>
                     <div className="col-sm-12 col-md-6">
-                      <div className="row">
-                        <div className="col-6">
-                     <label for="male">male</label>
-                   <input type="radio" id="male" name="gender" value="male" onChange={this.change}/>
-                        </div>
-                        <div className="col-6">
-                   <label for="female">female</label>
-                   <input type="radio" id="female" name="gender" value="female" onChange={this.change}/>
-                        </div>
-                        <small><small style={{color:"red"}}>{this.state.gendererr}</small></small>
-                      </div>
-                   
-                   
+                    <div style={{padding:"10px"}}>
+                 <label for="male">Gender <span style={{color:"red",fontSize:"20px"}}>*</span></label>
+                 <select name="gender" className="form-control" id="gender" onChange={this.change} value={this.state.gender}>
+                 <option value="male">male</option>
+                 <option value="female">female</option>
+                 </select>
+                    </div>                                   
                     </div>
                     <div className="col-sm-12 col-md-6">
                     <div style={{padding:"10px"}}>
-                 <label htmlFor="password">Password</label>
+                 <label for="male">Select State of Residence <span style={{color:"red",fontSize:"20px"}}>*</span></label>
+                <select name="state" className="form-control" id="state" onChange={this.change} value={this.state.state}>
+                  <option value="">Select state of residence</option>
+                 {states.map(state =>                 
+                  <option value={`${state.state.name}`}>{state.state.name}</option>
+                  )}
+                </select>
+                <small><small style={{color:"red"}}>{this.state.stateerr}</small></small>
+                    </div>                                   
+                    </div>
+                    <div className="col-sm-12 col-md-6">
+                    <div style={{padding:"10px"}}>
+                 <label for="male">Select lga of Residence <span style={{color:"red",fontSize:"20px"}}>*</span></label>
+                 <select name="lga" className="form-control" id="lga" value={this.state.lga} onChange={this.change}>
+                 <option value="">Select lga of residence</option>
+                 {states.map(state =>  
+                 state.state.name === this.state.state ? 
+                 state.state.locals.map(mainstate =>
+                 <option value={`${mainstate.name}`}>{mainstate.name}</option>
+                  )              
+                  : null                                
+                  )}
+                 </select>
+                 <small><small style={{color:"red"}}>{this.state.lgaerr}</small></small>
+                    </div>                                   
+                    </div>
+                    <div className="col-sm-12 col-md-6">
+                    <div style={{padding:"10px"}}>
+                 <label htmlFor="password">Password <span style={{color:"red",fontSize:"20px"}}>*</span></label>
                  <div className="input-group">     
-                <input type="password" className="form-control"  pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" onChange={this.change} value={this.state.password} title="<b>Must contain text and numbers</b>" name="password" id="password" style={{padding:"5px",borderRight:"none"}}/>
+                <input type="password" required className="form-control"  pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" onChange={this.change} value={this.state.password} title="<b>Must contain text and numbers</b>" name="password" id="password" style={{padding:"5px",borderRight:"none"}}/>
                 <div className="input-group-btn">
                   <button className="btn " className="eye" onclick='changepassType()'  style={{paddingRight: "3px",border:"1px solid lightgrey",backgroundColor:"white"}}><i className="fa fa-eye-slash fa-2x"></i></button>
                 </div>

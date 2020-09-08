@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import axios from "axios"
-import {allcategories, allsubcategories, unshowmodalsidenavbar} from "./store"
+import {allcategories,getProducts, allsubcategories, unshowmodalsidenavbar} from "./store"
 import {connect} from "react-redux"
-import {Link} from "react-router-dom"
+import {Link,Redirect} from "react-router-dom"
 
 class ModalSideNavbar extends Component {
     constructor(props) {
@@ -12,7 +12,7 @@ class ModalSideNavbar extends Component {
             subcategory:[],
             currentcategory:"",
             set:"Category",
-            subcategorydisplay:"none"
+            subcategorydisplay:"none",
           }
     }
     componentDidMount =()=>{
@@ -27,8 +27,18 @@ class ModalSideNavbar extends Component {
     undisplaysidenav =()=>{
       this.props.showmodalsidenavbar()
       }
+      opencategory=(e)=>{
+        const data ={
+          category:e.currentTarget.textContent,
+          page:1
+        }
+        this.props.getProducts(data)
+      }
     render() { 
-      console.log(this.props.allsubcategory)
+      console.log(this.props.products)
+      if(this.props.products.length > 0){
+        return <Redirect to={`/category/${this.props.currentCategory}`} />;
+      }
         return ( 
             <div>
                <div id="mySidebar" className="container"  style={{backgroundColor:"white",zIndex:"1000000"}}>
@@ -41,7 +51,14 @@ class ModalSideNavbar extends Component {
          </div>
        <div className="col-7"></div>
        </div>  
-       <hr/>       
+       <hr/>   
+
+       {this.props.loading ?     
+          <center style={{position:"absolute", top:"50%",left:"50%"}}>
+            <img src={require(`./images/35.gif`)} />
+          </center>
+        : null}
+
    <p>Account</p>
 <div className="row" style={{padding:"0px 10px"}}>
 <div className="col-6">
@@ -66,11 +83,10 @@ class ModalSideNavbar extends Component {
 <br/>
 
  <p>{this.state.set}</p>
- <a href={`/category/${this.state.currentcategory}`}>
- <p style={{backgroundColor:"black", color:"white",padding:"10px",display:`${this.state.subcategorydisplay}`}}>
+ <p onClick={(e)=>this.opencategory(e)} style={{backgroundColor:"black", color:"white",padding:"10px",display:`${this.state.subcategorydisplay}`}}>
   {this.state.currentcategory}
    <i style={{float:"right"}} className="fas fa-chevron-down ml-1"></i>
- </p></a> 
+ </p>
  <div style={{paddingLeft:"30px"}} className="row">
    <div className="col-12">
     {this.props.allcategory.length > 0 ? this.props.allcategory.map((categories) =>
@@ -93,14 +109,19 @@ class ModalSideNavbar extends Component {
  const mapStateToProps =(store)=>{
    return{
    allcategory:store.allcategories,
-   allsubcategory:store.allsubcategories
+   allsubcategory:store.allsubcategories,
+   products:store.products,
+   loading:store.loading,
+   currentCategory:store.currentCategory
    }
  }
  const mapDispatchToProps =(dispatch)=>{
    return{
+     getProducts:(data)=> dispatch(getProducts(data)),
      allcategories: ()=>dispatch(allcategories()),
      allsubcategories:(data)=> dispatch(allsubcategories(data)),
-     showmodalsidenavbar:()=>dispatch(unshowmodalsidenavbar())
+     showmodalsidenavbar:()=>dispatch(unshowmodalsidenavbar()),
+     unshowmodalsidenavbar:()=>dispatch(unshowmodalsidenavbar())
    }
  }
 export default connect(mapStateToProps,mapDispatchToProps)(ModalSideNavbar);

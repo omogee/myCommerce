@@ -138,7 +138,7 @@ const sql2 = 'SELECT *, CONCAT("₦", FORMAT(sellingprice, 0)) AS mainprice FROM
         res.send(files2)
         })
         }
-        })
+        })   
         })
 
         router.get('/product/:details', (req,res)=>{
