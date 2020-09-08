@@ -15,7 +15,6 @@ import {CookiesProvider} from 'react-cookie'
 import Subcats from './subcats';
 import axios from 'axios';
 import SearchApp from "./searchapp"
-import Register from "./register"
 import Login from "./login"
 import Profile from "./profile"
 import SavedItems from "./savedItems"
@@ -47,7 +46,7 @@ class Category extends Component {
                  <Route path='/' exact component={Subcats} />
                  <Route path="/sellerregister" exact component={SellerRegister} />
                  <Route path="/productupload" exact component={ProductUpload} />
-                     <Route path='/customer/register' exact component={Register}/>
+                 
                      <Route path='/customer/login' exact component={Login}/>
                  <Route path='/product/:details' exact   component={Details} />  
                  <Route path='/category/:category' exact   component={withRouter(App)} />
