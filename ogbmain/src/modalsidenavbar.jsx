@@ -35,10 +35,7 @@ class ModalSideNavbar extends Component {
         this.props.getProducts(data)
       }
     render() { 
-      console.log(this.props.products)
-      if(this.props.products.length > 0){
-        return <Redirect to={`/category/${this.props.currentCategory}`} />;
-      }
+        
         return ( 
             <div>
                <div id="mySidebar" className="container"  style={{backgroundColor:"white",zIndex:"1000000"}}>
@@ -88,10 +85,19 @@ class ModalSideNavbar extends Component {
    <i style={{float:"right"}} className="fas fa-chevron-down ml-1"></i>
  </p>
  <div style={{paddingLeft:"30px"}} className="row">
-   <div className="col-12">
+ <div className="col-12">
     {this.props.allcategory.length > 0 ? this.props.allcategory.map((categories) =>
-        <div key={categories.subcat1 || categories.subcat2} style={{color:"black",cursor:"pointer"}}>
-             <p onClick={(e)=>this.subcat(e)} ><small style={{textTransform:"capitalize"}} >{categories.subcat1 || categories.subcat2}</small>
+        <div key={categories.generalcategory } style={{color:"black",cursor:"pointer"}}>
+             <p onClick={(e)=>this.subcat(e)} ><small style={{textTransform:"capitalize"}} >{categories.generalcategory}</small>
+             </p>
+            <hr/>
+        </div>
+        ) : null}
+      </div>
+   <div className="col-12">
+    {this.props.allsubcategory.length > 0 ? this.props.allsubcategory.map((categories) =>
+        <div key={categories.category } style={{color:"black",cursor:"pointer"}}>
+             <p onClick={(e)=>this.subcat(e)} ><small style={{textTransform:"capitalize"}} >{categories.category}</small>
              </p>
             <hr/>
         </div>
@@ -109,7 +115,7 @@ class ModalSideNavbar extends Component {
  const mapStateToProps =(store)=>{
    return{
    allcategory:store.allcategories,
-   allsubcategory:store.allsubcategories,
+   allsubcategory:store.allcategory,
    products:store.products,
    loading:store.loading,
    currentCategory:store.currentCategory

@@ -2,6 +2,19 @@ export const states= [{"state":{"name":"Abia State","id":1,"locals":[{"name":"Ab
 
 export const category = {"electronics":[{"name":"refrigerator","subcat1":["chest refrigerator","standing refrigerator"],"subcat2":["quadrant","double door","single door"],"subcat3":["table top","mini fridge","top freezer", "bottom freezer", "french door" ]}, 
 {"name":"dispenser","subcat1":["double door","single door"],"subcat2":["with freezer","without freezer"],"subcat3":["double nozzle","tri-nozzle"]},
+{"name":"generator","subcat1":["small generator","medium generator","big generator"],"subcat2":["portable","inverter generator","standby generator"]},
+{"name":"fan","subcat1":["standing fan","table fan","exhaust fan","wall fan","ceiling fan"],"subcat2":["industrial","basic"], "subcat3":["rechargeable","electric"]},
+{"name":"camera","subcat1":["small generator","medium generator","big generator"],"subcat2":["portable","inverter generator","standby generator"]},
+{"name":"tv&audo","subcat1":["television","home threatre","dvd","woofer","speaker","radio"],"subcat2":["led","oled","smart","android"]}],
+
+"Automobile":[{"name":"refrigerator","subcat1":["chest refrigerator","standing refrigerator"],"subcat2":["quadrant","double door","single door"],"subcat3":["table top","mini fridge","top freezer", "bottom freezer", "french door" ]}, 
+{"name":"dispenser","subcat1":["double door","single door"],"subcat2":["with freezer","without freezer"],"subcat3":["double nozzle","tri-nozzle"]},
+{"name":"generator","subcat1":["small generator","medium generator","big generator"],"subcat2":["portable","inverter generator","standby generator"]},{"name":"fan","subcat1":["standing fan","table fan","exhaust fan","wall fan","ceiling fan"],"subcat2":["rechargable","industrial","basic"]},
+{"name":"camera","subcat1":["small generator","medium generator","big generator"],"subcat2":["portable","inverter generator","standby generator"]},
+{"name":"tv&audo","subcat1":["television","home threatre","dvd","woofer","speaker","radio"],"subcat2":["led","oled","smart","android"]}],
+
+"computer & accessories":[{"name":"refrigerator","subcat1":["chest refrigerator","standing refrigerator"],"subcat2":["quadrant","double door","single door"],"subcat3":["table top","mini fridge","top freezer", "bottom freezer", "french door" ]}, 
+{"name":"dispenser","subcat1":["double door","single door"],"subcat2":["with freezer","without freezer"],"subcat3":["double nozzle","tri-nozzle"]},
 {"name":"generator","subcat1":["small generator","medium generator","big generator"],"subcat2":["portable","inverter generator","standby generator"]},{"name":"fan","subcat1":["standing fan","table fan","exhaust fan","wall fan","ceiling fan"],"subcat2":["rechargable","industrial","basic"]},
 {"name":"camera","subcat1":["small generator","medium generator","big generator"],"subcat2":["portable","inverter generator","standby generator"]},
 {"name":"tv&audo","subcat1":["television","home threatre","dvd","woofer","speaker","radio"],"subcat2":["led","oled","smart","android"]}],
@@ -10,6 +23,6 @@ export const category = {"electronics":[{"name":"refrigerator","subcat1":["chest
 
 "kitchen appliance":[{"name":"small appliances","subcat1":["blender", "jug", "grinder", "table top cookers"]},{"name":"large appliance","subcat1":["microwave", "oven", "standing cooker", "industrial exhaust fan"]}],
 
-"phone & tablets":[{"name":"tablets","subcat1":["ipads", "android tablet"]},{"name":"mobile phones","subcat1":["smart phones", "basic phones"]}],
+"phone and tablets":[{"name":"tablets","subcat1":["ipads", "android tablet"],"subcat2":["mini", "maxi"]},{"name":"mobile phones","subcat1":["smart phones", "basic phones"],"subcat2":["iphone series","android series"]}]
 
 }
