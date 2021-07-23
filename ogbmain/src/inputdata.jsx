@@ -18,12 +18,13 @@ class Inputdata extends Component {
     this.setState({val:parsedQuery.search})       
     }
     render() { 
+        let parsedQuery = queryString.parse(this.props.location.search)
         return ( 
             <div>
                 <div style={{textTransform:"capitalize",padding:"10px"}}>
                   <small style={{color:"lightgrey"}}> RESULT <span className="fa fa-arrow-right"></span></small> 
                   <div className="row" >
-                  {this.state.val || this.props.inputval}
+                  {this.props.inputval || parsedQuery.search}
                       </div>
                 </div>
             </div>
