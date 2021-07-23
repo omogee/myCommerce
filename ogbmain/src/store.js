@@ -19,16 +19,38 @@ const initialState ={
     filteredSuggestions:[],
     suggestions:[],
     showSuggestions: false,
-    inputval:""
+    inputval:"",
+    cartMessage:"",
+    display:"none",
+    loading: false,
+    allcategories:[],
+    allsubcategories:[],
+    subcat2:[],
+    subcat3:[],
+    mainbgcolor:"white",
+    modalsidenavbarwidth:"0%",
+    modalsidenavbardisplay:"none",
+    modalsidenavbarwidthmargin:"0%",
+    save:"",
+    productDetails:[],
+    similiarDetails:[],
+    similiarBrandDetails:[],
+    appDisplay:"",
+    currentCategory:"",
+    currentDetailcategory:""
 }
 const reducer= (state = initialState, action)=>{
     if(action.type === 'loading'){
-      state = {...state , status: 'loading'}
+      state = {...state , loading:true}
       return state;
     }
     else if(action.type === 'loaded'){
-        state = {...state , status: 'loaded', products: action.payloadOne,currentPage:action.payloadThree,totalPages:action.payloadTwo,numOfRows:action.payloadFour}
-        console.log("no need for filter")
+        state = {...state,mainbgcolor: "white",loading: false,currentCategory:action.payload, products: action.payloadOne,currentPage:action.payloadThree,totalPages:action.payloadTwo,numOfRows:action.payloadFour}
+        console.log("no need for filter", action.payloadOne)
+        return state;
+      }
+      else if(action.type==='setLoadingtoTrue'){
+        state ={...state, loading: true}
         return state;
       }
       else if(action.type === 'filteritems'){
@@ -98,9 +120,62 @@ const reducer= (state = initialState, action)=>{
         state = {...state , status: 'sizeloaded', searchedsizes: action.payload}
         return state;
       }
+      else if(action.type === 'addedtocart'){
+        state = {...state, status:'addedtocart', cartMessage : action.payloadOne, display:action.payloadTwo}
+        return state;
+      }
+      else if(action.type === 'undisplaymodal'){
+        state ={...state, status:'undisplaymodal', display:action.payload}
+      }
+      else if(action.type === 'allcategories'){
+        state = {...state, status:'allcategories',loading:false, allcategories : action.payload}
+        return state;
+      }
+      else if(action.type === 'allsubcategories'){
+        state = {...state, status:'allsubcategories', loading:false, allcategories: action.payload}
+        return state;
+      }
+      else if(action.type === 'showmodalsidenavbar'){
+        state = {...state, status:'showmodalsidenavbar', mainbgcolor: "rgba(242,242,242,0.7)",modalsidenavbarwidth:"95%",modalsidenavbarwidthmargin:"0%",modalsidenavbardisplay:"block"}
+        return state;
+      }
+      else if(action.type === 'unshowmodalsidenavbar'){
+        state = {...state, status:'unshowmodalsidenavbar',mainbgcolor: "white",modalsidenavbarwidth:"0%", modalsidenavbarwidthmargin:"0%",modalsidenavbardisplay:"none"}
+        return state;
+      }
+      else if(action.type === 'checkifsaved'){
+        state = {...state, status:'checkingifsaved',save:action.payload}
+        return state;
+      }
+      else if(action.type === 'detailsloaded'){
+        state = {...state, status:'detailsloaded',currentDetailcategory:action.payloadOne,productDetails:action.payload,loading:false}
+        console.log("am loaded")
+        return state;
+      }
+      else if(action.type === 'similiarproducts'){
+        state = {...state, status:'similiarproductsloaded',similiarDetails:action.payload}
+        return state;
+      }
+      else if(action.type === 'similiarproductsbybrand'){   
+        state = {...state, status:'similiarbrandsloaded', similiarBrandDetails: action.payload}
+        return state;
+      }
+      else if(action.type === 'undisplayApp'){   
+        state = {...state, status:'undisplayApp', appDisplay: "none"}
+        return state;
+      }
+      else if(action.type === 'getsubcat2'){   
+        state = {...state, status:'gettingsubcat2', subcat2: action.payload}
+        return state;
+      }
+      else if(action.type === 'getsubcat3'){   
+        state = {...state, status:'gettingsubcat3', subcat3: action.payload}
+        console.log(action.payload)
+        return state;
+      }
       else if(action.type === 'suggestionloaded'){
         const suggestions = action.payload;
-        
+         
         var filteredSuggestions =[];
        const inputval = action.input;
         for(var i=0; i<suggestions.length; i++){
@@ -129,50 +204,95 @@ export const test =()=>{
      payload: 'i am just testing'}
   )
 }
+export const subcat2 =(data)=>{
+  return(dispatch)=>{
+    axios.get(`http://fruget.herokuapp.com/products/productupload/${data}/subcat2`)
+    .then( res => dispatch({type:"getsubcat2", payload:res.data}))
+    .catch(err => dispatch({type:"err", payload:err}))
+  }
+}
+export const subcat3 =(data)=>{
+  return(dispatch)=>{
+    axios.get(`http://fruget.herokuapp.com/products/productupload/${data}/subcat3`)
+    .then( res => dispatch({type:"getsubcat3", payload:res.data}))
+    .catch(err => dispatch({type:"err", payload:err}))
+  }
+}
+export const setLoadingtoTrue =()=>{
+  return (dispatch)=>{
+     dispatch ({type:"setLoadingtoTrue"})
+  }
+}
+export const setAppDisplay=()=>{
+  return(
+    {type:"undisplayApp"}
+  )
+}
 export const searcher =(data)=>{
   return (dispatch)=>{
      dispatch({type: 'searched'})
-  axios.post('http://localhost:5000/search',{data: JSON.stringify(data)})
+  axios.post('http://fruget.herokuapp.com/search/search',{data: JSON.stringify(data)})
   .then(res => dispatch({type:'searching',payload:res.data.files,payloadTwo:res.data.numPages,payloadThree: res.data.currentPage,payloadFour:res.data.numOfRows}))
   .catch(err => dispatch({type: 'error', payload: err}))
 
   dispatch({type: 'brandsearching'})
-    axios.post(`http://localhost:5000/searchbrand`, {data: JSON.stringify(data)})
+    axios.post(`http://fruget.herokuapp.com/search/searchbrand`, {data: JSON.stringify(data)})
     .then(res=> dispatch({type: 'brandsearched', payload: res.data}))
     .then(err => dispatch({type: 'error', payload: err}))
 
     dispatch({type: 'colorsearching'})
-    axios.post(`http://localhost:5000/searchcolour`, {data: JSON.stringify(data)})
+    axios.post(`http://fruget.herokuapp.com/search/searchcolour`, {data: JSON.stringify(data)})
     .then(res=> dispatch({type: 'colorsearched', payload: res.data}))
     .then(err => dispatch({type: 'error', payload: err}))
 
     dispatch({type: 'sizesearching'})
-    axios.post(`http://localhost:5000/searchsize`, {data: JSON.stringify(data)})
+    axios.post(`http://fruget.herokuapp.com/search/searchsize`, {data: JSON.stringify(data)})
     .then(res=> dispatch({type: 'sizesearched', payload: res.data}))
     .then(err => dispatch({type: 'error', payload: err}))
 
   }
 }
+export const getdetails =(data)=>{
+ return(dispatch)=>{
+   dispatch({type:"loading"})
+  axios.get(`http://fruget.herokuapp.com/customer/check/save?details=${data}`,{ headers: {"Authorization" : `Bearer ${localStorage.getItem("token")}`} })
+  .then(res =>  dispatch({type:"checkifsaved",payload:res.data}))
+  .catch(err => dispatch({type:"err",payload:err})) 
 
+  axios.get(`http://fruget.herokuapp.com/details/similiar/${data}`)
+  .then(res => dispatch({type:"similiarproducts",payload: res.data}))
+  .catch(err => dispatch({type:"err",payload:err}))  
+
+  axios.get(`http://fruget.herokuapp.com/details/similiarbrand/${data}`)
+  .then(res => dispatch({type:"similiarproductsbybrand",payload: res.data}))
+  .catch(err => dispatch({type:"err",payload:err}))  
+
+  axios.get(`http://fruget.herokuapp.com/details/product/${data}`)
+  .then(res => dispatch({type:"detailsloaded",payloadOne:data,payload: res.data}))
+  .catch(err => dispatch({type:"err",payload:err}))   
+
+  
+ }
+}
 export const submitsearcher =(data)=>{
   return (dispatch)=>{
      dispatch({type: 'submitsearched'})
-  axios.get(`http://localhost:5000/items/search?search=${data.search}&sort=${data.sort}&max=${data.max}&min=${data.min}&brand=${data.brand}&size=${data.size}&colour=${data.colour}&page=${data.page}`)
+  axios.get(`http://fruget.herokuapp.com/search/items/search?search=${data.search}&sort=${data.sort}&max=${data.max}&min=${data.min}&brand=${data.brand}&size=${data.size}&colour=${data.colour}&page=${data.page}`)
   .then(res => dispatch({type:'submitsearching',payload:res.data.files,payloadTwo:res.data.numPages,payloadThree: res.data.currentPage,payloadFour:res.data.numOfRows}))
   .catch(err => dispatch({type: 'error', payload: err}))
 
   dispatch({type: 'submitbrandsearching'})
-  axios.get(`http://localhost:5000/items/searchbrand?search=${data.search}&max=${data.max}&min=${data.min}&brand=${data.brand !== undefined ?data.brand : null}&size=${data.size}&colour=${data.colour}`)
+  axios.get(`http://fruget.herokuapp.com/search/items/searchbrand?search=${data.search}&max=${data.max}&min=${data.min}&brand=${data.brand !== undefined ?data.brand : null}&size=${data.size}&colour=${data.colour}`)
   .then(res=> dispatch({type: 'submitbrandsearched', payload: res.data}))
   .then(err => dispatch({type: 'error', payload: err}))
 
   dispatch({type: 'submitcolorsearching'})
-  axios.get(`http://localhost:5000/items/searchcolour?search=${data.search}&max=${data.max}&min=${data.min}&brand=${data.brand}&size=${data.size}&colour=${data.colour}`)
+  axios.get(`http://fruget.herokuapp.com/search/items/searchcolour?search=${data.search}&max=${data.max}&min=${data.min}&brand=${data.brand}&size=${data.size}&colour=${data.colour}`)
   .then(res=> dispatch({type: 'submitcolorsearched', payload: res.data}))
   .then(err => dispatch({type: 'error', payload: err}))
 
   dispatch({type: 'sizesearching'})
-  axios.get(`http://localhost:5000/items/searchsize?search=${data.search}&max=${data.max}&min=${data.min}&brand=${data.brand}&size=${data.size}&colour=${data.colour}`)
+  axios.get(`http://fruget.herokuapp.com/search/items/searchsize?search=${data.search}&max=${data.max}&min=${data.min}&brand=${data.brand}&size=${data.size}&colour=${data.colour}`)
   .then(res=> dispatch({type: 'submitsizesearched', payload: res.data}))
   .then(err => dispatch({type: 'error', payload: err}))
 
@@ -181,7 +301,7 @@ export const submitsearcher =(data)=>{
 export const checkfilter = data =>{
   return (dispatch) =>{
   dispatch({type: "filter"})
-  axios.get(`http://localhost:5000/items/filter/${data.category}?page=${parseInt(data.page)}&sort=${data.sort}&max=${data.max}&min=${data.min}&brand=${data.brand}&size=${data.size}&colour=${data.colour}`)
+  axios.get(`http://fruget.herokuapp.com/products/items/filter/${data.category}?page=${parseInt(data.page)}&sort=${data.sort}&max=${data.max}&min=${data.min}&brand=${data.brand}&size=${data.size}&colour=${data.colour}`)
   .then(res => dispatch({type:"filteritems", payload:res.data.files,payloadTwo:res.data.numPages,payloadThree: res.data.currentPage,payloadFour:res.data.numOfRows,input:data.files}))
   .catch(err => console.log(err))
   }
@@ -190,7 +310,7 @@ export const checkfilter = data =>{
 export const getfilteredSuggestions = data =>{
   return (dispatch) =>{
   dispatch({type: "suggestions"})
-  axios.get("http://localhost:5000/suggestions/suggestion")
+  axios.get("http://fruget.herokuapp.com/suggestions/suggestion")
   .then(res => dispatch({type:"suggestionloaded", payload:res.data, input:data}))
   .catch(err => console.log(err))
   }
@@ -198,43 +318,86 @@ export const getfilteredSuggestions = data =>{
  export const getProducts = data =>{
    return (dispatch)=>{
       dispatch({type: 'loading'})
-    axios.get(`http://localhost:5000/${data.category}?page=${parseInt(data.page)}&sort=${data.sort}&max=${data.max}&min=${data.min}&brand=${data.brand}&size=${data.size}&colour=${data.colour}`)
-    .then(res => dispatch({type: 'loaded', payloadOne: res.data.file,payloadTwo:res.data.numPages,payloadThree: res.data.currentPage,payloadFour:res.data.numOfRows}))
+    axios.get(`http://fruget.herokuapp.com/products/${data.category}?page=${parseInt(data.page)}&sort=${data.sort}&max=${data.max}&min=${data.min}&brand=${data.brand}&size=${data.size}&colour=${data.colour}`,{ headers: {"Authorization" : `Bearer ${localStorage.getItem("token")}`} })
+    .then(res => dispatch({type: 'loaded',payload:data.category, payloadOne: res.data.file,payloadTwo:res.data.numPages,payloadThree: res.data.currentPage,payloadFour:res.data.numOfRows}))
     .catch(err => dispatch({type: 'error', payload: err}))
 
    dispatch({type: 'categoryloading'})
-   axios.get(`http://localhost:5000/${data.category}/category?page=${data.page}`)
+   axios.get(`http://fruget.herokuapp.com/products/${data.category}/category?page=${data.page}`,{ headers: {"Authorization" : `Bearer ${localStorage.getItem("token")}`} })
    .then(res=> dispatch({type: 'categoryloaded', payload: res.data}))
-   .then(err => dispatch({type: 'error', payload: err}))
+   .catch(err => dispatch({type: 'error', payload: err}))
 
+  }
+}
+export const addtocart = data =>{
+  return (dispatch) =>{
+    dispatch({type:"addingtocart"})
+    axios.get(`http://fruget.herokuapp.com/customer/add-to-cart?id=${data}`,{ headers: {"Authorization" : `Bearer ${localStorage.getItem("token")}`} })
+    .then(res =>{
+      if(res.data.success){
+        dispatch ({type:"addedtocart",payloadOne:res.data.message,payloadTwo:"block"})
+      }else{
+        window.location.assign("/customer/login")
+      }
+    })
+    .catch(err => dispatch({type: 'addingtocarterror', payload: err}))
+    
+  }
+}
+export const undisplaymodal =()=>{
+  return (dispatch)=>{
+     dispatch({type: "undisplaymodal", payload:"none"})
+  }
+}
+export const allcategories = ()=>{
+  return(dispatch)=>{
+     dispatch({type:"loading"})
+    axios.get("http://fruget.herokuapp.com/products/products/allcategories")
+    .then(res => dispatch({type:"allcategories", payload:res.data}))
+    .catch(err => dispatch({type:"err", payload:err}))
+  }
+}
+export const allsubcategories = (data)=>{
+  return(dispatch)=>{
+     dispatch({type:"loading"})
+    axios.get(`http://fruget.herokuapp.com/products/${data}/category`)
+    .then(res => dispatch({type:"allsubcategories", payload:res.data}))
+    .catch(err => dispatch({type:"err", payload:err}))
+  }
+}
+export const showmodalsidenavbar =()=>{
+  return(dispatch)=>{
+    dispatch({type:"showmodalsidenavbar"})
+  }
+}
+export const unshowmodalsidenavbar =()=>{
+  return(dispatch)=>{
+    dispatch({type:"unshowmodalsidenavbar"})
   }
 }
 export const getsidenav = data =>{
   return (dispatch)=>{
- 
    dispatch({type: 'brandloading'})
-   axios.get(`http://localhost:5000/${data}/brand`)
+   axios.get(`http://fruget.herokuapp.com/products/${data}/brand`)
    .then(res=> dispatch({type: 'brandloaded', payload: res.data}))
    .then(err => dispatch({type: 'error', payload: err}))
 
    dispatch({type: 'colorloading'})
-   axios.get(`http://localhost:5000/${data}/color`)
+   axios.get(`http://fruget.herokuapp.com/products/${data}/color`)
    .then(res=> dispatch({type: 'colorloaded', payload: res.data}))
    .then(err => dispatch({type: 'error', payload: err}))
 
    dispatch({type: 'sizeloading'})
-   axios.get(`http://localhost:5000/${data}/size`)
+   axios.get(`http://fruget.herokuapp.com/products/${data}/size`)
    .then(res=> dispatch({type: 'sizeloaded', payload: res.data}))
    .then(err => dispatch({type: 'error', payload: err}))
   
    dispatch({type: 'priceloading'})
-   axios.get(`http://localhost:5000/${data}/price`)
+   axios.get(`http://fruget.herokuapp.com/products/${data}/price`)
    .then(res=> dispatch({type: 'priceloaded', payload: res.data}))
    .then(err => dispatch({type: 'error', payload: err}))
 
  }
 }
-   
- store.dispatch(getProducts)
-
+// store.dispatch(getProducts)
 export default store;

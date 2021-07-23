@@ -1,16 +1,18 @@
 import React, { Component } from 'react';
 import {Link, Redirect} from 'react-router-dom'
 import 'bootstrap/dist/css/bootstrap.min.css'
-import {test} from './store'
-import {getProducts,getsidenav,checkfilter} from './store'
+// import {test, undisplaymodal} from './store'
+import {getProducts,getdetails,getsidenav,checkfilter,addtocart,undisplaymodal,setLoadingtoTrue} from './store'
 import {compose} from 'redux'
 import {connect} from 'react-redux'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+// import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import {withCookies} from 'react-cookie'
 import Sidenavbar from "./sidenavbar"
 import Suggestions from "./suggestions"
 import querystring from 'query-string'
 import axios from "axios"
+import ModalSideNavbar from "./modalsidenavbar"
+import ReactHtmlParser from "react-html-parser"
 import {Pagination, Dropdown} from 'react-bootstrap'
 import './main.css'
 
@@ -19,12 +21,9 @@ class App extends Component {
     const { cookies } = props; 
     super(props); 
     this.state = { 
+      productss:props.products,
       products:[],
       search: '',
-      username: " ",
-      password: "",
-      signupMessage: '', 
-      isLoggedin: false,
       token: {},
       currentPage: 1,
       noPages:0,
@@ -36,35 +35,56 @@ class App extends Component {
       price:"",
       highestprice:"",
       lowestprice:"",
-      viewrow:"col-6 col-md-4 col-lg-3",
-      viewcol:""
+      viewrow:"col-6 col-md-4 col-lg-3 rowclass",
+      viewcol:"",
+      viewcoldetails:"",
+      loading:true,
+      viewborder:"",
+      viewaddtocartbutton:"block",
+      viewcartbtnwidth: "100%",
+      displayviewbrand:"block",
+      viewbgcolor:"white",
+      griddetails: "block",
+      listdetails:"none",
+      frugetshow:"",
+      listmargin:""
      }
   }
-  componentDidMount =()=>{
+  componentWillMount =()=>{
     var parsedQuery = querystring.parse(this.props.location.search);
-    if(parsedQuery.view === "grid"){
-    this.setState({viewrow:"col-6 col-md-4 col-lg-3", viewcol:""})
+    if(window.innerWidth <= 800){
+      this.setState({displayviewbrand:"none"})
+    }
+    if(parsedQuery.view === "grid" || !parsedQuery.view){
+    this.setState({viewrow:"col-6 col-md-4 col-lg-3 rowclass", viewcol:""})
     }
     else if(parsedQuery.view === "list"){
-      this.setState({viewrow:"col-12 row", viewcol:"col-6"})
+      this.setState({viewrow:"col-12 row rowclasslist", viewcol:"col-5",listmargin:"2px 0px",viewcoldetails:"col-7",viewborder:"10px",frugetshow:"right",viewcartbtnwidth:"40%",viewbgcolor:"lightgrey",displayviewbrand:"none",griddetails:"none",listdetails:"block"})
+      if(window.innerWidth <= 600){ 
+        this.setState({viewaddtocartbutton:"none"})
+      }
     }
-    axios.get(`http://localhost:5000/${this.props.match.params.category}/price`)
+    axios.get(`http://fruget.herokuapp.com/products/${this.props.match.params.category}/price`)
  .then(res=> this.setState({price:res.data}, ()=>{
    for(var i=0; i<res.data.length; i++){
     this.setState({highestprice:res.data[i].highestprice, lowestprice:res.data[i].lowestprice}, () =>{
-      var parsedQuery = querystring.parse(this.props.location.search);
-      this.setState({parsedUrl:parsedQuery, parsedQuery})
-  
-      if(parsedQuery.length === 0 || !Object.keys(parsedQuery).includes("brand") || !Object.keys(parsedQuery).includes("size") || !Object.keys(parsedQuery).includes("color")){
-        const data ={
+     // var parsedQuery = querystring.parse(this.props.location.search);
+      this.setState({parsedUrl:parsedQuery, parsedQuery})  
+      console.log(Object.keys(parsedQuery))
+      const checker = Object.keys(parsedQuery).includes("brand") || Object.keys(parsedQuery).includes("sizes") || Object.keys(parsedQuery).includes("color")
+if(!checker){
+  console.log("hello i am here")     
+  const data ={
           category: this.props.match.params.category,
           page: parsedQuery.page || 1,
           sort:parsedQuery.sort,
           min:parsedQuery.min !== undefined ? parsedQuery.min : this.state.lowestprice,
           max:parsedQuery.max !== undefined ? parsedQuery.max : this.state.highestprice
         }
-        this.props.getProducts(data)
-      }
+        if(this.props.products.length === 0){
+   this.props.getProducts(data)
+        }
+     }
       else{ 
       const data ={
         brand : parsedQuery.brand,
@@ -76,14 +96,23 @@ class App extends Component {
         page:parsedQuery.page || 1,
         sort:parsedQuery.sort 
       }
+      console.log("i would filter")
       this.props.checkfilter(data)
-    }
+    }  
+
     })
    }
  }))
  .then(err => console.warn(err))
+
+ this.setState({loading:false})
    
     this.props.getsidenav(this.props.match.params.category)
+    window.addEventListener("click", this.handlemodalclick)
+    
+  }
+  componentDidMount =()=>{
+    this.setState({ productss: this.props.products });
   }
   handleChange=(e)=>{
     this.setState({search:e.target.value})
@@ -119,20 +148,67 @@ list =() =>{
   currentUrlParams.set('view',"list");
   window.location.assign(window.location.pathname +"?"+ currentUrlParams.toString());
 }
+addtocart=(id)=>{
+   this.props.addtocart(id) 
+  }
+undisplaymodal =() =>{
+ this.props.undisplaymodal()
+}
+handlemodalclick =(e) =>{
+  if(e.target == this.modaldiv){
+     this.props.undisplaymodal()
+  }
+}
+displaycartbtn =(e)=>{
+  e.currentTarget.button.style.display ="block";
+}
+openDetails=(data)=>{
+ // console.log(e.currentTarget.textContent)
+ this.props.getdetails(data)
+ // this.props.setLoadingtoTrue()
+}  
   render() { 
     let active = parseInt(this.props.currentPage) || 1;
     var PageNumbers = [];
     for (var i=1; i<=this.props.totalPages; i++){
        PageNumbers.push(i)
     }
-    console.log(Object.keys(this.state.parsedQuery).toString())
-    return (  
-           <div>
-             <div style={{display:`${this.props.inputval.length > 0 ? "block" : "none"}`,zIndex:"2",width:"100%",height:"100%",backgroundColor:"rgba(0,0,0,0.3)",width:"100%", height:"300%",position:"absolute"}} className="indexer"> 
+    console.log(this.props.loading)
+    if(this.props.productDetails.length > 0){
+      return <Redirect to={`/product/${this.props.currentDetailcategory}`} />
+    }
+    console.log(window.innerHeight)
+  /*  console.log(Object.keys(this.state.parsedQuery).toString())
+    if(this.props.products.length === 0){
+      return(
+        <div style={{width:"100%", height:"100%"}}>
+          <center style={{position:"absolute", top:"50%",left:"50%"}}>
+            <img src={require(`./images/35.gif`)} /> 
+          </center>
+        </div>
+      ) 
+    }else{  */ 
+    return (   
+            <div>
+             <div style={{display:`${this.props.inputval.length > 0 ? "block" : "none"}`,zIndex:"2",width:"100%",height:"100%",position:"absolute"}} className="indexer"> 
              <Suggestions></Suggestions>       
              </div>
-          <div className="container">
-          
+           <div style={{display:`${this.props.appDisplay}`}}>
+             <div style={{display:`${this.props.mainbgcolor==="white" ? "none" : "block"}`,backgroundColor:"rgba(242,242,242,0.5)",width:"100%",height:"200%",position:"absolute",top:"0px",zIndex:"2"}}>
+               x
+             <div className="sidenavbar" style={{zIndex:"1",display:`${this.props.modalsidenavbardisplay}`,position:"absolute",top:"0px",width:`${this.props.modalsidenavbarwidth}`}}>
+                          
+             </div>
+             </div>
+            
+          <div className="container main" style={{position:`${this.props.loading ? "fixed" : ""}`}}>
+          {this.props.loading ?     
+          <div style={{position:"absolute", top:"0%",left:"0%",zIndex:"2",backgroundColor:"lightgrey",width:"100%",height:`100%`,opacity:"0.2"}}>
+            <center style={{position:"absolute", top:"10%",left:"50%"}}>
+            <img src={require(`./images/35.gif`)} />
+            </center>
+          </div>
+        : null}
           <div className="row dodo" style={{backgroundColor:"white"}}>
               <div className="col-9" >
     <small><a href="" style={{color:"black"}}>Home</a> > <a href="" style={{color:"rgb(0, 119, 179)",textTransform:"capitalize"}}>{this.props.match.params.category}</a></small>
@@ -194,8 +270,7 @@ list =() =>{
           </div>
             </center>
           </div>
-        <hr/>
-            
+            <br/>
             
         <div className='row' >
         <div className={this.state.sidenavbarclass} >
@@ -205,41 +280,77 @@ list =() =>{
               </div>
               <div className="col-3">
     <span style={{color:"blue"}}><a href="">Apply</a></span>
-              </div>
+              </div> 
               </div>
             
           <Sidenavbar category={this.props.match.params.category} />
         </div>
         
-          <div className={this.state.appclass}>
-     
-    <p>{this.props.searcher}</p>
-          <div className='row' > 
-          
-        {this.props.products.map((product) =>          
-           <div className={`${this.state.viewrow}`}   key={product.productId} >         
-          <div className={`${this.state.viewcol}`}>
-            <img className="mainImg img-responsive" src={require (`./images/${product.mainimg}`)} style={{maxWidth:"100%"}} ></img>
-          </div>
-          <div className={`${this.state.viewcol}`}> 
-        <small style={{float:"left"}}>{product.brand} </small><br/>
-           <small style={{height:"40px"}}>
-            <div  className="details">
-    <Link to ={`/product/${product.details}`} style={{color:'black'}}>
-       {product.details.length > 50 ? product.details.slice(0,50)+ "..." : product.details +"-"+ product.model +"-"+ product.color}
-       </Link>
-        </div>
-        <b>{product.mainprice}</b><br/>
-        <div className="outer">  
-          <div className="inner" style={{width:`${product.percentrating || 0}%`}}>
 
+         
+          <div className={this.state.appclass} style={{backgroundColor: "#f5f5f0"}}>
+     
+          <div className="mainmodaldiv" ref={(a) => this.modaldiv =a} id="modaldiv" style={{display:`${this.props.display}`}}>
+         <div className="modaldiv"  style={{backgroundColor:"white",borderRadius:"5px"}}>
+           <p onClick={this.undisplaymodal}>x</p>
+             <div className="inner-modal"> 
+               <br/><br/>
+               <center>
+                 <h5 style={{padding:"10px"}}>{ReactHtmlParser(this.props.cartMessage)} </h5>
+               </center>
+               <center>                        
+               <div className="row" style={{padding:"3px"}}>  
+               <div className="col-6">  
+<Link to={`/checkout/1996826ysgy7xhau8hzbhxj,${localStorage.getItem("id")},fruget0829?user$login7sgxujaiiahzjk#172`}><button className="btn btn-success checkout" type="button">CheckOut</button> </Link>
+</div>
+<div className="col-6">
+<button className="btn btn-warning continueshopping" onClick={this.undisplaymodal}  type="submit">Continue Shopping</button>
+</div>         
+               </div> 
+             </center> 
+         </div> 
+ 
+     </div>
+ </div> 
+          <div className='row'>      
+           {this.props.products.map((product) =>          
+           <div className={`${this.state.viewrow}`} style={{backgroundColor:"white",margin:`${this.state.listmargin}`}}  key={product.productId} >        
+          <div className={`${this.state.viewcol}`}>
+            <center>
+            <img className="mainImg img-responsive" src={require (`./images/${product.mainimg || 'emptyimg.jpg'}`)} ></img>
+            </center>
           </div>
-        </div> <small style={{fontSize:"12px"}}>({product.numOfRating || 0})</small>
-         </small>
-        <br/><br/>
+          <div className={`${this.state.viewcoldetails}`}> 
+<small style={{float:"left",textTransform:"capitalize",display:`${this.state.displayviewbrand}`}}>{product.brand}<br/></small>
+           <div className="detaildiv" style={{lineHeight:"16px"}}> 
+            <div  className="details"> 
+   
+     <small onClick={()=>this.openDetails(product.details)} style={{display:`${this.state.griddetails}`,fontSize:"12px"}}>{product.details.length > 40 ? product.details.slice(0,40)+ "..." : product.details +"-"+ product.model +"-"+ product.color}</small>  
+      
+
+     <small onClick={()=>this.openDetails(product.details)} style={{display:`${this.state.listdetails}`,fontSize:"12px"}}>{product.details.length > 50 ? product.details.slice(0,50)+ "..." : product.details +"-"+ product.model +"-"+ product.color}</small>  
+
+        </div> 
+        <small style={{fontWeight:"bold",fontSize:"14px"}}>{product.mainprice}</small> <br/>
+       <div><small class="text-muted" style={{textDecoration:"line-through",fontSize:"12px"}}>{product.discount ? product.mainprice : null}</small><b className="badge" style={{fontSize:"12px",fontWeight:"bolder",color:"rgba(0, 119, 179)",backgroundColor:"rgba(0, 119, 179,0.1)",float:"right"}}>{product.discount ? `-${product.discount}%` : null}</b></div> 
+       {product.numOfRating > 0 ?
+       <div>
+         <div className="outer">     
+          <div className="inner" style={{width:`${product.percentrating}%`}}>   
+
+          </div> 
+          </div>  <small style={{fontSize:"12px"}}>({product.numOfRating || 0}) </small></div> : null }
+          <small className="text-muted" style={{letterSpacing:"-1px",textTransform:"capitalize",fontSize:"10px"}}><b style={{color:"orange"}}>{product.store}</b> @ <span className="fa fa-map-marker-alt"></span>{product.lga}</small>
+          <div><img src={require(`./images/fruget.jpg`)} className="imgSymbol" style={{float:"right"}}></img></div>
+         </div>
+        <br/>
+        <center   style={{display:`${window.innerWidth >= 600 ? this.state.viewaddtocartbutton : `none`}`,width:`${this.state.viewcartbtnwidth}`}}>
+        <br/>
+        <button style={{display:"none"}} type="button" ref={this.detailsRef} className="btn addtocartbtn" onClick={()=>this.addtocart(product.productId)}>
+         <span>ADD TO CART</span></button><br/>
+        </center><br/>
         </div>
            </div> 
-           
          )}
          
              </div>
@@ -259,39 +370,15 @@ list =() =>{
              </Pagination>
              <br/><br/>
              </center>
-             <div className="didi" style={{position:"fixed",left:"0px",bottom:"0px",backgroundColor:"white",boxShadow:"2px 3px 3px 3px light",width:"100%",border:"3px solid grey"}}>
+             <div className="didi bg-dark filterdiv">
                <div className="row">
-                 <div className="col-1" style={{padding:"5px 10px",borderRight:"1px solid lightgrey"}}>
-                 <div style={{padding:"10px"}} style={{padding:"0px 10px",borderRight:"1px solid lightgrey"}}>
-              <i class="fa fa-th" style={{color:  "black"}} onClick={this.grid}></i>
-              </div>
-                 </div>
-                 <div className="col-1" style={{padding:"5px 10px",borderRight:"1px solid lightgrey"}}>
-                   <center>
-                <div style={{padding:"10px"}} style={{padding:"0px 10px",borderRight:"1px solid lightgrey"}}>
-              <i class="fa fa-grip-vertical" style={{color: "black"}} onClick={this.list}></i>
-              </div>
-              </center>
-                 </div>
-                 <div className="col-3">
-                
-                  <button type="button" className="btn btn-link" onClick={this.displayfilter} style={{fontWeight:"bolder",color:"rgb(0, 119, 179)",textTransform:"capitalize"}}>
-                    Filter <small className="badge badge-danger">{Object.keys(this.state.parsedUrl).length}</small>
-                  </button>
-                
-                 </div>
-                 <div className="col-7">
+                 <div className="col-4">
                  <center>
             <div style={{display:"flex",flexWrap:"nowrap"}}>
-              <div style={{marginTop:"8px"}}>
-                <small >
-                Sort By : 
-                </small>
-              </div>
               <div>
               <Dropdown>
-  <Dropdown.Toggle style={{backgroundColor:"white", border:"none",fontWeight:"bolder",color:"rgb(0, 119, 179)"}} id="dropdown-basic">
-   <small style={{fontWeight:"bolder",color:"rgb(0, 119, 179)",textTransform:"capitalize"}}> {this.state.parsedQuery.sort || "popularity"}</small>
+  <Dropdown.Toggle className="bg-dark" id="filterdiv-dropdown">
+   <small className="bg-dark"> {this.state.parsedQuery.sort || "popularity"}</small>
   </Dropdown.Toggle>
 
   <Dropdown.Menu>
@@ -304,19 +391,39 @@ list =() =>{
 </Dropdown>
               </div>
             </div>
-            </center>
-                 
+            </center>               
+                 </div>
+                 <div className="col-2 fiterdiv-col" style={{borderLeft:"1px solid lightgrey"}}>
+                   <center>    
+              <button type="button" className="btn btn-link filter-btn" onClick={this.grid} style={{color:`${this.state.parsedQuery.view === "grid"  ? "white" : "rgb(0, 119, 179)"}`}}>
+              <i class="fa fa-th" ></i>
+                  </button>
+                  </center>
+                 </div>
+                 <div className="col-2 fiterdiv-col"  style={{borderLeft:"1px solid lightgrey",borderRight:"1px solid lightgrey"}}>
+                   <center>
+              <button type="button" className="btn btn-link filter-btn" onClick={this.list} style={{color:`${this.state.parsedQuery.view === "list"  ? "white" : "rgb(0, 119, 179)"}`}}>
+              <i class="fa fa-grip-vertical" ></i>
+                  </button>
+                   </center>
+                 </div>
+                 <div className="col-4">               
+                  <button type="button" className="btn btn-link filter-btn" onClick={this.displayfilter} >
+                    Filter <small className="badge badge-danger" style={{display:Object.keys(this.state.parsedUrl).length > 0 ? "inline-block": "none"}}>{Object.keys(this.state.parsedUrl).length}</small>
+                  </button>
+               
                  </div>
                </div>
              </div>
          </div>
         </div>
       </div>
-     
+      </div>
       </div> 
      );
   }
 }
+
  const mapStateToProps =(store)=>{
     return{           
        products: store.products,
@@ -326,7 +433,16 @@ list =() =>{
        inputval: store.inputval,
        currentPage: store.currentPage,
        totalPages: store.totalPages,
-       numOfRows:store.numOfRows
+       numOfRows:store.numOfRows,
+       cartMessage:store.cartMessage,
+       display:store.display,
+       loading:store.loading,
+       mainbgcolor:store.mainbgcolor,
+       modalsidenavbarwidth: store.modalsidenavbarwidth,
+       modalsidenavbardisplay: store.modalsidenavbardisplay,
+       appDisplay:store.appDisplay,
+       productDetails:store.productDetails,
+       currentDetailcategory:store.currentDetailcategory
      }
  }
  const mapDispatchToProps =(dispatch)=>{
@@ -334,7 +450,11 @@ list =() =>{
      test: ()=> dispatch(test()),
      getProducts: (data)=> dispatch(getProducts(data)),
      getsidenav: (data) => dispatch(getsidenav(data)),
-    checkfilter: (data) => dispatch(checkfilter(data))
+    checkfilter: (data) => dispatch(checkfilter(data)),
+    addtocart: (data) => dispatch(addtocart(data)),
+    undisplaymodal:()=> dispatch(undisplaymodal()),
+    getdetails:(data)=>dispatch(getdetails(data)),
+    setLoadingtoTrue:()=>dispatch(setLoadingtoTrue())
    }
  }
  export default compose(withCookies, connect(mapStateToProps, mapDispatchToProps))(App);
