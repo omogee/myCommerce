@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 web: npm start
  
                  <Route path='/' exact component={Subcats} />
@@ -108,3 +109,6 @@ web: npm start
                 </div>
               </div>                          
               </div>
+=======
+web: npm start
+>>>>>>> 91b7c2f23a5d3ca8a7583c1bf6138fe56ffd9bac

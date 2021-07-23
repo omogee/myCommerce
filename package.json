@@ -24,18 +24,24 @@
     "@fortawesome/react-fontawesome": "^0.1.11",
     "bcrypt": "^5.0.0",
     "body-parser": "^1.19.0",
+<<<<<<< HEAD
     "cloudinary": "^1.23.0",
     "concurrently": "^5.2.0",
     "cookie-parser": "^1.4.5",
     "cors": "^2.8.5",
     "country-list": "^2.2.0",
     "country-state-city": "^2.0.0",
+=======
+    "concurrently": "^5.2.0",
+    "cookie-parser": "^1.4.5",
+>>>>>>> 91b7c2f23a5d3ca8a7583c1bf6138fe56ffd9bac
     "crypto": "^1.0.1",
     "csurf": "^1.11.0",
     "express": "^4.17.1",
     "express-mysql-session": "^2.1.4",
     "express-session": "^1.17.1",
     "express-validator": "^6.5.0",
+<<<<<<< HEAD
     "google-map-react": "^2.1.9",
     "google-maps-react": "^2.0.6",
     "http": "0.0.1-security",
@@ -52,6 +58,12 @@
     "socket.io": "^3.0.4",
     "websocket": "^1.0.33",
     "ws": "^7.4.1"
+=======
+    "jsonwebtoken": "^8.5.1",
+    "middlewares": "^0.1.1",
+    "mysql": "^2.18.1",
+    "react-cookie": "^4.0.3"
+>>>>>>> 91b7c2f23a5d3ca8a7583c1bf6138fe56ffd9bac
   },
   "devDependencies": {
     "nodemon": "^2.0.4"
